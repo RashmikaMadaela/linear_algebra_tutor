@@ -49,7 +49,7 @@ Let $(P, \leq)$ be a **partially ordered set** (a set with a reflexive, antisymm
 
 ## Every Vector Space Has a Basis
 
-<TheoremBox number={15} title="Every Vector Space Has a Hamel Basis" proofSketch={<>Let P = {all LI subsets of V}, ordered by inclusion ⊆. P is non-empty (∅ ∈ P). For any chain C = {Sα} in P, the union ∪Sα is LI (any finite subset lies in some Sα which is LI). So every chain has an upper bound. By Zorn's Lemma, P has a maximal element B. B is LI by construction. If B does not span V, pick v ∉ span(B): then B ∪ {v} is LI (Theorem 8), contradicting maximality of B. So B spans V, hence B is a basis.</>}>
+<TheoremBox number={15} title="Every Vector Space Has a Hamel Basis" proofSketch={<>Let P be the set of all LI subsets of V, ordered by inclusion. P is non-empty. For any chain C in P, the union is LI (any finite subset lies in some element of the chain which is LI). So every chain has an upper bound. By Zorn&apos;s Lemma, P has a maximal element B. B is LI by construction. If B does not span V, pick v ∉ span(B): then B ∪ v is LI (Theorem 8), contradicting maximality. So B spans V, hence B is a basis.</>}>
 Every vector space $V$ over any field $\mathbb{F}$ has a **Hamel basis**.
 
 **Proof sketch (using Zorn's Lemma):**

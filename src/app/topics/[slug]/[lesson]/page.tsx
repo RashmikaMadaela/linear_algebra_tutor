@@ -4,6 +4,8 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 import { SYLLABUS, getLessonMeta, getAdjacentLessons } from '@/lib/content';
 import { LessonPageClient } from './LessonPageClient';
 import { mdxComponents } from '@/components/lesson/mdxComponents';
@@ -62,7 +64,16 @@ export default async function LessonPage({ params }: Props) {
       adjacent={adjacent}
     >
       {lessonContent ? (
-        <MDXRemote source={lessonContent.content} components={mdxComponents} />
+        <MDXRemote
+          source={lessonContent.content}
+          components={mdxComponents}
+          options={{
+            mdxOptions: {
+              remarkPlugins: [remarkMath],
+              rehypePlugins: [rehypeKatex],
+            },
+          }}
+        />
       ) : (
         <div className="rounded-xl border border-bg-border bg-bg-surface px-6 py-8 text-center text-text-muted">
           <div className="text-3xl mb-3">🚧</div>

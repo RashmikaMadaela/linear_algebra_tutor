@@ -5,22 +5,22 @@ export type ProblemType =
   | 'computation'
   | 'true-false'
   | 'multiple-choice'
-  | 'short-answer';
+  | 'short-answer'
+  | 'verification'
+  | 'reasoning';
 
 export type Difficulty = 'easy' | 'medium' | 'hard';
 
-export interface Hint {
-  level: HintLevel;
-  text: string; // may contain LaTeX
-}
+export type HintObject = { level: HintLevel; text: string };
+export type Hint = string | HintObject;
 
 export interface PracticeQuestion {
   id: string;
   type: ProblemType;
   difficulty: Difficulty;
-  statement: string;   // LaTeX/MDX
+  question: string;    // LaTeX/MDX (formerly 'statement')
   hints: Hint[];
-  solution: string;    // LaTeX/MDX — full worked solution
+  solution?: string;    // LaTeX/MDX — full worked solution
   relatedDefinitions?: number[];
   relatedTheorems?: number[];
 }

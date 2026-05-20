@@ -60,8 +60,8 @@ export function updateLessonVisit(
   const data = loadProgress();
   const key = makeKey(sectionSlug, lessonSlug);
   data.lessons[key] = {
-    completed: false,
     ...data.lessons[key],
+    completed: data.lessons[key]?.completed ?? false,
     lastVisited: new Date().toISOString(),
   };
   saveProgress(data);

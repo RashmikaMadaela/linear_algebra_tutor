@@ -42,7 +42,7 @@ $$[T(\mathbf{v})]_\mathcal{C} = [T]_{\mathcal{C},\mathcal{B}}\, [\mathbf{v}]_\ma
 
 ## Matrix Representation Respects Composition
 
-<TheoremBox number={23} title="Composition → Matrix Multiplication" proofSketch={<>For any v∈U: [S∘T(v)]_D = [S]_{D,C} [T(v)]_C = [S]_{D,C} [T]_{C,B} [v]_B. Since this holds for all v, [S∘T]_{D,B} = [S]_{D,C} [T]_{C,B}. This shows matrix multiplication is the correct notion of composition of linear maps.</>}>
+<TheoremBox number={23} title="Composition → Matrix Multiplication" proofSketch={<>For any v∈U: the matrix equation [S∘T]_(D,B) = [S]_(D,C) · [T]_(C,B) follows by evaluating [S∘T(v)] = [S]·[T(v)] = [S]·[T]·[v] in the respective bases. Since this holds for all v, matrix multiplication correctly represents composition of linear maps.</>}>
 Let $T: U \to V$ and $S: V \to W$ be linear, with ordered bases $\mathcal{B}$ for $U$, $\mathcal{C}$ for $V$, $\mathcal{D}$ for $W$. Then:
 
 $$[S \circ T]_{\mathcal{D}, \mathcal{B}} = [S]_{\mathcal{D}, \mathcal{C}}\, [T]_{\mathcal{C}, \mathcal{B}}$$

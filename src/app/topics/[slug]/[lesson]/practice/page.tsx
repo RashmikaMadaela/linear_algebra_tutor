@@ -34,7 +34,7 @@ async function getPracticeQuestions(
     const mod = await import(
       `@/content/practice/${sectionSlug}/${lessonSlug}`
     );
-    return mod.questions as PracticeQuestion[];
+    return (mod.questions ?? mod.default) as PracticeQuestion[];
   } catch {
     return [];
   }

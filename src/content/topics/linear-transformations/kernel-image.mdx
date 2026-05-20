@@ -51,7 +51,7 @@ Let $T: V \to W$ be linear. Then:
 
 ## The Rank-Nullity Theorem
 
-<TheoremBox number={21} title="Rank-Nullity Theorem (Dimension Theorem)" proofSketch={<>Let {k₁,…,kₚ} be a basis for ker(T) (nullity=p). Extend to a basis {k₁,…,kₚ,v₁,…,vᵣ} for V (so dim V = p+r). Claim: {T(v₁),…,T(vᵣ)} is a basis for Im(T). Spanning: for any T(v)∈Im(T), write v=Σαᵢkᵢ+Σβⱼvⱼ, so T(v)=ΣβⱼT(vⱼ). LI: if Σβⱼ T(vⱼ)=0 then T(Σβⱼvⱼ)=0, so Σβⱼvⱼ∈ker(T), write it as Σαᵢkᵢ, but {k₁,…,kₚ,v₁,…,vᵣ} is LI so all coefficients are 0. Hence rank(T)=r and nullity+rank=p+r=dim V. ∎</>}>
+<TheoremBox number={21} title="Rank-Nullity Theorem (Dimension Theorem)" proofSketch={<>Let k₁,…,kₚ be a basis for ker(T) (nullity=p). Extend to a basis k₁,…,kₚ,v₁,…,vᵣ for V (dim V=p+r). Claim: T(v₁),…,T(vᵣ) is a basis for Im(T). Spanning: for any T(v)∈Im(T), write v=Σαᵢkᵢ+Σβⱼvⱼ, so T(v)=ΣβⱼT(vⱼ). LI: if ΣβⱼT(vⱼ)=0 then Σβⱼvⱼ∈ker(T), so all βⱼ=0 by linear independence of the extended basis. Hence rank(T)=r and nullity+rank=p+r=dim V. ∎</>}>
 Let $V$ be finite-dimensional and $T: V \to W$ linear. Then:
 
 $$\dim \ker(T) + \dim \operatorname{Im}(T) = \dim V$$

@@ -1,0 +1,39 @@
+---
+title: "Algebraic Structures"
+section: "algebraic-structures"
+order: 0
+estimatedMinutes: 5
+tags: ["overview", "groups", "fields", "algebra"]
+---
+
+## Section Overview
+
+Before we can talk about vector spaces, we need to know what scalars *are*.
+The answer: scalars come from a **field** — an algebraic structure with addition and multiplication satisfying a set of axioms.
+And fields are built on an even more primitive notion: a **group**.
+
+This section establishes the algebraic foundation that underpins everything in the course.
+
+### Why start here?
+
+In most linear algebra courses, scalars are just real numbers, taken for granted.
+MA2034 works over **any field** — including $\mathbb{C}$, finite fields $\mathbb{F}_p$, and more.
+Understanding what makes $\mathbb{R}$ and $\mathbb{C}$ special (vs. $\mathbb{Z}$, which is *not* a field) matters the moment we ask: "does every system of equations have a solution?"
+
+### Definitions in this section
+- **Def 1** — Group
+- **Def 2** — Abelian (Commutative) Group
+- **Def 3** — Field
+
+### Theorems in this section
+- **Thm 1** — Uniqueness of identity and inverses in a group
+- **Thm 2** — Finite fields (Galois fields $\mathbb{F}_{p^n}$)
+- **Thm 3** — Basic properties of fields (cancellation, $0 \cdot a = 0$, etc.)
+
+### Examples in this section
+- **Ex 1** — Groups: $(\mathbb{R}, +)$, $GL_2(\mathbb{R})$, dihedral group $D_n$, elliptic curve groups
+- **Ex 2** — Fields: $\mathbb{R}$, $\mathbb{Q}$, $\mathbb{C}$, $\mathbb{F}_p$, and why $\mathbb{Z}$ and $\mathbb{Z}/4\mathbb{Z}$ are not fields
+
+### Connection to what follows
+
+Every vector space is defined over a **field** $F$. The scalars used to scale vectors must form a field so that equations like $\alpha(\mathbf{u} + \mathbf{v}) = \alpha\mathbf{u} + \alpha\mathbf{v}$ are meaningful and invertible.

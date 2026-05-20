@@ -10,31 +10,34 @@
     "test": "vitest"
   },
   "dependencies": {
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.3.19",
+    "gray-matter": "^4.0.3",
+    "katex": "^0.16.11",
+    "mafs": "^0.19.0",
     "next": "^14.2.5",
+    "next-mdx-remote": "^5.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "katex": "^0.16.11",
     "react-katex": "^3.0.1",
-    "framer-motion": "^11.3.19",
-    "zustand": "^4.5.4",
-    "next-mdx-remote": "^5.0.0",
-    "gray-matter": "^4.0.3",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
     "shiki": "^1.12.1",
-    "mafs": "^0.19.0",
-    "clsx": "^2.1.1",
-    "tailwind-merge": "^2.5.2"
+    "tailwind-merge": "^2.5.2",
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
-    "typescript": "^5.5.4",
+    "@types/katex": "^0.16.7",
     "@types/node": "^20.14.15",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "@types/katex": "^0.16.7",
-    "tailwindcss": "^3.4.9",
+    "@types/react-katex": "^3.0.4",
     "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.41",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.5",
+    "postcss": "^8.4.41",
+    "tailwindcss": "^3.4.9",
+    "typescript": "^5.5.4",
     "vitest": "^2.0.5"
   }
 }

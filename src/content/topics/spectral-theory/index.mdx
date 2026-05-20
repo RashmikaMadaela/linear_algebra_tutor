@@ -1,0 +1,47 @@
+---
+title: "Spectral Theory"
+section: "spectral-theory"
+order: 0
+estimatedMinutes: 5
+tags: ["overview", "eigenvalues", "diagonalization", "characteristic-polynomial", "spectral-theory"]
+---
+
+## Section Overview
+
+An eigenvector of a linear operator $T$ is a vector that $T$ merely *scales* rather than rotates or shears.
+The corresponding scalar is the **eigenvalue**.
+These special vectors and values unlock the deepest structure of a linear operator — telling us whether it can be diagonalized, what its long-run behavior is, and how it decomposes.
+
+Spectral theory is the heart of applied linear algebra: it underlies Google's PageRank, quantum mechanics (observables), principal component analysis, and stability analysis of dynamical systems.
+
+### The Five Key Ideas
+
+1. **Eigenvalues & Eigenvectors** — definition, geometric picture, first examples
+2. **Characteristic Polynomial** — $p(\lambda) = \det(A - \lambda I) = 0$ produces the spectrum
+3. **Similar Matrices** — same linear map, different bases; which properties are invariant?
+4. **Algebraic & Geometric Multiplicities** — when does an eigenvalue "fill" the space?
+5. **Diagonalization** — conditions, algorithm, and the diagonal form $A = PDP^{-1}$
+
+### Definitions in this section
+- **Def 23** — Eigenvalue, eigenvector, eigenspace
+- **Def 24** — Characteristic polynomial $p_A(\lambda) = \det(A - \lambda I)$
+- **Def 25** — Spectrum of an operator $\sigma(A)$
+- **Def 26** — Similar matrices ($A \sim B$: $\exists P$ invertible s.t. $B = P^{-1}AP$)
+- **Def 27** — Algebraic multiplicity $m_a(\lambda)$ and geometric multiplicity $m_g(\lambda)$
+- **Def 28** — Diagonalizable matrix/operator
+
+### Theorems in this section
+- **Thm 28** — Eigenspaces for distinct eigenvalues are linearly independent
+- **Thm 29** — Similar matrices share characteristic polynomial, eigenvalues, trace, determinant
+- **Thm 30** — $1 \leq m_g(\lambda) \leq m_a(\lambda)$
+- **Thm 31** — $A$ is diagonalizable $\iff$ geometric multiplicity = algebraic multiplicity for all $\lambda$
+- **Thm 32** — Cayley–Hamilton theorem: $p_A(A) = 0$
+- **Thm 33** — Symmetric real matrices have real eigenvalues and orthogonal eigenvectors
+
+### Examples in this section
+- **Ex 21** — Eigenvalues of $2 \times 2$ rotation, reflection, projection matrices
+- **Ex 22** — $3 \times 3$ matrix: characteristic polynomial, eigenspaces, test for diagonalizability
+
+### Prerequisites
+- Section II: Bases, dimension, linear independence
+- Section IV: Linear transformations, matrix representation, rank

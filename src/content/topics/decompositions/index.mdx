@@ -1,0 +1,50 @@
+---
+title: "Matrix Decompositions"
+section: "decompositions"
+order: 0
+estimatedMinutes: 5
+tags: ["overview", "spectral-theorem", "jordan-form", "qr", "svd", "cholesky"]
+---
+
+## Section Overview
+
+Factorizing a matrix into simpler pieces is one of the most powerful techniques in all of mathematics.
+Each decomposition reveals a different aspect of the underlying linear transformation:
+
+| Decomposition | What it reveals |
+|---|---|
+| **Spectral Theorem** | Normal operators diagonalize in an orthonormal basis |
+| **Cholesky** | Symmetric positive definite = "square root" |
+| **Jordan Normal Form** | Structure of non-diagonalizable operators |
+| **QR** | Orthonormal basis from any basis; least-squares |
+| **SVD** | Geometry of *any* map: stretch along principal axes |
+
+This section is the capstone of the course — every decomposition builds on material from all previous sections.
+
+### The Five Key Ideas
+
+1. **Hermitian & Unitary Operators** — spectral theorem: normal operators are orthogonally diagonalizable
+2. **Positive Definite Matrices** — inner product in disguise; Cholesky factorization $A = LL^*$
+3. **Jordan Normal Form** — the finest possible block-diagonal form for any operator over $\mathbb{C}$
+4. **QR Decomposition** — Gram–Schmidt as matrix factorization $A = QR$, least squares
+5. **Singular Value Decomposition** — $A = U\Sigma V^*$; the universal factorization
+
+### Definitions in this section
+- **Def 28** — Hermitian (self-adjoint) operator; Hermitian matrix ($A = A^*$)
+- **Def 29** — Unitary operator; unitary matrix ($U^*U = I$)
+- **Def 30** — Positive definite, positive semidefinite, negative definite matrices
+- **Def 31** — Cholesky factorization
+- **Def 32** — Jordan block $J_k(\lambda)$; Jordan normal form
+- **Def 33** — Singular values $\sigma_i$; SVD
+
+### Theorems in this section
+- **Thm 34 (Spectral Theorem)** — Every Hermitian operator on a finite-dimensional inner product space is unitarily diagonalizable
+- **Thm 35** — Characterizations of positive definiteness (all principal minors, Cholesky, eigenvalues)
+- **Thm 36 (Jordan Theorem)** — Every matrix over $\mathbb{C}$ has a Jordan normal form, unique up to permutation of blocks
+- **Thm 37 (QR)** — Every $m \times n$ matrix with linearly independent columns has a QR factorization
+- **Thm 38 (SVD)** — Every $m \times n$ matrix has an SVD $A = U\Sigma V^*$ with $\sigma_1 \geq \sigma_2 \geq \cdots \geq 0$
+
+### Prerequisites
+- Section III: Inner products, orthogonality, Gram–Schmidt
+- Section IV: Linear transformations, matrix representation
+- Section V: Eigenvalues, diagonalization, characteristic polynomial

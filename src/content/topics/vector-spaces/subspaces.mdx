@@ -29,7 +29,7 @@ Let $V$ be a vector space over $\mathbb{F}$. A non-empty subset $W \subseteq V$ 
 
 Checking all ten axioms would be tedious. The next theorem reduces it to just two checks — plus non-emptiness.
 
-<TheoremBox number={5} title="Subspace Criterion (Closure Test)" proofSketch={<>The closure conditions (i) and (ii) ensure all the algebraic axioms hold in $W$. Since $W \subseteq V$, commutativity, associativity, and distributivity are inherited automatically from $V$. The zero vector follows from (ii) with $\alpha = 0$: $0 \cdot w = \mathbf{0} \in W$. Additive inverses follow from (ii) with $\alpha = -1$: $(-1)w = -w \in W$.</>}>
+<TheoremBox number={5} title="Subspace Criterion (Closure Test)" proofSketch={<>The closure conditions (i) and (ii) ensure all the algebraic axioms hold in <M math="W" />. Since <M math="W \subseteq V" />, commutativity, associativity, and distributivity are inherited automatically from <M math="V" />. The zero vector follows from (ii) with <M math="\alpha = 0" />: <M math="0 \cdot w = \mathbf{0} \in W" />. Additive inverses follow from (ii) with <M math="\alpha = -1" />: <M math="(-1)w = -w \in W" />.</>}>
 A non-empty subset $W \subseteq V$ is a subspace of $V$ if and only if:
 
 1. **Closed under addition**: $\mathbf{u}, \mathbf{v} \in W \implies \mathbf{u} + \mathbf{v} \in W$
@@ -138,7 +138,7 @@ Equivalently: $\mathbf{u}, \mathbf{v} \in W$ and $\alpha, \beta \in \mathbb{F}$ 
 
 ## Intersection and Union
 
-<TheoremBox number={5} title="Intersection of Subspaces is a Subspace" proofSketch={<>If $\mathbf{v}, \mathbf{w} \in W_1 \cap W_2$, then both are in $W_1$ (a subspace) so $\alpha\mathbf{v}+\beta\mathbf{w} \in W_1$, and similarly $\in W_2$. Hence $\alpha\mathbf{v}+\beta\mathbf{w} \in W_1 \cap W_2$.</>}>
+<TheoremBox number={5} title="Intersection of Subspaces is a Subspace" proofSketch={<>If <M math="\mathbf{v}, \mathbf{w} \in W_1 \cap W_2" />, then both are in <M math="W_1" /> (a subspace) so <M math="\alpha\mathbf{v}+\beta\mathbf{w} \in W_1" />, and similarly <M math="\in W_2" />. Hence <M math="\alpha\mathbf{v}+\beta\mathbf{w} \in W_1 \cap W_2" />.</>}>
 If $W_1$ and $W_2$ are subspaces of $V$, then $W_1 \cap W_2$ is also a subspace of $V$.
 
 > **Warning:** $W_1 \cup W_2$ is generally **not** a subspace. Take $W_1 = x$-axis and $W_2 = y$-axis in $\mathbb{R}^2$: $(1,0) \in W_1$ and $(0,1) \in W_2$, but $(1,0)+(0,1) = (1,1) \notin W_1 \cup W_2$.

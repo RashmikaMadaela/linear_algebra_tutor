@@ -3,7 +3,13 @@
 import { useState } from 'react';
 import { clsx } from 'clsx';
 import { BlockMath, InlineMath } from 'react-katex';
-import type { PracticeQuestion } from '@/types/practice';
+import type { PracticeQuestion, Hint } from '@/types/practice';
+
+function normalizeHints(hints: Hint[]): { level: number; text: string }[] {
+  return hints.map((h, i) =>
+    typeof h === 'string' ? { level: i + 1, text: h } : h
+  );
+}
 
 interface PracticeCardProps {
   question: PracticeQuestion;
@@ -16,9 +22,11 @@ const DIFFICULTY_STYLES = {
   hard:   'bg-error/10 text-error border-error/30',
 };
 
-const TYPE_LABELS = {
+const TYPE_LABELS: Record<string, string> = {
   proof:            'Proof',
   computation:      'Computation',
+  verification:     'Verification',
+  reasoning:        'Reasoning',
   'true-false':     'True / False',
   'multiple-choice':'MCQ',
   'short-answer':   'Short Answer',
@@ -28,7 +36,8 @@ export function PracticeCard({ question, number }: PracticeCardProps) {
   const [hintLevel, setHintLevel] = useState<number>(0);
   const [showSolution, setShowSolution] = useState(false);
 
-  const availableHints = question.hints.filter((h) => h.level <= 3);
+  const normalizedHints = normalizeHints(question.hints);
+  const availableHints = normalizedHints.filter((h) => h.level <= 3);
   const currentHint = availableHints[hintLevel - 1];
 
   return (
@@ -48,7 +57,7 @@ export function PracticeCard({ question, number }: PracticeCardProps) {
       <div className="px-5 py-4">
         <div
           className="text-text leading-relaxed text-sm"
-          dangerouslySetInnerHTML={{ __html: question.statement }}
+          dangerouslySetInnerHTML={{ __html: question.question }}
         />
       </div>
 
@@ -66,7 +75,11 @@ export function PracticeCard({ question, number }: PracticeCardProps) {
       {showSolution && (
         <div className="mx-5 mb-4 px-4 py-3 rounded-lg bg-success/5 border border-success/20 text-sm text-text animate-fade-in">
           <div className="text-xs text-success font-mono uppercase tracking-wider mb-2">Solution</div>
-          <div dangerouslySetInnerHTML={{ __html: question.solution }} />
+          {question.solution ? (
+            <div dangerouslySetInnerHTML={{ __html: question.solution }} />
+          ) : (
+            <div className="text-text-muted italic">Solution not yet available.</div>
+          )}
         </div>
       )}
 

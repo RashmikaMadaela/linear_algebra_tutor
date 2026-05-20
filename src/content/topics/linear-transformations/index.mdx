@@ -1,0 +1,45 @@
+---
+title: "Linear Transformations"
+section: "linear-transformations"
+order: 0
+estimatedMinutes: 5
+tags: ["overview", "linear-map", "kernel", "rank-nullity", "matrix-representation"]
+---
+
+## Section Overview
+
+Linear transformations are the *maps* between vector spaces — functions that respect the algebraic structure.
+Every matrix multiplication $A\mathbf{x}$ is a linear transformation; conversely, every linear transformation between finite-dimensional spaces can be represented as a matrix (once bases are chosen).
+This section bridges abstract linear maps and concrete matrix computations.
+
+### The Five Key Ideas
+
+1. **Definition** — what makes a map "linear" ($T(\alpha\mathbf{u}+\beta\mathbf{v}) = \alpha T\mathbf{u} + \beta T\mathbf{v}$)
+2. **Kernel & Range** — the "collapsed" subspace and the "image" subspace
+3. **Rank-Nullity Theorem** — $\text{null}(T) + \text{rank}(T) = \dim(V)$
+4. **Matrix of a Linear Transformation** — coordinates and change of basis
+5. **Matrix Spaces & RREF** — row/column space, rank, solutions to $A\mathbf{x} = \mathbf{b}$
+
+### Definitions in this section
+- **Def 19** — Linear Transformation (from notes: Def 22/23)
+- **Def 20** — Kernel ($\ker T$) and Range ($\text{ran}\, T$)
+- **Def 21** — Nullity, Rank
+- **Def 22** — Matrix of $T$ with respect to bases
+- **Def 23** — RREF, row space, column space, row rank, column rank
+
+### Theorems in this section
+- **Thm 23** — $T(\mathbf{0}) = \mathbf{0}$, $T(-\mathbf{u}) = -T(\mathbf{u})$
+- **Thm 24** — $\ker T$ and $\text{ran}\, T$ are subspaces; nullity and rank are well-defined
+- **Thm 25 (Rank-Nullity)** — $\text{null}(T) + \text{rank}(T) = \dim V$
+- **Thm 26** — Change of basis: $A' = Q^{-1}AQ$
+- **Thm 27** — Row rank = column rank = rank
+
+### Examples in this section
+- **Ex 15** — Matrix map $\mathbb{R}^3 \to \mathbb{R}^4$, integration operator, differential operator
+- **Ex 16** — Finding $\ker T$ and $\text{ran}\, T$ for $T: \mathbb{R}^3 \to \mathbb{R}^4$
+- **Ex 17** — Rank-Nullity for $T: \mathbb{R}_3[x] \to \mathbb{R}_2[x]$, $T(p) = xp'' + p'$
+- **Ex 18** — Matrix of $T$ in four cases: standard/non-standard bases, polynomial spaces
+
+### Prerequisites
+- Section I: Fields
+- Section II: Vector spaces, bases, dimension, linear independence

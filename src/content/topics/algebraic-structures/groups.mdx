@@ -98,11 +98,11 @@ A group $(G, \ast)$ is called **abelian** (or **commutative**) if it additionall
 
 ## Fundamental Theorems
 
-<TheoremBox number={1} title="Uniqueness of the Identity" proofSketch={<>Suppose $e$ and $e'$ are both identities. Then $e = e \ast e' = e'$, since $e'$ acts as an identity on $e$, and $e$ acts as an identity on $e'$.</>}>
+<TheoremBox number={1} title="Uniqueness of the Identity" proofSketch={<>Suppose <M math="e" /> and <M math="e'" /> are both identities. Then <M math="e = e \ast e' = e'" />, since <M math="e'" /> acts as an identity on <M math="e" />, and <M math="e" /> acts as an identity on <M math="e'" />.</>}>
 The identity element of a group $(G, \ast)$ is **unique**.
 </TheoremBox>
 
-<TheoremBox number={2} title="Uniqueness of Inverses" proofSketch={<>Suppose $b$ and $c$ are both inverses of $a$. Then: $b = b \ast e = b \ast (a \ast c) = (b \ast a) \ast c = e \ast c = c$.</>}>
+<TheoremBox number={2} title="Uniqueness of Inverses" proofSketch={<>Suppose <M math="b" /> and <M math="c" /> are both inverses of <M math="a" />. Then: <M math="b = b \ast e = b \ast (a \ast c) = (b \ast a) \ast c = e \ast c = c" />.</>}>
 For each element $a$ in a group $(G, \ast)$, its inverse is **unique**.
 </TheoremBox>
 
@@ -113,7 +113,7 @@ In a group $(G, \ast)$, for all $a, b, c \in G$:
 - **Right cancellation**: $b \ast a = c \ast a \implies b = c$
 </TheoremBox>
 
-<TheoremBox number={4} title="Socks-Shoes Property" proofSketch={<>$(a \ast b) \ast (b^{-1} \ast a^{-1}) = a \ast (b \ast b^{-1}) \ast a^{-1} = a \ast e \ast a^{-1} = a \ast a^{-1} = e$. So $b^{-1} \ast a^{-1}$ is the inverse of $a \ast b$.</>}>
+<TheoremBox number={4} title="Socks-Shoes Property" proofSketch={<><M math="(a \ast b) \ast (b^{-1} \ast a^{-1}) = a \ast (b \ast b^{-1}) \ast a^{-1} = a \ast e \ast a^{-1} = a \ast a^{-1} = e" />. So <M math="b^{-1} \ast a^{-1}" /> is the inverse of <M math="a \ast b" />.</>}>
 For any $a, b \in G$:
 
 $$(a \ast b)^{-1} = b^{-1} \ast a^{-1}$$

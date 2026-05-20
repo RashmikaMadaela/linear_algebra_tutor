@@ -31,7 +31,7 @@ The "leftover" after removing this projection is $\mathbf{u} - \langle\mathbf{u}
 
 ## The Algorithm
 
-<TheoremBox number={21} title="Gram-Schmidt Orthogonalization" proofSketch={<>Each $v_k$ is constructed by subtracting its projections onto all previous $e_1,\ldots,e_{k-1}$, so $\langle v_k, e_j\rangle=0$ for $j{"<"}k$ by design. Since $\{u_1,\ldots,u_n\}$ is LI, no $v_k$ can be zero. Normalizing gives $e_k=v_k/\|v_k\|$. Induction shows $\operatorname{span}\{e_1,\ldots,e_k\}=\operatorname{span}\{u_1,\ldots,u_k\}$ at each step.</>}>
+<TheoremBox number={21} title="Gram-Schmidt Orthogonalization" proofSketch={<>Each <M math="v_k" /> is constructed by subtracting its projections onto all previous <M math="e_1,\ldots,e_{k-1}" />, so <M math="\langle v_k, e_j\rangle=0" /> for <M math="j < k" /> by design. Since <M math="\{u_1,\ldots,u_n\}" /> is LI, no <M math="v_k" /> can be zero. Normalizing gives <M math="e_k=v_k/\|v_k\|" />. Induction shows <M math="\operatorname{span}\{e_1,\ldots,e_k\}=\operatorname{span}\{u_1,\ldots,u_k\}" /> at each step.</>}>
 
 Given a linearly independent set $\{u_1, u_2, \ldots, u_n\}$ in an inner product space $V$, the following process produces an **orthonormal set** $\{e_1, e_2, \ldots, e_n\}$ with the same span.
 

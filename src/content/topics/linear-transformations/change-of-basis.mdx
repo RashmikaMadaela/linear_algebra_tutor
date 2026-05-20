@@ -30,7 +30,7 @@ $$[\mathbf{v}]_{\mathcal{B}'} = P_{\mathcal{B}' \leftarrow \mathcal{B}}\, [\math
 
 ## Properties of Transition Matrices
 
-<TheoremBox number={26} title="Transition Matrices are Invertible" proofSketch={<>The map v ↦ [v]_B is an isomorphism V→Fⁿ (coordinate map). So is v ↦ [v]_{B'}. The transition matrix is the composition of one isomorphism with the inverse of another, hence a linear isomorphism Fⁿ→Fⁿ, hence invertible. Its inverse is the transition matrix in the other direction.</>}>
+<TheoremBox number={26} title="Transition Matrices are Invertible" proofSketch={<>The coordinate map v ↦ [v] relative to any basis is an isomorphism V→Fⁿ. The transition matrix is the composition of one coordinate isomorphism with the inverse of another — hence a linear isomorphism Fⁿ→Fⁿ, hence invertible. Its inverse is the transition matrix in the other direction.</>}>
 1. $P_{\mathcal{B}' \leftarrow \mathcal{B}}$ is invertible, with $(P_{\mathcal{B}' \leftarrow \mathcal{B}})^{-1} = P_{\mathcal{B} \leftarrow \mathcal{B}'}$.
 2. **Chain rule:** $P_{\mathcal{B}'' \leftarrow \mathcal{B}} = P_{\mathcal{B}'' \leftarrow \mathcal{B}'}\, P_{\mathcal{B}' \leftarrow \mathcal{B}}$
 3. For $\mathbb{F}^n$ with standard basis $\mathcal{E}$: $P_{\mathcal{B} \leftarrow \mathcal{E}}$ is the matrix whose columns are the basis vectors of $\mathcal{B}$.
@@ -40,7 +40,7 @@ $$[\mathbf{v}]_{\mathcal{B}'} = P_{\mathcal{B}' \leftarrow \mathcal{B}}\, [\math
 
 ## Similarity: How the Matrix of T Changes
 
-<TheoremBox number={27} title="Change-of-Basis Formula for Linear Maps" proofSketch={<>For any v∈V: [T(v)]_{B'} = [T]_{B',B'} [v]_{B'}. Also [T(v)]_{B'} = P [T(v)]_B = P [T]_{B,B} [v]_B = P [T]_{B,B} P⁻¹ [v]_{B'}. Since this holds for all [v]_{B'}, we get [T]_{B',B'} = P [T]_{B,B} P⁻¹.</>}>
+<TheoremBox number={27} title="Change-of-Basis Formula for Linear Maps" proofSketch={<>For any v∈V, using the coordinate change: [T(v)] relative to B&apos; equals P [T]_{B,B} P⁻¹ times [v] relative to B&apos;. Since this holds for all v, the matrix of T in basis B&apos; equals P [T]_{B,B} P⁻¹.</>}>
 Let $T: V \to V$ be linear, $\mathcal{B}$ and $\mathcal{B}'$ two ordered bases for $V$, and $P = P_{\mathcal{B}' \leftarrow \mathcal{B}}$.
 
 Then the matrix representations of $T$ in the two bases are related by:
