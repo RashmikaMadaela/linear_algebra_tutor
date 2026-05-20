@@ -182,36 +182,48 @@ export const SYLLABUS: Section[] = [
         notesRef: { definitions: [22, 23], examples: [17, 18] },
       },
       {
-        slug: 'kernel-range',
-        title: 'Kernel & Range',
+        slug: 'kernel-image',
+        title: 'Kernel & Image',
         description:
-          'Null space and range of a linear map, injectivity and surjectivity.',
-        estimatedMinutes: 25,
-        notesRef: { definitions: [24, 25], theorems: [25, 26] },
+          'Null space and image of a linear map; Rank-Nullity Theorem with full proof.',
+        estimatedMinutes: 30,
+        notesRef: { definitions: [20], theorems: [24, 25], examples: [16, 17] },
+        prerequisites: [
+          { slug: 'linear-transformations', lesson: 'definition', label: 'Linear Transformations' },
+        ],
       },
       {
-        slug: 'rank-nullity',
-        title: 'Rank–Nullity Theorem',
+        slug: 'isomorphisms',
+        title: 'Isomorphisms',
         description:
-          'The fundamental theorem relating rank, nullity, and the dimension of the domain.',
+          'Bijective linear maps, invertibility, and the isomorphism theorem.',
         estimatedMinutes: 20,
-        notesRef: { theorems: [27], examples: [19] },
+        notesRef: { theorems: [25] },
+        prerequisites: [
+          { slug: 'linear-transformations', lesson: 'kernel-image', label: 'Kernel & Image' },
+        ],
       },
       {
-        slug: 'matrix-of-lt',
+        slug: 'matrix-representations',
         title: 'Matrix of a Linear Transformation',
         description:
-          'Representing a linear map as a matrix with respect to chosen bases.',
+          'Representing a linear map as a matrix with respect to chosen bases; Definition 21.',
         estimatedMinutes: 30,
-        notesRef: { definitions: [26], examples: [20] },
+        notesRef: { definitions: [21], theorems: [26], examples: [18] },
+        prerequisites: [
+          { slug: 'linear-transformations', lesson: 'isomorphisms', label: 'Isomorphisms' },
+        ],
       },
       {
-        slug: 'matrix-spaces',
-        title: 'Space of Linear Maps',
+        slug: 'change-of-basis',
+        title: 'Change of Basis',
         description:
-          'The vector space L(V,W) of linear maps, isomorphisms, and the algebra of endomorphisms.',
-        estimatedMinutes: 20,
-        notesRef: { theorems: [28, 29] },
+          'Transition matrices, RREF, row/column spaces, and rank — Theorem 26 and 27.',
+        estimatedMinutes: 25,
+        notesRef: { definitions: [22], theorems: [26, 27] },
+        prerequisites: [
+          { slug: 'linear-transformations', lesson: 'matrix-representations', label: 'Matrix of LT' },
+        ],
       },
     ],
   },
