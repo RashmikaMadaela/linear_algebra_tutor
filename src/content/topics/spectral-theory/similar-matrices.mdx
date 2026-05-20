@@ -1,0 +1,161 @@
+---
+title: "Similar Matrices"
+description: "Similarity as a change of basis; invariants under similarity."
+section: "spectral-theory"
+slug: "similar-matrices"
+estimatedMinutes: 20
+---
+
+import { DefinitionBox } from "@/components/mdx/DefinitionBox";
+import { TheoremBox } from "@/components/mdx/TheoremBox";
+import { StepReveal } from "@/components/mdx/StepReveal";
+import { SummaryBox } from "@/components/mdx/SummaryBox";
+import { M, BM } from "@/components/mdx/Math";
+
+## Matrices of the Same Map
+
+If a linear operator <M math="T: V \to V" /> is represented in basis <M math="\mathcal{B}" /> by matrix <M math="A" />, and in basis <M math="\mathcal{B}'" /> by matrix <M math="A'" />, then (from the change-of-basis formula):
+
+<BM math="A' = P^{-1} A P," />
+
+where <M math="P" /> is the transition matrix. Two matrices related this way are called **similar** — they represent the same linear map in different bases.
+
+---
+
+## Definition
+
+<DefinitionBox number={25} title="Similar Matrices">
+Two matrices <M math="A, B \in M_{n\times n}(\mathbb{F})" /> are **similar** (written <M math="A \sim B" />) if there exists an invertible matrix <M math="P \in M_{n\times n}(\mathbb{F})" /> such that
+
+<BM math="B = P^{-1} A P." />
+
+Similarity is an **equivalence relation** on <M math="M_{n\times n}(\mathbb{F})" />:
+- *Reflexive*: <M math="A = I^{-1}AI \sim A" />.
+- *Symmetric*: <M math="B = P^{-1}AP \Rightarrow A = PBP^{-1} = (P^{-1})^{-1}B(P^{-1})" />.
+- *Transitive*: <M math="B = P^{-1}AP" /> and <M math="C = Q^{-1}BQ \Rightarrow C = (PQ)^{-1}A(PQ)" />.
+</DefinitionBox>
+
+---
+
+## Similarity Invariants
+
+<TheoremBox
+  number={31}
+  title="Properties Preserved Under Similarity"
+  proofSketch={
+    <>
+      Let <M math="B = P^{-1}AP" />.
+      <br />
+      <strong>Char poly:</strong> <M math="\det(\lambda I - B) = \det(\lambda I - P^{-1}AP) = \det(P^{-1}(\lambda I - A)P) = \det(P^{-1})\det(\lambda I - A)\det(P) = \det(\lambda I - A)" />.
+      <br />
+      <strong>Trace:</strong> <M math="\operatorname{tr}(P^{-1}AP) = \operatorname{tr}(A \cdot PP^{-1}) = \operatorname{tr}(A)" /> (cyclic property). ∎
+    </>
+  }
+>
+  If <M math="A \sim B" /> then:
+
+  | Property | Value |
+  |----------|-------|
+  | Characteristic polynomial | <M math="p_A = p_B" /> |
+  | Eigenvalues (with multiplicity) | Same |
+  | Trace | <M math="\operatorname{tr}(A) = \operatorname{tr}(B)" /> |
+  | Determinant | <M math="\det(A) = \det(B)" /> |
+  | Rank | <M math="\operatorname{rank}(A) = \operatorname{rank}(B)" /> |
+  | Nullity | <M math="\operatorname{nullity}(A) = \operatorname{nullity}(B)" /> |
+
+  **Important:** The converse is **false** — matrices can share all these properties without being similar (see Example 4).
+</TheoremBox>
+
+---
+
+## Worked Examples
+
+<StepReveal
+  title="Example 1 — Verifying Similarity"
+  steps={[
+    {
+      label: "Given",
+      formula: "A = \\begin{pmatrix}4 & 1 \\\\ 2 & 3\\end{pmatrix}, \\quad B = \\begin{pmatrix}5 & 0 \\\\ 0 & 2\\end{pmatrix}, \\quad P = \\begin{pmatrix}1 & 1 \\\\ 1 & -2\\end{pmatrix}.",
+    },
+    {
+      label: "Check P is invertible",
+      formula: "\\det(P) = -2-1 = -3 \\neq 0. \\quad P^{-1} = \\frac{1}{-3}\\begin{pmatrix}-2 & -1 \\\\ -1 & 1\\end{pmatrix} = \\begin{pmatrix}2/3 & 1/3 \\\\ 1/3 & -1/3\\end{pmatrix}.",
+    },
+    {
+      label: "Compute P⁻¹AP",
+      formula: "P^{-1}AP = \\begin{pmatrix}2/3&1/3\\\\1/3&-1/3\\end{pmatrix}\\begin{pmatrix}4&1\\\\2&3\\end{pmatrix}\\begin{pmatrix}1&1\\\\1&-2\\end{pmatrix} = \\begin{pmatrix}5&0\\\\0&2\\end{pmatrix} = B. \\checkmark",
+    },
+    {
+      label: "Interpretation",
+      content: "B is a diagonal matrix — the columns of P are eigenvectors of A, with eigenvalues 5 and 2 on the diagonal.",
+    },
+  ]}
+/>
+
+<StepReveal
+  title="Example 2 — Using Invariants to Detect Non-similarity"
+  steps={[
+    {
+      label: "Given",
+      formula: "A = \\begin{pmatrix}1 & 0 \\\\ 0 & 2\\end{pmatrix}, \\quad B = \\begin{pmatrix}1 & 0 \\\\ 0 & 3\\end{pmatrix}.",
+    },
+    {
+      label: "Compare traces",
+      content: "tr(A) = 3, tr(B) = 4. Since tr(A) ≠ tr(B), the characteristic polynomials differ.",
+    },
+    {
+      label: "Conclusion",
+      content: "A and B are NOT similar (they have different eigenvalues).",
+    },
+  ]}
+/>
+
+<StepReveal
+  title="Example 3 — Similarity as Change of Basis"
+  steps={[
+    {
+      label: "Setup",
+      content: "Let T: ℝ² → ℝ² be reflection across the line y = x. In standard basis: [T]_E = [[0,1],[1,0]]. In basis B = ((1,1),(1,-1)) (eigenvectors of T):",
+    },
+    {
+      label: "Matrix in B",
+      formula: "P = \\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}, \\quad [T]_\\mathcal{B} = P^{-1}\\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}P = \\begin{pmatrix}1&0\\\\0&-1\\end{pmatrix}.",
+    },
+    {
+      label: "Interpretation",
+      content: "The diagonal matrix [[1,0],[0,-1]] shows: eigenvector (1,1) is scaled by +1 (fixed), eigenvector (1,-1) is scaled by −1 (flipped). The same map, different basis, simpler matrix.",
+    },
+  ]}
+/>
+
+<StepReveal
+  title="Example 4 — Same Invariants, Not Similar (Converse Fails)"
+  steps={[
+    {
+      label: "Given",
+      formula: "A = \\begin{pmatrix}1 & 1 \\\\ 0 & 1\\end{pmatrix}, \\quad B = \\begin{pmatrix}1 & 0 \\\\ 0 & 1\\end{pmatrix} = I.",
+    },
+    {
+      label: "Check invariants",
+      content: "p_A(λ) = (λ−1)² = p_B(λ). tr(A) = 2 = tr(B). det(A) = 1 = det(B). Rank(A) = 2 = Rank(B). All invariants match!",
+    },
+    {
+      label: "Are they similar?",
+      content: "If A ~ I, then P⁻¹AP = I ⟹ A = PIP⁻¹ = I. But A ≠ I. Contradiction!",
+    },
+    {
+      label: "Conclusion",
+      content: "Matching invariants (char poly, trace, det, rank) is necessary but NOT sufficient for similarity. The Jordan form provides a complete invariant.",
+    },
+  ]}
+/>
+
+---
+
+<SummaryBox title="Key Takeaways">
+- Similar matrices represent the **same linear operator** in different bases: <M math="B = P^{-1}AP" />.
+- Similarity preserves: characteristic polynomial, eigenvalues, trace, determinant, rank, nullity.
+- These are called **similarity invariants** — they describe intrinsic properties of the linear map.
+- The converse fails: equal invariants do not guarantee similarity.
+- The **Jordan Normal Form** (Section VI) gives a complete classification up to similarity.
+</SummaryBox>

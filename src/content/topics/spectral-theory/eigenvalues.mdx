@@ -1,0 +1,181 @@
+---
+title: "Eigenvalues & Eigenvectors"
+description: "Definitions, geometric meaning, and first examples."
+section: "spectral-theory"
+slug: "eigenvalues"
+estimatedMinutes: 25
+---
+
+import { DefinitionBox } from "@/components/mdx/DefinitionBox";
+import { TheoremBox } from "@/components/mdx/TheoremBox";
+import { StepReveal } from "@/components/mdx/StepReveal";
+import { SummaryBox } from "@/components/mdx/SummaryBox";
+import { M, BM } from "@/components/mdx/Math";
+
+## Motivation
+
+When a linear map <M math="T: V \to V" /> acts on a vector, it usually rotates *and* stretches it. But for certain special vectors <M math="\mathbf{v} \neq \mathbf{0}" />, the map only *scales* — the direction is preserved and only the magnitude changes:
+
+<BM math="T(\mathbf{v}) = \lambda \mathbf{v}." />
+
+These vectors reveal the intrinsic "axes" of a linear map and lead to the most powerful computational tool in linear algebra: **diagonalization**.
+
+---
+
+## Definitions
+
+<DefinitionBox number={22} title="Eigenvalue and Eigenvector">
+Let <M math="T: V \to V" /> be a linear operator on a vector space <M math="V" /> over a field <M math="\mathbb{F}" />. A scalar <M math="\lambda \in \mathbb{F}" /> is an **eigenvalue** of <M math="T" /> if there exists a nonzero vector <M math="\mathbf{v} \in V" /> such that
+
+<BM math="T(\mathbf{v}) = \lambda \mathbf{v}." />
+
+Such a vector <M math="\mathbf{v} \neq \mathbf{0}" /> is called an **eigenvector** of <M math="T" /> corresponding to <M math="\lambda" />.
+
+**For matrices:** <M math="\lambda" /> is an eigenvalue of <M math="A \in M_{n\times n}(\mathbb{F})" /> if <M math="A\mathbf{x} = \lambda\mathbf{x}" /> for some <M math="\mathbf{x} \neq \mathbf{0}" />.
+</DefinitionBox>
+
+<DefinitionBox number={23} title="Eigenspace and Spectrum">
+The **eigenspace** of <M math="T" /> corresponding to eigenvalue <M math="\lambda" /> is
+
+<BM math="E_\lambda = \ker(T - \lambda I) = \{\mathbf{v} \in V : T(\mathbf{v}) = \lambda \mathbf{v}\}." />
+
+This is a subspace of <M math="V" /> (it includes <M math="\mathbf{0}" /> plus all eigenvectors for <M math="\lambda" />).
+
+The **spectrum** of <M math="T" /> is the set of all eigenvalues: <M math="\sigma(T) = \{\lambda \in \mathbb{F} : E_\lambda \neq \{\mathbf{0}\}\}" />.
+</DefinitionBox>
+
+---
+
+## Key Theorem
+
+<TheoremBox
+  number={28}
+  title="LI Eigenvectors for Distinct Eigenvalues"
+  proofSketch={
+    <>
+      Induct on <M math="k" />. Base case <M math="k=1" />: a single eigenvector is nonzero, hence LI.
+      Inductive step: suppose <M math="\mathbf{v}_1,\ldots,\mathbf{v}_{k-1}" /> are LI and assume
+      <M math="\sum_{i=1}^k \alpha_i \mathbf{v}_i = \mathbf{0}" />.
+      Apply <M math="T" /> to get <M math="\sum \alpha_i \lambda_i \mathbf{v}_i = \mathbf{0}" />. Subtract <M math="\lambda_k" /> times the original: <M math="\sum_{i=1}^{k-1} \alpha_i(\lambda_i - \lambda_k)\mathbf{v}_i = \mathbf{0}" />. By induction all <M math="\alpha_i = 0" /> for <M math="i < k" /> (since <M math="\lambda_i \neq \lambda_k" />), then <M math="\alpha_k = 0" /> too. ∎
+    </>
+  }
+>
+  If <M math="\lambda_1, \lambda_2, \ldots, \lambda_k" /> are **distinct** eigenvalues of <M math="T" />, and <M math="\mathbf{v}_i \in E_{\lambda_i}" /> are corresponding nonzero eigenvectors, then <M math="\{\mathbf{v}_1, \ldots, \mathbf{v}_k\}" /> is **linearly independent**.
+
+  **Corollary:** An <M math="n \times n" /> matrix with <M math="n" /> distinct eigenvalues is diagonalizable.
+</TheoremBox>
+
+---
+
+## Worked Examples
+
+<StepReveal
+  title="Example 1 — Diagonal Matrix"
+  steps={[
+    {
+      label: "Setup",
+      content: "Find the eigenvalues and eigenvectors of",
+      formula: "A = \\begin{pmatrix}3 & 0 \\\\ 0 & -1\\end{pmatrix}.",
+    },
+    {
+      label: "Eigenvalue λ = 3",
+      content: "Check: A e₁ = (3,0) = 3(1,0) = 3 e₁. So λ = 3 with eigenvector e₁ = (1,0).",
+    },
+    {
+      label: "Eigenvalue λ = −1",
+      content: "Check: A e₂ = (0,-1) = -1(0,1) = -1 e₂. So λ = −1 with eigenvector e₂ = (0,1).",
+    },
+    {
+      label: "General rule",
+      content: "For any diagonal matrix D = diag(d₁, …, dₙ), the eigenvalues are the diagonal entries and the standard basis vectors are eigenvectors.",
+    },
+  ]}
+/>
+
+<StepReveal
+  title="Example 2 — 2×2 Matrix"
+  steps={[
+    {
+      label: "Setup",
+      content: "Find the eigenvalues of",
+      formula: "A = \\begin{pmatrix}4 & 1 \\\\ 2 & 3\\end{pmatrix}.",
+    },
+    {
+      label: "Characteristic equation",
+      content: "We need det(A − λI) = 0:",
+      formula: "\\det\\begin{pmatrix}4-\\lambda & 1 \\\\ 2 & 3-\\lambda\\end{pmatrix} = (4-\\lambda)(3-\\lambda) - 2 = \\lambda^2 - 7\\lambda + 10 = 0.",
+    },
+    {
+      label: "Solve",
+      content: "Factor: (λ − 5)(λ − 2) = 0. So λ₁ = 5, λ₂ = 2.",
+    },
+    {
+      label: "Eigenvector for λ = 5",
+      content: "Solve (A − 5I)x = 0:",
+      formula: "\\begin{pmatrix}-1 & 1 \\\\ 2 & -2\\end{pmatrix}\\mathbf{x} = \\mathbf{0} \\implies x_1 = x_2. \\quad \\mathbf{v}_1 = \\begin{pmatrix}1\\\\1\\end{pmatrix}.",
+    },
+    {
+      label: "Eigenvector for λ = 2",
+      content: "Solve (A − 2I)x = 0:",
+      formula: "\\begin{pmatrix}2 & 1 \\\\ 2 & 1\\end{pmatrix}\\mathbf{x} = \\mathbf{0} \\implies 2x_1 + x_2 = 0. \\quad \\mathbf{v}_2 = \\begin{pmatrix}1\\\\-2\\end{pmatrix}.",
+    },
+  ]}
+/>
+
+<StepReveal
+  title="Example 3 — Rotation"
+  steps={[
+    {
+      label: "Setup",
+      content: "Find the eigenvalues of R_θ = rotation by angle θ in ℝ² over ℝ.",
+      formula: "R_\\theta = \\begin{pmatrix}\\cos\\theta & -\\sin\\theta \\\\ \\sin\\theta & \\cos\\theta\\end{pmatrix}.",
+    },
+    {
+      label: "Characteristic polynomial",
+      formula: "\\det(R_\\theta - \\lambda I) = (\\cos\\theta - \\lambda)^2 + \\sin^2\\theta = \\lambda^2 - 2\\lambda\\cos\\theta + 1.",
+    },
+    {
+      label: "Discriminant",
+      content: "Discriminant = 4cos²θ − 4 = 4(cos²θ − 1) = −4sin²θ ≤ 0.",
+    },
+    {
+      label: "Conclusion",
+      content: "If θ ≠ 0, π, there are no real eigenvalues. A rotation by a non-trivial angle has no real eigenvectors — geometrically, no nonzero vector is mapped to a scalar multiple of itself. Over ℂ, eigenvalues are e^{iθ} and e^{-iθ}.",
+    },
+  ]}
+/>
+
+<StepReveal
+  title="Example 4 — Projection"
+  steps={[
+    {
+      label: "Setup",
+      content: "Let P: ℝ³ → ℝ³ be projection onto the xy-plane: P(x,y,z) = (x,y,0).",
+    },
+    {
+      label: "Eigenvalue λ = 1",
+      content: "If z = 0: P(x,y,0) = (x,y,0) = 1·(x,y,0). Every nonzero vector in the xy-plane is an eigenvector with λ = 1.",
+      formula: "E_1 = \\{(x,y,0) : x,y \\in \\mathbb{R}\\}, \\quad \\dim E_1 = 2.",
+    },
+    {
+      label: "Eigenvalue λ = 0",
+      content: "P(0,0,z) = (0,0,0) = 0·(0,0,z). The z-axis is the eigenspace for λ = 0.",
+      formula: "E_0 = \\{(0,0,z) : z \\in \\mathbb{R}\\}, \\quad \\dim E_0 = 1.",
+    },
+    {
+      label: "Geometric insight",
+      content: "Projections always have eigenvalues 0 and 1 only. More generally: P is a projection (P² = P) iff its eigenvalues are all 0 or 1.",
+    },
+  ]}
+/>
+
+---
+
+<SummaryBox title="Key Takeaways">
+- An eigenvector is a nonzero vector whose direction is preserved (only scaled) by <M math="T" />.
+- The eigenspace <M math="E_\lambda = \ker(T - \lambda I)" /> is a subspace; its nonzero elements are the eigenvectors.
+- To find eigenvalues: solve <M math="\det(A - \lambda I) = 0" /> (next lesson).
+- To find eigenvectors: for each <M math="\lambda" />, solve <M math="(A - \lambda I)\mathbf{x} = \mathbf{0}" />.
+- Eigenvectors from **distinct** eigenvalues are always linearly independent.
+- Geometrically: eigenvalues measure scaling along invariant directions.
+</SummaryBox>

@@ -1,0 +1,165 @@
+---
+title: "Characteristic Polynomial"
+description: "The characteristic equation det(A − λI) = 0 and its roots."
+section: "spectral-theory"
+slug: "characteristic-polynomial"
+estimatedMinutes: 20
+---
+
+import { DefinitionBox } from "@/components/mdx/DefinitionBox";
+import { TheoremBox } from "@/components/mdx/TheoremBox";
+import { StepReveal } from "@/components/mdx/StepReveal";
+import { SummaryBox } from "@/components/mdx/SummaryBox";
+import { M, BM } from "@/components/mdx/Math";
+
+## The Characteristic Equation
+
+Finding eigenvalues reduces to finding which scalars <M math="\lambda" /> make <M math="A - \lambda I" /> **singular** (non-invertible). A square matrix is singular iff its determinant is zero, giving us the characteristic equation.
+
+---
+
+## Definitions and Theorems
+
+<DefinitionBox number={24} title="Characteristic Polynomial">
+Let <M math="A \in M_{n\times n}(\mathbb{F})" />. The **characteristic polynomial** of <M math="A" /> is
+
+<BM math="p_A(\lambda) = \det(\lambda I - A)." />
+
+This is a polynomial of degree <M math="n" /> in <M math="\lambda" /> with leading coefficient <M math="1" /> (monic). Some texts use <M math="\det(A - \lambda I) = (-1)^n p_A(\lambda)" /> — both conventions yield the same roots.
+
+The **characteristic equation** is <M math="p_A(\lambda) = 0" />.
+</DefinitionBox>
+
+<TheoremBox
+  number={29}
+  title="Eigenvalues are Roots of the Characteristic Polynomial"
+  proofSketch={
+    <>
+      <M math="\lambda" /> is an eigenvalue of <M math="A" /> iff <M math="A\mathbf{x} = \lambda\mathbf{x}" /> for some <M math="\mathbf{x} \neq \mathbf{0}" />, iff <M math="(A - \lambda I)\mathbf{x} = \mathbf{0}" /> has a non-trivial solution, iff <M math="A - \lambda I" /> is singular, iff <M math="\det(\lambda I - A) = 0" />, iff <M math="p_A(\lambda) = 0" />. ∎
+    </>
+  }
+>
+  A scalar <M math="\lambda \in \mathbb{F}" /> is an eigenvalue of <M math="A" /> if and only if
+
+  <BM math="p_A(\lambda) = \det(\lambda I - A) = 0." />
+</TheoremBox>
+
+<TheoremBox
+  number={30}
+  title="Structure of the Characteristic Polynomial"
+  proofSketch={
+    <>
+      Expand <M math="\det(\lambda I - A)" />. The term <M math="\lambda^n" /> comes only from the main diagonal product. The coefficient of <M math="\lambda^{n-1}" /> comes from choosing <M math="n-1" /> diagonal terms <M math="(\lambda - a_{ii})" />, which gives <M math="-\operatorname{tr}(A)" />. Setting <M math="\lambda = 0" />: <M math="p_A(0) = \det(-A) = (-1)^n\det(A)" />. ∎
+    </>
+  }
+>
+  For an <M math="n\times n" /> matrix <M math="A" />, the characteristic polynomial has the form
+
+  <BM math="p_A(\lambda) = \lambda^n - \operatorname{tr}(A)\,\lambda^{n-1} + \cdots + (-1)^n\det(A)." />
+
+  In particular:
+  - **Sum of eigenvalues** (counted with multiplicity) = <M math="\operatorname{tr}(A)" />
+  - **Product of eigenvalues** (counted with multiplicity) = <M math="\det(A)" />
+  - By the **Fundamental Theorem of Algebra**, over <M math="\mathbb{C}" /> every <M math="n\times n" /> matrix has exactly <M math="n" /> eigenvalues (counting multiplicity).
+</TheoremBox>
+
+---
+
+## Worked Examples
+
+<StepReveal
+  title="Example 1 — 2×2 Characteristic Polynomial"
+  steps={[
+    {
+      label: "General 2×2 formula",
+      content: "For A = [[a,b],[c,d]]:",
+      formula: "p_A(\\lambda) = \\lambda^2 - (a+d)\\lambda + (ad-bc) = \\lambda^2 - \\operatorname{tr}(A)\\lambda + \\det(A).",
+    },
+    {
+      label: "Example",
+      formula: "A = \\begin{pmatrix}5 & 2 \\\\ 1 & 4\\end{pmatrix}: \\quad p_A(\\lambda) = \\lambda^2 - 9\\lambda + 18 = (\\lambda-6)(\\lambda-3).",
+    },
+    {
+      label: "Verify",
+      content: "Check: tr(A) = 9 = 6+3 ✓, det(A) = 18 = 6·3 ✓.",
+    },
+  ]}
+/>
+
+<StepReveal
+  title="Example 2 — 3×3 Upper Triangular"
+  steps={[
+    {
+      label: "Setup",
+      formula: "A = \\begin{pmatrix}2 & 1 & 3 \\\\ 0 & 5 & 7 \\\\ 0 & 0 & -1\\end{pmatrix}.",
+    },
+    {
+      label: "Key fact",
+      content: "For triangular matrices, the determinant is the product of diagonal entries:",
+      formula: "\\det(\\lambda I - A) = (\\lambda-2)(\\lambda-5)(\\lambda+1).",
+    },
+    {
+      label: "Eigenvalues",
+      content: "Eigenvalues: λ = 2, 5, −1.",
+    },
+    {
+      label: "General rule",
+      content: "The eigenvalues of any triangular (upper or lower) matrix are its diagonal entries.",
+    },
+  ]}
+/>
+
+<StepReveal
+  title="Example 3 — 3×3 General Matrix"
+  steps={[
+    {
+      label: "Setup",
+      formula: "A = \\begin{pmatrix}1 & 0 & 0 \\\\ 0 & 2 & -1 \\\\ 0 & 1 & 4\\end{pmatrix}.",
+    },
+    {
+      label: "Compute det(λI − A)",
+      formula: "\\det\\begin{pmatrix}\\lambda-1 & 0 & 0 \\\\ 0 & \\lambda-2 & 1 \\\\ 0 & -1 & \\lambda-4\\end{pmatrix} = (\\lambda-1)\\bigl[(\\lambda-2)(\\lambda-4)+1\\bigr].",
+    },
+    {
+      label: "Expand the 2×2 block",
+      formula: "(\\lambda-2)(\\lambda-4)+1 = \\lambda^2 - 6\\lambda + 8 + 1 = \\lambda^2 - 6\\lambda + 9 = (\\lambda-3)^2.",
+    },
+    {
+      label: "Result",
+      content: "p_A(λ) = (λ−1)(λ−3)². Eigenvalues: λ = 1 (simple), λ = 3 (repeated, multiplicity 2).",
+    },
+  ]}
+/>
+
+<StepReveal
+  title="Example 4 — Complex Eigenvalues"
+  steps={[
+    {
+      label: "Setup",
+      formula: "A = \\begin{pmatrix}0 & -1 \\\\ 1 & 0\\end{pmatrix} \\quad (\\text{rotation by } 90°).",
+    },
+    {
+      label: "Characteristic polynomial",
+      formula: "p_A(\\lambda) = \\lambda^2 + 1.",
+    },
+    {
+      label: "Over ℝ",
+      content: "No real roots — no real eigenvalues. The rotation has no invariant directions over ℝ.",
+    },
+    {
+      label: "Over ℂ",
+      content: "Roots: λ = i and λ = −i. Over ℂ, eigenvectors are (1,−i) and (1,i) respectively.",
+    },
+  ]}
+/>
+
+---
+
+<SummaryBox title="Key Takeaways">
+- Find eigenvalues by solving <M math="\det(\lambda I - A) = 0" /> — the **characteristic equation**.
+- The characteristic polynomial <M math="p_A(\lambda)" /> has degree <M math="n" />, with <M math="\operatorname{tr}(A)" /> and <M math="\det(A)" /> as coefficients.
+- Eigenvalues of **triangular matrices** are the diagonal entries.
+- Over <M math="\mathbb{C}" />, every matrix has <M math="n" /> eigenvalues (with multiplicity).
+- Once eigenvalues are found, get eigenvectors by solving <M math="(A - \lambda I)\mathbf{x} = \mathbf{0}" />.
+- The **sum** of eigenvalues = <M math="\operatorname{tr}(A)" />; the **product** = <M math="\det(A)" />.
+</SummaryBox>
