@@ -56,4 +56,24 @@ export const mdxComponents: MDXComponents = {
       {children}
     </blockquote>
   ),
+  table: ({ children }) => (
+    <div className="overflow-x-auto my-6">
+      <table className="w-full border-collapse text-sm text-text">{children}</table>
+    </div>
+  ),
+  thead: ({ children }) => (
+    <thead className="bg-bg-elevated border-b border-bg-border">{children}</thead>
+  ),
+  tbody: ({ children }) => <tbody>{children}</tbody>,
+  tr: ({ children }) => (
+    <tr className="border-b border-bg-border hover:bg-bg-elevated/50 transition-colors">{children}</tr>
+  ),
+  th: ({ children }) => (
+    <th className="px-4 py-2 text-left font-semibold text-text-muted uppercase tracking-wide text-xs">
+      {children}
+    </th>
+  ),
+  td: ({ children }) => (
+    <td className="px-4 py-2 text-text leading-relaxed">{children}</td>
+  ),
 };

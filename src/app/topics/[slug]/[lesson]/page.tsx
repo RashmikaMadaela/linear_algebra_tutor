@@ -5,6 +5,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkMath from 'remark-math';
+import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
 import { SYLLABUS, getLessonMeta, getAdjacentLessons } from '@/lib/content';
 import { LessonPageClient } from './LessonPageClient';
@@ -69,7 +70,7 @@ export default async function LessonPage({ params }: Props) {
           components={mdxComponents}
           options={{
             mdxOptions: {
-              remarkPlugins: [remarkMath],
+              remarkPlugins: [remarkMath, remarkGfm],
               rehypePlugins: [rehypeKatex],
             },
           }}
