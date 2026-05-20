@@ -1,0 +1,198 @@
+---
+title: "Singular Value Decomposition (SVD)"
+section: "decompositions"
+order: 5
+estimatedMinutes: 45
+prerequisites: ["decompositions/hermitian-unitary", "decompositions/positive-definite", "spectral-theory/diagonalization"]
+notesRef:
+  definitions: [34]
+  theorems: [40, 41]
+  examples: []
+tags: ["SVD", "singular-values", "singular-vectors", "low-rank-approximation", "pseudoinverse"]
+---
+
+## Big Idea
+
+Diagonalization $A = PDP^{-1}$ only works for square diagonalizable matrices.
+**Singular Value Decomposition (SVD)** generalizes diagonalization to **every** matrix — any shape, any rank.
+Every $m \times n$ matrix $A$ factors as $A = U\Sigma V^H$ where $U$ and $V$ are unitary and $\Sigma$ is "diagonal" (with nonneg. real entries).
+The SVD is the most important matrix factorization in applied mathematics and data science.
+
+## Intuition
+
+Any linear map $T: \mathbb{R}^n \to \mathbb{R}^m$ (represented by $A$) can be decomposed into three steps:
+
+1. **Rotate** the input space by $V^H$ — find the "right" input directions
+2. **Scale** each direction by a singular value $\sigma_i$ (and possibly reduce/increase dimension via $\Sigma$)
+3. **Rotate** the output space by $U$ — arrange the output in the "right" directions
+
+The singular values $\sigma_1 \geq \sigma_2 \geq \cdots \geq 0$ measure how much $A$ stretches each direction. The right singular vectors $\mathbf{v}_i$ (columns of $V$) are the input directions; the left singular vectors $\mathbf{u}_i$ (columns of $U$) are the output directions.
+
+## Preparatory Theorem
+
+<TheoremBox number={40} title="Properties of $A^H A$ and $A A^H$" proofSketch={<>Hermitian: $(A^H A)^H = A^H(A^H)^H = A^H A$. PSD: $\mathbf{x}^H A^H A\mathbf{x} = \|A\mathbf{x}\|^2 \geq 0$. Same nonzero eigenvalues: if $A^H A\mathbf{v} = \lambda\mathbf{v}$ with $\lambda > 0$, then $AA^H(A\mathbf{v}) = \lambda(A\mathbf{v})$ and $A\mathbf{v} \neq \mathbf{0}$.</>}>
+
+For any $A \in \mathbb{C}^{m \times n}$:
+
+1. $A^H A \in \mathbb{C}^{n\times n}$ and $A A^H \in \mathbb{C}^{m \times m}$ are both **Hermitian and positive semidefinite**.
+2. $A^H A$ and $A A^H$ have the **same nonzero eigenvalues** (with the same multiplicities).
+3. $\operatorname{rank}(A^H A) = \operatorname{rank}(A A^H) = \operatorname{rank}(A)$.
+4. All eigenvalues of $A^H A$ are **real and nonneg**: $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_n \geq 0$.
+</TheoremBox>
+
+## Formal Definition
+
+<DefinitionBox number={34} title="Singular Values and Singular Vectors">
+Let $A \in \mathbb{C}^{m \times n}$ with $\operatorname{rank}(A) = r$.
+Let $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_r > 0 = \lambda_{r+1} = \cdots = \lambda_{\min(m,n)}$ be the eigenvalues of $A^H A$ (equivalently $AA^H$, for the nonzero ones).
+
+The **singular values** of $A$ are:
+
+<BM math="\sigma_i = \sqrt{\lambda_i} \geq 0, \quad i = 1, \ldots, \min(m,n)" />
+
+with $\sigma_1 \geq \sigma_2 \geq \cdots \geq \sigma_r > \sigma_{r+1} = \cdots = 0$.
+
+The **right singular vectors** $\mathbf{v}_1, \ldots, \mathbf{v}_n$ are the orthonormal eigenvectors of $A^H A$:
+<BM math="A^H A \mathbf{v}_i = \sigma_i^2 \mathbf{v}_i" />
+
+The **left singular vectors** $\mathbf{u}_1, \ldots, \mathbf{u}_m$ are defined by:
+<BM math="\mathbf{u}_i = \frac{1}{\sigma_i} A \mathbf{v}_i \quad (i \leq r), \qquad \text{extended to orthonormal basis of } \mathbb{C}^m \text{ for } i > r" />
+
+The relation $A\mathbf{v}_i = \sigma_i \mathbf{u}_i$ holds for $i = 1, \ldots, r$.
+</DefinitionBox>
+
+## SVD Theorem
+
+<TheoremBox number={41} title="Singular Value Decomposition (SVD)" proofSketch={<>Diagonalize <M math="A^H A = V\Lambda V^H" /> (by spectral theorem for Hermitian matrices). Define <M math="\mathbf{u}_i = A\mathbf{v}_i/\sigma_i" /> for <M math="i \leq r" /> and extend to orthonormal basis of <M math="\mathbb{C}^m" />. Verify <M math="A = U\Sigma V^H" /> by checking both sides agree on all basis vectors.</>}>
+
+Every $A \in \mathbb{C}^{m \times n}$ can be written as
+
+<BM math="A = U \Sigma V^H" />
+
+where:
+- $U \in \mathbb{C}^{m\times m}$ is **unitary** (columns = left singular vectors)
+- $V \in \mathbb{C}^{n \times n}$ is **unitary** (columns = right singular vectors)
+- $\Sigma \in \mathbb{R}^{m \times n}$ is **"diagonal"**: $\Sigma_{ii} = \sigma_i \geq 0$, all other entries $0$
+
+The singular values $\sigma_1 \geq \sigma_2 \geq \cdots \geq 0$ are unique. The SVD always exists.
+
+**Rank:** $\operatorname{rank}(A) = r$ = number of nonzero singular values.
+
+**Compact SVD:** $A = \sum_{i=1}^r \sigma_i \mathbf{u}_i \mathbf{v}_i^H$ (outer product / dyadic expansion).
+</TheoremBox>
+
+## Worked Examples
+
+<StepReveal title="Example: SVD of a 2×2 matrix" steps={[
+  {
+    label: "Setup",
+    content: "Find the SVD of $A = \\begin{pmatrix}3 & 1 \\\\ 1 & 3\\end{pmatrix}$.",
+  },
+  {
+    label: "Compute $A^H A = A^T A$",
+    content: "$A$ is symmetric, so $A^T A = A^2$. But let's compute directly:",
+    formula: "A^T A = \\begin{pmatrix}3&1\\\\1&3\\end{pmatrix}^2 = \\begin{pmatrix}10&6\\\\6&10\\end{pmatrix}"
+  },
+  {
+    label: "Eigenvalues of $A^T A$",
+    formula: "p(\\lambda) = (\\lambda-10)^2-36 = (\\lambda-4)(\\lambda-16) \\implies \\sigma_1 = 4,\\; \\sigma_2 = 2"
+  },
+  {
+    label: "Right singular vectors (eigenvectors of $A^T A$)",
+    formula: "\\mathbf{v}_1 = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}1\\\\1\\end{pmatrix} \\text{ (for } \\lambda=16\\text{)}, \\quad \\mathbf{v}_2 = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}1\\\\-1\\end{pmatrix} \\text{ (for } \\lambda=4\\text{)}"
+  },
+  {
+    label: "Left singular vectors",
+    formula: "\\mathbf{u}_1 = \\frac{A\\mathbf{v}_1}{\\sigma_1} = \\frac{1}{4}\\cdot\\frac{1}{\\sqrt{2}}\\begin{pmatrix}4\\\\4\\end{pmatrix} = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}1\\\\1\\end{pmatrix}, \\quad \\mathbf{u}_2 = \\frac{A\\mathbf{v}_2}{\\sigma_2} = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}1\\\\-1\\end{pmatrix}"
+  },
+  {
+    label: "SVD",
+    content: "Note: since $A$ is symmetric PD with eigenvalues $4$ and $2$, $U = V = P$ (the eigenvector matrix). The SVD coincides with the eigendecomposition:",
+    formula: "A = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}\\begin{pmatrix}4&0\\\\0&2\\end{pmatrix}\\frac{1}{\\sqrt{2}}\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}"
+  }
+]} />
+
+<StepReveal title="Example: SVD of a rank-1 matrix" steps={[
+  {
+    label: "Matrix",
+    content: "Find the SVD of $A = \\begin{pmatrix}2 \\\\ 1\\end{pmatrix}\\begin{pmatrix}1 & 2\\end{pmatrix} = \\begin{pmatrix}2&4\\\\1&2\\end{pmatrix}$. (rank 1)",
+  },
+  {
+    label: "$A^T A$",
+    formula: "A^T A = \\begin{pmatrix}2&1\\end{pmatrix}^T\\begin{pmatrix}2&1\\end{pmatrix}\\cdot\\begin{pmatrix}1\\\\2\\end{pmatrix}\\begin{pmatrix}1&2\\end{pmatrix} = \\begin{pmatrix}5&10\\\\10&20\\end{pmatrix}"
+  },
+  {
+    label: "Eigenvalue",
+    content: "Rank 1 means exactly one nonzero eigenvalue: $\\sigma_1^2 = \\operatorname{tr}(A^T A) = 25$, so $\\sigma_1=5$.",
+  },
+  {
+    label: "Right singular vector",
+    formula: "\\mathbf{v}_1 = \\frac{1}{\\sqrt{5}}\\begin{pmatrix}1\\\\2\\end{pmatrix} \\quad (\\text{column direction of } A)"
+  },
+  {
+    label: "Left singular vector",
+    formula: "\\mathbf{u}_1 = \\frac{A\\mathbf{v}_1}{5} = \\frac{1}{5\\sqrt{5}}\\begin{pmatrix}2&4\\\\1&2\\end{pmatrix}\\begin{pmatrix}1\\\\2\\end{pmatrix} = \\frac{1}{\\sqrt{5}}\\begin{pmatrix}2\\\\1\\end{pmatrix}"
+  },
+  {
+    label: "Compact SVD",
+    formula: "A = 5 \\cdot \\frac{1}{\\sqrt{5}}\\begin{pmatrix}2\\\\1\\end{pmatrix}\\cdot\\frac{1}{\\sqrt{5}}\\begin{pmatrix}1&2\\end{pmatrix} = \\begin{pmatrix}2\\\\1\\end{pmatrix}\\begin{pmatrix}1&2\\end{pmatrix} \\checkmark"
+  }
+]} />
+
+<StepReveal title="Example: Low-rank approximation (Best Rank-k Approximation)" steps={[
+  {
+    label: "Eckart-Young Theorem",
+    content: "The best rank-$k$ approximation to $A$ (minimizing $\\|A - B\\|_F$ over all rank-$\\leq k$ matrices $B$) is:",
+    formula: "A_k = \\sum_{i=1}^k \\sigma_i \\mathbf{u}_i \\mathbf{v}_i^H"
+  },
+  {
+    label: "Application",
+    content: "For a data matrix (e.g. image pixels), truncating the SVD to the top $k$ terms gives the best $k$-dimensional approximation. The approximation error is:",
+    formula: "\\|A - A_k\\|_F^2 = \\sigma_{k+1}^2 + \\sigma_{k+2}^2 + \\cdots + \\sigma_r^2"
+  },
+  {
+    label: "Interpretation",
+    content: "The singular values measure the 'importance' of each direction. Dropping small $\\sigma_i$ loses little information (small error) but saves massive storage: store $k$ rank-1 matrices instead of the full $m\\times n$ matrix."
+  }
+]} />
+
+<StepReveal title="Example: SVD and the pseudoinverse" steps={[
+  {
+    label: "Pseudoinverse definition",
+    content: "For $A = U\\Sigma V^H$, define the **Moore-Penrose pseudoinverse**:",
+    formula: "A^+ = V \\Sigma^+ U^H"
+  },
+  {
+    label: "Where $\\Sigma^+$",
+    content: "$\\Sigma^+$ replaces each nonzero $\\sigma_i$ by $1/\\sigma_i$ and keeps zeros as zeros:",
+    formula: "\\Sigma^+ = \\operatorname{diag}(1/\\sigma_1, \\ldots, 1/\\sigma_r, 0, \\ldots, 0)^T \\in \\mathbb{C}^{n\\times m}"
+  },
+  {
+    label: "Least squares",
+    content: "The minimum-norm least-squares solution to $A\\mathbf{x} = \\mathbf{b}$ is:",
+    formula: "\\mathbf{x}^* = A^+\\mathbf{b} = V\\Sigma^+ U^H\\mathbf{b}"
+  },
+  {
+    label: "Verification",
+    content: "If $A$ is square and invertible, $A^+ = A^{-1}$ (since $\\Sigma^+ = \\Sigma^{-1}$). In general, $AA^+A = A$, $A^+AA^+ = A^+$, and both $AA^+$ and $A^+A$ are Hermitian."
+  }
+]} />
+
+## Summary
+
+<SummaryBox title="SVD — Key Facts">
+
+**Every** matrix $A \in \mathbb{C}^{m \times n}$ has $A = U\Sigma V^H$.
+
+| Quantity | Meaning |
+|----------|---------|
+| $\sigma_1$ | $\|A\|_2$ (spectral/operator norm) |
+| $\sigma_r$ (smallest nonzero) | Distance to nearest rank-$(r-1)$ matrix |
+| $\sigma_1/\sigma_r$ | Condition number $\kappa(A)$ |
+| $\sum \sigma_i^2$ | $\|A\|_F^2$ (Frobenius norm squared) |
+| Number of nonzero $\sigma_i$ | $\operatorname{rank}(A)$ |
+
+**Key formula:** $A = \sum_{i=1}^r \sigma_i \mathbf{u}_i \mathbf{v}_i^H$ (outer product expansion — most important form).
+
+**Applications:** PCA, image compression, least squares (pseudoinverse), recommender systems, noise reduction.
+</SummaryBox>

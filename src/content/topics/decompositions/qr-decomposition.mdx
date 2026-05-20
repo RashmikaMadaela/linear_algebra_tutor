@@ -1,0 +1,168 @@
+---
+title: "QR Decomposition & QR Algorithm"
+section: "decompositions"
+order: 4
+estimatedMinutes: 30
+prerequisites: ["decompositions/hermitian-unitary", "inner-product-spaces/gram-schmidt"]
+notesRef:
+  definitions: [33]
+  theorems: [39]
+  examples: []
+tags: ["QR-decomposition", "Gram-Schmidt", "Householder", "QR-algorithm", "eigenvalue-iteration"]
+---
+
+## Big Idea
+
+Every matrix $A$ with linearly independent columns can be factored as $A = QR$ where $Q$ has orthonormal columns and $R$ is upper triangular.
+This is essentially **Gram-Schmidt orthogonalization** encoded as a matrix factorization.
+The deeper application is the **QR algorithm** — an iterative procedure that converges to the eigenvalues of $A$ without ever explicitly solving the characteristic polynomial.
+
+## Intuition
+
+Think of $A$'s columns as a set of linearly independent vectors.
+Gram-Schmidt turns them into an orthonormal set — that's $Q$.
+The matrix $R$ records how you can write the original columns back in terms of $Q$: it stores the coefficients of the Gram-Schmidt process.
+
+The QR algorithm exploits a beautiful fact: repeatedly replacing $A_k$ with $A_{k+1} = R_k Q_k$ (swap the factors after each QR decomposition) drives the matrix toward upper triangular form, with eigenvalues appearing on the diagonal.
+
+## Formal Definition
+
+<DefinitionBox number={33} title="QR Decomposition">
+Let $A \in \mathbb{C}^{m \times n}$ ($m \geq n$) have linearly independent columns.
+The **QR decomposition** of $A$ is
+
+<BM math="A = QR" />
+
+where:
+- $Q \in \mathbb{C}^{m \times n}$ has **orthonormal columns**: $Q^H Q = I_n$
+- $R \in \mathbb{C}^{n \times n}$ is **upper triangular** with positive real diagonal entries
+
+The decomposition is **unique** when $A$ has full column rank and $R$ has positive diagonal.
+
+**Square case:** If $A \in \mathbb{C}^{n\times n}$ is invertible, then $Q$ is unitary ($QQ^H = I_n$) and $R$ is invertible.
+</DefinitionBox>
+
+## QR via Gram-Schmidt
+
+<TheoremBox number={39} title="QR Decomposition via Gram-Schmidt" proofSketch={<>Apply Gram-Schmidt to the columns <M math="\mathbf{a}_1,\ldots,\mathbf{a}_n" /> of <M math="A" />, producing orthonormal vectors <M math="\mathbf{q}_1,\ldots,\mathbf{q}_n" />. Each original column is a linear combination of earlier <M math="\mathbf{q}_i" />'s: <M math="\mathbf{a}_j = \sum_{i\leq j} r_{ij}\mathbf{q}_i" /> with <M math="r_{ij} = \langle\mathbf{a}_j,\mathbf{q}_i\rangle" />. Assembling into matrix form gives <M math="A = QR" />.</>}>
+
+Every $A \in \mathbb{C}^{m\times n}$ with linearly independent columns has a QR decomposition $A = QR$.
+
+**Construction via Gram-Schmidt:** Let $\mathbf{a}_1, \ldots, \mathbf{a}_n$ be the columns of $A$. Define:
+
+<BM math="\mathbf{u}_j = \mathbf{a}_j - \sum_{i=1}^{j-1} \langle \mathbf{a}_j, \mathbf{q}_i \rangle\, \mathbf{q}_i, \qquad \mathbf{q}_j = \frac{\mathbf{u}_j}{\|\mathbf{u}_j\|}" />
+
+Then $Q = [\mathbf{q}_1 \mid \cdots \mid \mathbf{q}_n]$ and
+
+<BM math="R = \begin{pmatrix} \|\mathbf{u}_1\| & \langle\mathbf{a}_2,\mathbf{q}_1\rangle & \langle\mathbf{a}_3,\mathbf{q}_1\rangle & \cdots \\ 0 & \|\mathbf{u}_2\| & \langle\mathbf{a}_3,\mathbf{q}_2\rangle & \cdots \\ 0 & 0 & \|\mathbf{u}_3\| & \cdots \\ \vdots & & & \ddots \end{pmatrix}" />
+
+The diagonal entries $r_{jj} = \|\mathbf{u}_j\| > 0$ are positive.
+</TheoremBox>
+
+## Worked Examples
+
+<StepReveal title="Example: QR decomposition of a 3×2 matrix" steps={[
+  {
+    label: "Columns",
+    content: "Let $A = \\begin{pmatrix}1&1\\\\1&0\\\\0&1\\end{pmatrix}$ with columns $\\mathbf{a}_1=(1,1,0)^T$ and $\\mathbf{a}_2=(1,0,1)^T$.",
+  },
+  {
+    label: "Step 1: orthonormalize $\\mathbf{a}_1$",
+    formula: "\\mathbf{q}_1 = \\frac{\\mathbf{a}_1}{\\|\\mathbf{a}_1\\|} = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}1\\\\1\\\\0\\end{pmatrix}"
+  },
+  {
+    label: "Step 2: project and subtract",
+    formula: "\\langle\\mathbf{a}_2,\\mathbf{q}_1\\rangle = \\frac{1}{\\sqrt{2}}(1+0+0) = \\frac{1}{\\sqrt{2}}"
+  },
+  {
+    label: "Step 2 continued",
+    formula: "\\mathbf{u}_2 = \\mathbf{a}_2 - \\frac{1}{\\sqrt{2}}\\mathbf{q}_1 = \\begin{pmatrix}1\\\\0\\\\1\\end{pmatrix} - \\frac{1}{2}\\begin{pmatrix}1\\\\1\\\\0\\end{pmatrix} = \\begin{pmatrix}1/2\\\\-1/2\\\\1\\end{pmatrix}"
+  },
+  {
+    label: "Normalize",
+    formula: "\\|\\mathbf{u}_2\\| = \\sqrt{1/4+1/4+1} = \\sqrt{3/2} = \\frac{\\sqrt{6}}{2}, \\quad \\mathbf{q}_2 = \\frac{2}{\\sqrt{6}}\\begin{pmatrix}1/2\\\\-1/2\\\\1\\end{pmatrix} = \\frac{1}{\\sqrt{6}}\\begin{pmatrix}1\\\\-1\\\\2\\end{pmatrix}"
+  },
+  {
+    label: "Result",
+    formula: "Q = \\begin{pmatrix}1/\\sqrt{2}&1/\\sqrt{6}\\\\1/\\sqrt{2}&-1/\\sqrt{6}\\\\0&2/\\sqrt{6}\\end{pmatrix}, \\quad R = \\begin{pmatrix}\\sqrt{2}&1/\\sqrt{2}\\\\0&\\sqrt{6}/2\\end{pmatrix}"
+  }
+]} />
+
+<StepReveal title="Example: QR of a 2×2 invertible matrix" steps={[
+  {
+    label: "Matrix",
+    content: "Find the QR decomposition of $A = \\begin{pmatrix}3 & 1 \\\\ 4 & 2\\end{pmatrix}$.",
+  },
+  {
+    label: "Gram-Schmidt",
+    formula: "\\mathbf{q}_1 = \\frac{1}{5}\\begin{pmatrix}3\\\\4\\end{pmatrix}, \\quad r_{11} = 5"
+  },
+  {
+    label: "Project $\\mathbf{a}_2$",
+    formula: "r_{12} = \\langle\\mathbf{a}_2,\\mathbf{q}_1\\rangle = \\frac{1}{5}(3+8) = \\frac{11}{5}"
+  },
+  {
+    label: "Subtract",
+    formula: "\\mathbf{u}_2 = \\begin{pmatrix}1\\\\2\\end{pmatrix} - \\frac{11}{25}\\begin{pmatrix}3\\\\4\\end{pmatrix} = \\frac{1}{25}\\begin{pmatrix}-8\\\\6\\end{pmatrix}, \\quad r_{22} = \\frac{\\sqrt{100}}{25} = \\frac{2}{5}"
+  },
+  {
+    label: "Result",
+    formula: "Q = \\begin{pmatrix}3/5 & -4/5 \\\\ 4/5 & 3/5\\end{pmatrix}, \\quad R = \\begin{pmatrix}5 & 11/5 \\\\ 0 & 2/5\\end{pmatrix}"
+  }
+]} />
+
+## The QR Algorithm
+
+<StepReveal title="QR Algorithm — Iterative Eigenvalue Computation" steps={[
+  {
+    label: "Idea",
+    content: "Given $A_0 = A$, repeatedly decompose and swap factors:",
+    formula: "A_k = Q_k R_k \\quad \\text{(QR decomposition of } A_k\\text{)}, \\qquad A_{k+1} = R_k Q_k"
+  },
+  {
+    label: "Key property",
+    content: "$A_{k+1} = R_k Q_k = Q_k^H(Q_kR_k)Q_k = Q_k^H A_k Q_k$ — each step is a unitary similarity transformation. So all $A_k$ are similar to $A$, hence have the same eigenvalues.",
+  },
+  {
+    label: "Convergence",
+    content: "Under mild conditions (distinct eigenvalue magnitudes), $A_k$ converges to an upper triangular matrix (Schur form). The diagonal entries converge to the eigenvalues of $A$.",
+    formula: "A_k \\to T = \\begin{pmatrix}\\lambda_1 & * & \\cdots \\\\ 0 & \\lambda_2 & \\cdots \\\\ \\vdots & & \\ddots\\end{pmatrix}"
+  },
+  {
+    label: "Practical use",
+    content: "The QR algorithm (with shifts and deflation) is the standard numerical method for computing all eigenvalues of a dense matrix. MATLAB's `eig`, NumPy's `linalg.eig`, and LAPACK all use variants of it."
+  }
+]} />
+
+<StepReveal title="Example: QR algorithm on a 2×2 matrix" steps={[
+  {
+    label: "Starting matrix",
+    content: "Apply one QR iteration to $A = \\begin{pmatrix}2 & 1 \\\\ 1 & 2\\end{pmatrix}$ (symmetric, eigenvalues $1$ and $3$).",
+  },
+  {
+    label: "QR decomposition of $A$",
+    formula: "\\mathbf{q}_1 = \\frac{1}{\\sqrt{5}}(2,1)^T, \\quad Q = \\frac{1}{\\sqrt{5}}\\begin{pmatrix}2&-1\\\\1&2\\end{pmatrix}, \\quad R = \\frac{1}{\\sqrt{5}}\\begin{pmatrix}5&3\\\\0&1\\end{pmatrix}"
+  },
+  {
+    label: "Next iterate",
+    formula: "A_1 = RQ = \\frac{1}{5}\\begin{pmatrix}5&3\\\\0&1\\end{pmatrix}\\begin{pmatrix}2&-1\\\\1&2\\end{pmatrix} = \\begin{pmatrix}2.6 & 0.2 \\\\ 0.2 & 1.4\\end{pmatrix}"
+  },
+  {
+    label: "Trend",
+    content: "The off-diagonal entry $0.2 < 1$ (original off-diagonal). Continued iteration will drive it to $0$, leaving $\\{3, 1\\}$ on the diagonal."
+  }
+]} />
+
+## Summary
+
+<SummaryBox title="QR Decomposition — Key Facts">
+
+**QR existence:** Any $A$ with full column rank has $A = QR$ (unique with positive diagonal of $R$).
+
+**Applications:**
+- **Least squares:** Solve $A\mathbf{x} \approx \mathbf{b}$ via $R\mathbf{x} = Q^T\mathbf{b}$ (numerically stable)
+- **Eigenvalues:** QR algorithm drives $A$ to upper triangular
+- **Orthonormal basis:** Columns of $Q$ form orthonormal basis for $\operatorname{col}(A)$
+
+**QR algorithm:** $A_0 = A$; iterate $A_k = Q_kR_k$, $A_{k+1} = R_kQ_k$. All iterates are similar to $A$; converges to Schur form with eigenvalues on diagonal.
+</SummaryBox>

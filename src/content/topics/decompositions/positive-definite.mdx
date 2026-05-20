@@ -1,0 +1,160 @@
+---
+title: "Positive Definite Matrices"
+section: "decompositions"
+order: 2
+estimatedMinutes: 28
+prerequisites: ["decompositions/hermitian-unitary", "spectral-theory/eigenvalues"]
+notesRef:
+  definitions: [31]
+  theorems: [36]
+  examples: [21]
+tags: ["positive-definite", "quadratic-form", "Cholesky", "definite"]
+---
+
+## Big Idea
+
+A real number is "positive" if it sits to the right of zero on the number line.
+For matrices, **positive definiteness** is the matrix analog: a Hermitian matrix $A$ is positive definite if the quadratic form $\mathbf{x}^H A \mathbf{x}$ is strictly positive for every nonzero vector $\mathbf{x}$.
+This concept appears everywhere — in optimization (Hessians of convex functions), in statistics (covariance matrices), and in physics (energy functionals).
+
+## Intuition
+
+The quadratic form $q(\mathbf{x}) = \mathbf{x}^T A \mathbf{x}$ assigns a scalar to every vector.
+For $A = I$, $q(\mathbf{x}) = \|\mathbf{x}\|^2 > 0$ — the identity is positive definite.
+For $A = \begin{pmatrix}1&0\\0&-1\end{pmatrix}$, $q(0,1) = -1 < 0$ — this is **indefinite**.
+
+Geometrically, $\mathbf{x}^T A \mathbf{x} = c$ traces an **ellipsoid** when $A$ is positive definite and a **hyperboloid** (saddle) when $A$ is indefinite. The eigenvalues control the shape: all positive = ellipsoid, some negative = saddle.
+
+## Formal Definition
+
+<DefinitionBox number={31} title="Positive Definite Matrix">
+A Hermitian matrix $A \in \mathbb{C}^{n \times n}$ (so $A^H = A$) is:
+
+- **Positive definite (PD):** $\mathbf{x}^H A \mathbf{x} > 0$ for all $\mathbf{x} \neq \mathbf{0}$. Written $A \succ 0$.
+- **Positive semidefinite (PSD):** $\mathbf{x}^H A \mathbf{x} \geq 0$ for all $\mathbf{x}$. Written $A \succeq 0$.
+- **Negative definite (ND):** $\mathbf{x}^H A \mathbf{x} < 0$ for all $\mathbf{x} \neq \mathbf{0}$. Written $A \prec 0$.
+- **Indefinite:** neither PD nor ND — quadratic form takes both positive and negative values.
+
+**Real case:** For $A \in \mathbb{R}^{n\times n}$ symmetric, PD means $\mathbf{x}^T A \mathbf{x} > 0$ for all $\mathbf{x} \neq \mathbf{0} \in \mathbb{R}^n$.
+</DefinitionBox>
+
+## Characterization Theorem
+
+<TheoremBox number={36} title="Equivalent Conditions for Positive Definiteness" proofSketch={<>The eigenvalue criterion follows from the Spectral Theorem: writing <M math="\mathbf{x} = P\mathbf{y}" /> where <M math="P" /> is the unitary diagonalizer of <M math="A" />, we get <M math="\mathbf{x}^H A\mathbf{x} = \mathbf{y}^H D\mathbf{y} = \sum_i \lambda_i |y_i|^2" />. This is positive for all <M math="\mathbf{y}\neq\mathbf{0}" /> iff all <M math="\lambda_i > 0" />.</>}>
+
+For a Hermitian matrix $A \in \mathbb{C}^{n\times n}$, the following are equivalent:
+
+1. $A$ is **positive definite** ($A \succ 0$)
+2. All **eigenvalues** of $A$ are positive ($\lambda_i > 0$ for all $i$)
+3. All **leading principal minors** are positive:
+
+<BM math="\det(A_{1:k, 1:k}) > 0 \quad \text{for } k = 1, 2, \ldots, n" />
+
+4. $A = B^H B$ for some invertible matrix $B$ (**Cholesky-like factorization**)
+5. There exists an invertible lower-triangular $L$ with positive diagonal such that $A = LL^H$ (**Cholesky decomposition**)
+
+**Proof of (1) $\Leftrightarrow$ (2):** By the Spectral Theorem (Thm 35), $A = PDP^H$ with $P$ unitary. For any $\mathbf{x} \neq \mathbf{0}$, set $\mathbf{y} = P^H\mathbf{x} \neq \mathbf{0}$ (since $P^H$ is invertible). Then:
+
+<BM math="\mathbf{x}^H A \mathbf{x} = (P\mathbf{y})^H A (P\mathbf{y}) = \mathbf{y}^H P^H A P \mathbf{y} = \mathbf{y}^H D \mathbf{y} = \sum_{i=1}^n \lambda_i |y_i|^2" />
+
+This is $> 0$ for all $\mathbf{y} \neq \mathbf{0}$ iff all $\lambda_i > 0$. $\square$
+</TheoremBox>
+
+## Worked Examples
+
+<StepReveal title="Example 21.1 — Identify the quadratic surface" steps={[
+  {
+    label: "Setup",
+    content: "The equation $3x^2 + 2xy + 3y^2 = 1$ in $\\mathbb{R}^2$ defines a conic section. Identify it by analyzing the associated matrix.",
+    formula: "q(x,y) = 3x^2 + 2xy + 3y^2 = \\begin{pmatrix}x & y\\end{pmatrix}\\begin{pmatrix}3 & 1 \\\\ 1 & 3\\end{pmatrix}\\begin{pmatrix}x \\\\ y\\end{pmatrix}"
+  },
+  {
+    label: "Check positive definiteness",
+    content: "Matrix $A = \\begin{pmatrix}3&1\\\\1&3\\end{pmatrix}$. Leading principal minors: $\\Delta_1 = 3 > 0$, $\\Delta_2 = 9-1 = 8 > 0$. So $A \\succ 0$.",
+    formula: "\\text{Eigenvalues: } p_A(\\lambda) = (\\lambda-3)^2-1 = (\\lambda-2)(\\lambda-4) \\implies \\lambda_1=2,\\; \\lambda_2=4"
+  },
+  {
+    label: "Diagonalize",
+    content: "Eigenvectors: $\\lambda=2$: $\\mathbf{q}_1 = \\frac{1}{\\sqrt{2}}(1,-1)^T$; $\\lambda=4$: $\\mathbf{q}_2 = \\frac{1}{\\sqrt{2}}(1,1)^T$. Change of variables $\\mathbf{x} = P\\mathbf{u}$:",
+    formula: "q = 2u_1^2 + 4u_2^2 = 1 \\quad \\text{i.e.,} \\quad \\frac{u_1^2}{1/2} + \\frac{u_2^2}{1/4} = 1"
+  },
+  {
+    label: "Conclusion",
+    content: "This is an **ellipse** in the rotated coordinates $u_1, u_2$ (rotated by 45° from the original axes). Semi-axes have lengths $1/\\sqrt{2}$ and $1/2$."
+  }
+]} />
+
+<StepReveal title="Example 21.2 — Solve a system of ODEs via diagonalization" steps={[
+  {
+    label: "Problem",
+    content: "Solve $\\dot{\\mathbf{x}} = A\\mathbf{x}$ where $A = \\begin{pmatrix}3 & 1 \\\\ 1 & 3\\end{pmatrix}$ (symmetric/Hermitian).",
+    formula: "\\dot{\\mathbf{x}} = A\\mathbf{x}, \\quad \\mathbf{x}(t) = \\begin{pmatrix}x_1(t)\\\\x_2(t)\\end{pmatrix}"
+  },
+  {
+    label: "Diagonalize",
+    content: "From previous example, $A = PDP^T$ where $P = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}1&1\\\\-1&1\\end{pmatrix}$, $D = \\begin{pmatrix}2&0\\\\0&4\\end{pmatrix}$. Substitute $\\mathbf{x} = P\\mathbf{y}$:",
+    formula: "P\\dot{\\mathbf{y}} = AP\\mathbf{y} = PD\\mathbf{y} \\implies \\dot{\\mathbf{y}} = D\\mathbf{y}"
+  },
+  {
+    label: "Solve decoupled system",
+    content: "The system $\\dot{y}_1 = 2y_1$, $\\dot{y}_2 = 4y_2$ is decoupled:",
+    formula: "y_1(t) = c_1 e^{2t}, \\quad y_2(t) = c_2 e^{4t}"
+  },
+  {
+    label: "Transform back",
+    content: "Since $\\mathbf{x} = P\\mathbf{y}$ and $P = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}1&1\\\\-1&1\\end{pmatrix}$:",
+    formula: "\\mathbf{x}(t) = \\frac{c_1}{\\sqrt{2}}e^{2t}\\begin{pmatrix}1\\\\-1\\end{pmatrix} + \\frac{c_2}{\\sqrt{2}}e^{4t}\\begin{pmatrix}1\\\\1\\end{pmatrix}"
+  }
+]} />
+
+<StepReveal title="Example: Check positive definiteness — borderline case" steps={[
+  {
+    label: "Matrix",
+    content: "Is $A = \\begin{pmatrix}1 & 2 \\\\ 2 & 4\\end{pmatrix}$ positive definite?",
+    formula: "\\Delta_1 = 1 > 0, \\quad \\Delta_2 = \\det(A) = 4 - 4 = 0"
+  },
+  {
+    label: "Conclusion",
+    content: "Since $\\Delta_2 = 0$, $A$ is **not** positive definite — it is only positive **semidefinite**.",
+    formula: "\\lambda_1 = 0,\\; \\lambda_2 = 5 \\quad (\\text{one zero eigenvalue})"
+  },
+  {
+    label: "Confirm",
+    content: "Take $\\mathbf{x} = (2,-1)^T$: $\\mathbf{x}^T A \\mathbf{x} = (2,-1)\\begin{pmatrix}1&2\\\\2&4\\end{pmatrix}\\begin{pmatrix}2\\\\-1\\end{pmatrix} = (0,0)\\begin{pmatrix}2\\\\-1\\end{pmatrix} = 0$. So $A\\mathbf{x}^T A\\mathbf{x} = 0$ for $\\mathbf{x} \\neq \\mathbf{0}$: not PD."
+  }
+]} />
+
+<StepReveal title="Example: $A^H A$ is always positive semidefinite" steps={[
+  {
+    label: "Claim",
+    content: "For any $A \\in \\mathbb{C}^{m \\times n}$, the matrix $B = A^H A$ is Hermitian and positive semidefinite.",
+    formula: "B^H = (A^H A)^H = A^H (A^H)^H = A^H A = B \\checkmark"
+  },
+  {
+    label: "Positive semidefiniteness",
+    content: "For any $\\mathbf{x} \\in \\mathbb{C}^n$:",
+    formula: "\\mathbf{x}^H B \\mathbf{x} = \\mathbf{x}^H A^H A \\mathbf{x} = (A\\mathbf{x})^H (A\\mathbf{x}) = \\|A\\mathbf{x}\\|^2 \\geq 0 \\checkmark"
+  },
+  {
+    label: "When PD?",
+    content: "$A^H A \\succ 0 \\iff \\|A\\mathbf{x}\\|^2 > 0$ for all $\\mathbf{x} \\neq \\mathbf{0} \\iff A$ has trivial null space $\\iff A$ has full column rank."
+  }
+]} />
+
+## Summary
+
+<SummaryBox title="Positive Definite — Key Facts">
+
+**Test for PD:** check all eigenvalues > 0, OR all leading principal minors > 0.
+
+**Consequences of $A \succ 0$:**
+- $\det(A) > 0$, all diagonal entries $> 0$
+- $A$ is invertible; $A^{-1}$ is also PD
+- Unique Cholesky decomposition $A = LL^H$ exists
+- The quadratic form $\mathbf{x}^H A\mathbf{x} = c$ defines an ellipsoid in $\mathbb{R}^n$ (for real $A$)
+
+**Key examples:**
+- $I_n \succ 0$
+- $A^H A \succeq 0$ always; $A^H A \succ 0 \iff A$ has full column rank
+- Diagonal matrix $D = \operatorname{diag}(d_1,\ldots,d_n) \succ 0 \iff$ all $d_i > 0$
+</SummaryBox>

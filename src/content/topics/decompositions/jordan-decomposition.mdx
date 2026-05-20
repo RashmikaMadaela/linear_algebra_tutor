@@ -1,0 +1,176 @@
+---
+title: "Jordan Decomposition"
+section: "decompositions"
+order: 3
+estimatedMinutes: 40
+prerequisites: ["spectral-theory/multiplicities", "spectral-theory/diagonalization"]
+notesRef:
+  definitions: [32]
+  theorems: [37, 38]
+  examples: [22]
+tags: ["jordan-normal-form", "jordan-block", "defective", "nilpotent", "generalized-eigenvector"]
+---
+
+## Big Idea
+
+Not every matrix is diagonalizable — when geometric multiplicity falls short of algebraic multiplicity, the best we can do is a "nearly diagonal" form.
+**Jordan Normal Form** is that best form: block-diagonal, with eigenvalues on the diagonal and (possibly) ones on the superdiagonal.
+It is the definitive answer to "what does a matrix really look like, up to similarity?"
+
+## Intuition
+
+A diagonal matrix $D$ acts on each basis vector by independent scaling: $D\mathbf{e}_i = \lambda_i \mathbf{e}_i$.
+A Jordan block $J_k(\lambda)$ acts almost like scaling, but with a "coupling" between adjacent basis vectors:
+
+<BM math="J_k(\lambda)\mathbf{e}_1 = \lambda\mathbf{e}_1, \quad J_k(\lambda)\mathbf{e}_2 = \mathbf{e}_1 + \lambda\mathbf{e}_2, \quad \ldots" />
+
+The $1$s above the diagonal encode the **defect** — how much the eigenvectors are "entangled." When a Jordan block has size $k > 1$, the transformation has only one independent eigenvector for that eigenvalue, but $k$ "generalized eigenvectors."
+
+Over $\mathbb{C}$, **every** matrix has a Jordan form. Over $\mathbb{R}$, complex eigenvalues appear in conjugate pairs and real Jordan form uses $2\times 2$ rotation-scaling blocks.
+
+## Formal Definitions
+
+<DefinitionBox number={32} title="Jordan Block and Jordan Normal Form">
+A **Jordan block** of size $k$ with eigenvalue $\lambda \in \mathbb{C}$ is the $k \times k$ matrix:
+
+<BM math="J_k(\lambda) = \begin{pmatrix} \lambda & 1 & & \\ & \lambda & 1 & \\ & & \ddots & 1 \\ & & & \lambda \end{pmatrix}" />
+
+(eigenvalue $\lambda$ on the diagonal, $1$s on the superdiagonal, zeros elsewhere).
+
+A matrix $J$ is in **Jordan Normal Form (JNF)** if it is block-diagonal with Jordan blocks:
+
+<BM math="J = \operatorname{diag}(J_{k_1}(\lambda_1),\, J_{k_2}(\lambda_2),\, \ldots,\, J_{k_r}(\lambda_r))" />
+
+The blocks need not be in any particular order, and the same $\lambda$ may appear in multiple blocks.
+
+**The Jordan Decomposition** of $A$ is: $A = P J P^{-1}$ where $J$ is in Jordan Normal Form.
+</DefinitionBox>
+
+## Jordan Decomposition Theorem
+
+<TheoremBox number={37} title="Existence of Jordan Normal Form" proofSketch={<>Over <M math="\mathbb{C}" />, the characteristic polynomial splits completely into linear factors. The proof constructs generalized eigenspaces <M math="\ker(A-\lambda I)^k" /> and shows they fill all of <M math="\mathbb{C}^n" />. Each generalized eigenspace has a Jordan chain basis. The construction is inductive and nonconstructive in general — the key fact is that <M math="\mathbb{C}" /> is algebraically closed.</>}>
+
+Every matrix $A \in \mathbb{C}^{n \times n}$ is similar to a matrix in Jordan Normal Form. That is, there exists an invertible $P \in \mathbb{C}^{n\times n}$ such that
+
+<BM math="A = P J P^{-1}" />
+
+where $J$ is in Jordan Normal Form. The JNF is **unique up to reordering of blocks**.
+</TheoremBox>
+
+<TheoremBox number={38} title="Multiplicities and Jordan Structure" proofSketch={<>Count dimensions: the generalized eigenspace for <M math="\lambda" /> has dimension <M math="a_\lambda" /> (algebraic mult.). The number of Jordan blocks for <M math="\lambda" /> equals <M math="\dim\ker(A-\lambda I) = g_\lambda" /> (geometric mult.). The minimal polynomial exponent for <M math="\lambda" /> is the size of the largest Jordan block for <M math="\lambda" />.</>}>
+
+Let $A \in \mathbb{C}^{n\times n}$ with distinct eigenvalues $\lambda_1, \ldots, \lambda_s$. For eigenvalue $\lambda_i$, let $J_{\lambda_i}$ be the collection of Jordan blocks for $\lambda_i$ with sizes $k_1 \geq k_2 \geq \cdots \geq k_{r_i}$. Then:
+
+1. **Geometric multiplicity** $g_{\lambda_i} = r_i$ = number of Jordan blocks for $\lambda_i$
+2. **Algebraic multiplicity** $a_{\lambda_i} = k_1 + k_2 + \cdots + k_{r_i}$ = sum of block sizes
+3. **Minimal multiplicity** $m_{\lambda_i} = k_1$ = size of the **largest** Jordan block for $\lambda_i$
+
+**Consequence (for $n \leq 3$):** $a_\lambda - g_\lambda = m_\lambda - 1$ (this holds when there is at most one Jordan block of maximum size, which is the generic case for small $n$).
+
+**Diagonalizable $\Leftrightarrow$** all Jordan blocks have size 1 $\Leftrightarrow$ $g_\lambda = a_\lambda$ for all $\lambda$.
+</TheoremBox>
+
+## Worked Examples
+
+<StepReveal title="Example 22.1 — 3×3 matrix: full Jordan form" steps={[
+  {
+    label: "Matrix",
+    content: "Find the Jordan form of $A = \\begin{pmatrix}2 & 1 & 0 \\\\ 0 & 2 & 1 \\\\ 0 & 0 & 2\\end{pmatrix}$.",
+    formula: "p_A(\\lambda) = (\\lambda-2)^3 \\implies \\lambda=2 \\text{ with } a_2 = 3"
+  },
+  {
+    label: "Geometric multiplicity",
+    content: "Compute $A - 2I = \\begin{pmatrix}0&1&0\\\\0&0&1\\\\0&0&0\\end{pmatrix}$. Rank $= 2$, so $g_2 = 3-2 = 1$.",
+    formula: "g_2 = 1 < 3 = a_2 \\implies \\text{single Jordan block of size 3}"
+  },
+  {
+    label: "Jordan form",
+    content: "One Jordan block for $\\lambda=2$ of size 3:",
+    formula: "J = J_3(2) = \\begin{pmatrix}2 & 1 & 0 \\\\ 0 & 2 & 1 \\\\ 0 & 0 & 2\\end{pmatrix}"
+  },
+  {
+    label: "Remark",
+    content: "In this case $J = A$, so $A$ is already in Jordan form! The matrix itself is the Jordan block."
+  }
+]} />
+
+<StepReveal title="Example 22.2 — 4×4 matrix with two eigenvalues" steps={[
+  {
+    label: "Matrix",
+    content: "Find the Jordan form of $A$ with characteristic polynomial $(\\lambda-1)^2(\\lambda-3)^2$ and: $g_1=1$, $g_3=2$.",
+    formula: "a_1 = 2,\\; g_1 = 1 \\implies \\text{one } 2\\times 2 \\text{ block for } \\lambda=1"
+  },
+  {
+    label: "Blocks for $\\lambda=3$",
+    content: "$a_3=2$, $g_3=2$ — two Jordan blocks totaling size 2: two $1\\times1$ blocks.",
+    formula: "a_3 = 2,\\; g_3 = 2 \\implies \\text{two } 1\\times 1 \\text{ blocks for } \\lambda=3"
+  },
+  {
+    label: "Jordan form",
+    formula: "J = \\begin{pmatrix}1 & 1 & 0 & 0 \\\\ 0 & 1 & 0 & 0 \\\\ 0 & 0 & 3 & 0 \\\\ 0 & 0 & 0 & 3\\end{pmatrix} = J_2(1) \\oplus J_1(3) \\oplus J_1(3)"
+  }
+]} />
+
+<StepReveal title="Example 22.3 — 6×6 matrix, multiple block structures" steps={[
+  {
+    label: "Setup",
+    content: "Let $A \\in \\mathbb{C}^{6\\times6}$ have $p_A(\\lambda) = (\\lambda-2)^4(\\lambda+1)^2$ with $g_2=2$, $g_{-1}=1$.",
+    formula: "a_2=4,\\; g_2=2 \\implies \\text{two blocks for }\\lambda=2 \\text{ with sizes summing to }4"
+  },
+  {
+    label: "Blocks for $\\lambda=2$",
+    content: "Two blocks, sizes $k_1 \\geq k_2$, $k_1+k_2=4$. Possibilities: $(3,1)$ or $(2,2)$. Without more information, both are consistent. To distinguish, check $\\dim\\ker(A-2I)^2$.",
+    formula: "\\text{If } \\dim\\ker(A-2I)^2 = 4 \\text{: sizes }(2,2). \\quad \\text{If }= 3\\text{: sizes }(3,1)."
+  },
+  {
+    label: "Blocks for $\\lambda=-1$",
+    content: "$a_{-1}=2$, $g_{-1}=1$: one $2\\times2$ block for $\\lambda=-1$.",
+    formula: "J = J_{k_1}(2) \\oplus J_{k_2}(2) \\oplus J_2(-1)"
+  },
+  {
+    label: "Multiplicities summary",
+    content: "For $(k_1,k_2) = (2,2)$: $m_2=2$, $a_2-g_2=2=m_2-1+1$. $m_{-1}=2$. Minimal polynomial: $(\\lambda-2)^2(\\lambda+1)^2$."
+  }
+]} />
+
+<StepReveal title="Example 22.4 — Computing the Jordan basis" steps={[
+  {
+    label: "Matrix",
+    content: "Find the Jordan basis for $A = \\begin{pmatrix}5 & 1 \\\\ -1 & 3\\end{pmatrix}$.",
+    formula: "p_A(\\lambda) = (\\lambda-5)(\\lambda-3)+1 = \\lambda^2-8\\lambda+16 = (\\lambda-4)^2"
+  },
+  {
+    label: "Geometric multiplicity",
+    content: "$(A-4I) = \\begin{pmatrix}1&1\\\\-1&-1\\end{pmatrix}$, rank 1. So $g_4=1$, $a_4=2$, one $2\\times2$ block.",
+    formula: "J = J_2(4) = \\begin{pmatrix}4&1\\\\0&4\\end{pmatrix}"
+  },
+  {
+    label: "Eigenvector",
+    content: "Find $\\mathbf{v}_1 \\in \\ker(A-4I)$: $\\mathbf{v}_1 = (1,-1)^T$.",
+  },
+  {
+    label: "Generalized eigenvector",
+    content: "Solve $(A-4I)\\mathbf{v}_2 = \\mathbf{v}_1$: $\\begin{pmatrix}1&1\\\\-1&-1\\end{pmatrix}\\mathbf{v}_2 = \\begin{pmatrix}1\\\\-1\\end{pmatrix}$. Take $\\mathbf{v}_2 = (1,0)^T$.",
+    formula: "P = \\begin{pmatrix}1&1\\\\-1&0\\end{pmatrix}, \\quad P^{-1}AP = \\begin{pmatrix}4&1\\\\0&4\\end{pmatrix} \\checkmark"
+  }
+]} />
+
+## Summary
+
+<SummaryBox title="Jordan Normal Form — Key Facts">
+
+**Structure:** $J = \bigoplus_i J_{k_i}(\lambda_i)$ — block diagonal, one Jordan block per generalized eigenspace chain.
+
+**Reading off multiplicities from JNF:**
+- $g_\lambda$ = number of Jordan blocks with eigenvalue $\lambda$
+- $a_\lambda$ = total size of all blocks with eigenvalue $\lambda$  
+- $m_\lambda$ = size of the largest block with eigenvalue $\lambda$ (= exponent of $(\lambda-\lambda_0)$ in minimal polynomial)
+
+**Special cases:**
+- All $k_i = 1$: $J = D$ diagonal, $A$ is diagonalizable
+- Single $k_1 = n$ (one block): $A$ is a single Jordan block (maximally defective)
+
+**Powers and functions of $J_k(\lambda)$:**
+
+<BM math="J_k(\lambda)^m = \begin{pmatrix}\lambda^m & \binom{m}{1}\lambda^{m-1} & \binom{m}{2}\lambda^{m-2} & \cdots \\ 0 & \lambda^m & \binom{m}{1}\lambda^{m-1} & \cdots \\ \vdots & & \ddots & \vdots \\ 0 & & & \lambda^m\end{pmatrix}" />
+</SummaryBox>

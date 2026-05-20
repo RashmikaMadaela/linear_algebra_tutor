@@ -1,0 +1,178 @@
+---
+title: "Hermitian & Unitary Matrices"
+section: "decompositions"
+order: 1
+estimatedMinutes: 30
+prerequisites: ["spectral-theory/diagonalization", "spectral-theory/eigenvalues"]
+notesRef:
+  definitions: [28, 29]
+  theorems: [32]
+  examples: []
+tags: ["hermitian", "self-adjoint", "unitary", "spectral-theorem", "complex-matrices"]
+---
+
+## Big Idea
+
+Over the reals, symmetric matrices ($A^T = A$) are the "nicest" matrices — they have real eigenvalues and orthogonal eigenvectors.
+Over the complex numbers, the right analog is the **Hermitian matrix** ($A^H = A$).
+**Unitary matrices** are the complex generalization of orthogonal matrices.
+Together they give the strongest possible diagonalization result: the **Spectral Theorem**.
+
+## Intuition
+
+The transpose $A^T$ reflects a matrix across its main diagonal. The **conjugate transpose** (Hermitian adjoint) $A^H = \overline{A}^T$ does the same thing but also takes the complex conjugate of each entry.
+
+A Hermitian matrix is "symmetric in the complex sense": the entry in row $i$, column $j$ is the complex conjugate of the entry in row $j$, column $i$.
+This symmetry forces all eigenvalues to be real — you can't rotate directions when the matrix equals its own adjoint.
+
+A unitary matrix $P$ preserves lengths and angles in $\mathbb{C}^n$: $\|P\mathbf{x}\| = \|\mathbf{x}\|$ for all $\mathbf{x}$.
+Its columns form an **orthonormal basis** for $\mathbb{C}^n$.
+
+## Formal Definitions
+
+<DefinitionBox number={29} title="Hermitian Matrix">
+Let $A \in \mathbb{C}^{n \times n}$. The **conjugate transpose** (Hermitian adjoint) of $A$ is
+
+<BM math="A^H = \overline{A}^T \quad \text{i.e.,} \quad (A^H)_{ij} = \overline{A_{ji}}" />
+
+$A$ is **Hermitian** (or **self-adjoint**) if $A^H = A$, i.e., $A_{ij} = \overline{A_{ji}}$ for all $i, j$.
+
+**Real case:** A real Hermitian matrix is simply a **symmetric** matrix ($A^T = A$).
+
+**Consequence:** Diagonal entries of a Hermitian matrix satisfy $a_{ii} = \overline{a_{ii}}$, so they are all **real**.
+</DefinitionBox>
+
+<DefinitionBox number={30} title="Unitary Matrix">
+$P \in \mathbb{C}^{n \times n}$ is **unitary** if
+
+<BM math="P^H P = P P^H = I_n" />
+
+Equivalently: $P^{-1} = P^H$.
+
+**Real case:** A real unitary matrix is an **orthogonal** matrix ($P^T P = I$, i.e., $P^{-1} = P^T$).
+
+**Characterization:** $P$ is unitary $\iff$ the columns of $P$ form an orthonormal basis for $\mathbb{C}^n$ with the standard Hermitian inner product $\langle \mathbf{u}, \mathbf{v} \rangle = \mathbf{u}^H \mathbf{v}$.
+</DefinitionBox>
+
+## Spectral Theorem
+
+<TheoremBox number={35} title="Spectral Theorem for Hermitian Matrices" proofSketch={<>Every Hermitian matrix is unitarily diagonalizable: <M math="A = PDP^H" /> where <M math="P" /> is unitary and <M math="D" /> is real diagonal. The proof uses induction on <M math="n" />: find one eigenvalue/eigenvector, write the complementary subspace, and show the restriction of <M math="A" /> to that subspace is also Hermitian.</>}>
+
+Let $A \in \mathbb{C}^{n \times n}$ be Hermitian ($A^H = A$). Then:
+
+1. **All eigenvalues of $A$ are real.**
+2. **Eigenvectors for distinct eigenvalues are orthogonal** (with respect to $\langle \mathbf{u}, \mathbf{v} \rangle = \mathbf{u}^H \mathbf{v}$).
+3. **$A$ is unitarily diagonalizable:** there exists unitary $P$ and real diagonal $D$ such that
+
+<BM math="A = P D P^H" />
+
+4. **Real symmetric case:** if $A \in \mathbb{R}^{n \times n}$ with $A^T = A$, then $P$ can be chosen to be a real **orthogonal** matrix.
+
+**Proof of (1):** Let $A\mathbf{v} = \lambda\mathbf{v}$ with $\mathbf{v} \neq \mathbf{0}$. Compute:
+
+<BM math="\lambda \langle \mathbf{v}, \mathbf{v} \rangle = \langle A\mathbf{v}, \mathbf{v} \rangle = \mathbf{v}^H A \mathbf{v}" />
+
+Since $A = A^H$:
+
+<BM math="\overline{\lambda} \langle \mathbf{v}, \mathbf{v} \rangle = \overline{\langle A\mathbf{v}, \mathbf{v} \rangle} = \langle \mathbf{v}, A\mathbf{v} \rangle = \mathbf{v}^H A^H \mathbf{v} = \mathbf{v}^H A \mathbf{v}" />
+
+Therefore $\lambda \|\mathbf{v}\|^2 = \overline{\lambda} \|\mathbf{v}\|^2$, and since $\|\mathbf{v}\|^2 > 0$ we get $\lambda = \overline{\lambda}$, so $\lambda \in \mathbb{R}$. $\square$
+
+**Proof of (2):** Let $A\mathbf{u} = \lambda\mathbf{u}$ and $A\mathbf{v} = \mu\mathbf{v}$ with $\lambda \neq \mu$ (both real). Then:
+
+<BM math="\lambda \langle \mathbf{u}, \mathbf{v} \rangle = \langle A\mathbf{u}, \mathbf{v} \rangle = \mathbf{v}^H A \mathbf{u} = (A^H \mathbf{v})^H \mathbf{u} = (A\mathbf{v})^H \mathbf{u} = \mu \langle \mathbf{u}, \mathbf{v} \rangle" />
+
+So $(\lambda - \mu)\langle \mathbf{u}, \mathbf{v} \rangle = 0$. Since $\lambda \neq \mu$, we get $\langle \mathbf{u}, \mathbf{v} \rangle = 0$. $\square$
+</TheoremBox>
+
+## Worked Examples
+
+<StepReveal title="Example: Verify Hermitian, find eigenvalues" steps={[
+  {
+    label: "Matrix setup",
+    content: "Let $A = \\begin{pmatrix}3 & 1+i \\\\ 1-i & 2\\end{pmatrix}$. Verify $A$ is Hermitian and find its eigenvalues.",
+    formula: "A^H = \\overline{A}^T = \\begin{pmatrix}\\overline{3} & \\overline{1-i} \\\\ \\overline{1+i} & \\overline{2}\\end{pmatrix} = \\begin{pmatrix}3 & 1+i \\\\ 1-i & 2\\end{pmatrix} = A \\checkmark"
+  },
+  {
+    label: "Characteristic polynomial",
+    content: "Compute $\\det(\\lambda I - A)$:",
+    formula: "p_A(\\lambda) = (\\lambda-3)(\\lambda-2) - (1+i)(1-i) = \\lambda^2 - 5\\lambda + 6 - |1+i|^2 = \\lambda^2 - 5\\lambda + 6 - 2 = \\lambda^2 - 5\\lambda + 4"
+  },
+  {
+    label: "Eigenvalues",
+    content: "Factor:",
+    formula: "\\lambda^2 - 5\\lambda + 4 = (\\lambda-1)(\\lambda-4) \\implies \\lambda_1 = 1,\\; \\lambda_2 = 4"
+  },
+  {
+    label: "Verify real",
+    content: "Both eigenvalues are real, as guaranteed by Theorem 35. Also verify: $\\operatorname{tr}(A) = 3+2 = 5 = 1+4$ ✓ and $\\det(A) = 6-2 = 4 = 1\\cdot4$ ✓."
+  }
+]} />
+
+<StepReveal title="Example: Real symmetric matrix — orthogonal diagonalization" steps={[
+  {
+    label: "Matrix",
+    content: "Let $A = \\begin{pmatrix}4 & 2 \\\\ 2 & 1\\end{pmatrix}$ (symmetric). Find orthogonal $P$ and diagonal $D$ with $A = PDP^T$.",
+    formula: "p_A(\\lambda) = \\lambda^2 - 5\\lambda = \\lambda(\\lambda - 5) \\implies \\lambda_1 = 0,\\; \\lambda_2 = 5"
+  },
+  {
+    label: "Eigenvectors",
+    content: "For $\\lambda=0$: $(A-0)\\mathbf{x}=\\mathbf{0}$: $4x_1 + 2x_2 = 0 \\Rightarrow x_2 = -2x_1$. Unnormalized: $(1,-2)^T$, normalized: $\\frac{1}{\\sqrt{5}}(1,-2)^T$.",
+    formula: "\\text{For } \\lambda=5:\\; (A-5I)\\mathbf{x}=\\mathbf{0}:\\; -x_1+2x_2=0 \\Rightarrow \\mathbf{q}_2 = \\tfrac{1}{\\sqrt{5}}(2,1)^T"
+  },
+  {
+    label: "Verify orthogonality",
+    content: "Check: $\\langle \\mathbf{q}_1, \\mathbf{q}_2 \\rangle = \\frac{1}{5}(1\\cdot2 + (-2)\\cdot1) = 0$ ✓ (eigenvectors for distinct eigenvalues are orthogonal by Thm 35).",
+    formula: "P = \\frac{1}{\\sqrt{5}}\\begin{pmatrix}1 & 2 \\\\ -2 & 1\\end{pmatrix}, \\quad D = \\begin{pmatrix}0 & 0 \\\\ 0 & 5\\end{pmatrix}"
+  }
+]} />
+
+<StepReveal title="Example: Unitary matrix — check and use" steps={[
+  {
+    label: "Verify unitary",
+    content: "Let $P = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}1 & i \\\\ i & 1\\end{pmatrix}$. Check $P^H P = I$.",
+    formula: "P^H = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}1 & -i \\\\ -i & 1\\end{pmatrix}"
+  },
+  {
+    label: "Compute product",
+    content: "Compute:",
+    formula: "P^H P = \\frac{1}{2}\\begin{pmatrix}1 & -i \\\\ -i & 1\\end{pmatrix}\\begin{pmatrix}1 & i \\\\ i & 1\\end{pmatrix} = \\frac{1}{2}\\begin{pmatrix}1-i^2 & i-i \\\\ -i+i & i^2+1\\end{pmatrix} = \\frac{1}{2}\\begin{pmatrix}2 & 0 \\\\ 0 & 2\\end{pmatrix} = I \\checkmark"
+  },
+  {
+    label: "Interpretation",
+    content: "Columns $\\frac{1}{\\sqrt{2}}(1,i)^T$ and $\\frac{1}{\\sqrt{2}}(i,1)^T$ form an orthonormal basis for $\\mathbb{C}^2$ with respect to the standard Hermitian inner product $\\langle \\mathbf{u},\\mathbf{v}\\rangle = \\mathbf{u}^H\\mathbf{v}$."
+  }
+]} />
+
+<StepReveal title="Example: Full unitary diagonalization" steps={[
+  {
+    label: "Setup",
+    content: "Let $A = \\begin{pmatrix}1 & i \\\\ -i & 1\\end{pmatrix}$. Find $P$ unitary and $D$ real diagonal with $A = PDP^H$.",
+    formula: "A^H = \\begin{pmatrix}1 & i \\\\ -i & 1\\end{pmatrix} = A \\checkmark \\text{ (Hermitian)}"
+  },
+  {
+    label: "Characteristic polynomial",
+    formula: "p_A(\\lambda) = (\\lambda-1)^2 - i(-i) = (\\lambda-1)^2 - 1 = \\lambda^2-2\\lambda = \\lambda(\\lambda-2)"
+  },
+  {
+    label: "Eigenvectors",
+    content: "For $\\lambda=0$: $(A)\\mathbf{x}=\\mathbf{0}$: $x_1 + ix_2=0 \\Rightarrow x_1=-ix_2$. Take $(i,1)^T/\\sqrt{2}$. For $\\lambda=2$: $(A-2I)\\mathbf{x}=\\mathbf{0}$: $-x_1+ix_2=0 \\Rightarrow x_1=ix_2$. Take $(i,-1)^T/\\sqrt{2}$... Let's recompute: $x_1=ix_2$, so $(i,1)^T/\\sqrt{2}$... Use $(1,-i)^T/\\sqrt{2}$ for $\\lambda=2$.",
+    formula: "P = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}i & 1 \\\\ 1 & -i\\end{pmatrix}, \\quad D = \\begin{pmatrix}0 & 0 \\\\ 0 & 2\\end{pmatrix}"
+  }
+]} />
+
+## Key Properties
+
+<SummaryBox title="Hermitian & Unitary — Key Facts">
+
+| Property | Hermitian $A = A^H$ | Unitary $P^H P = I$ |
+|----------|--------------------|--------------------|
+| Eigenvalues | All **real** | All on unit circle $|\lambda|=1$ |
+| Eigenvectors | **Orthogonal** for distinct $\lambda$ | — |
+| Diagonalization | $A = PDP^H$, $P$ unitary, $D$ real diagonal | Columns form orthonormal basis |
+| Real case | Symmetric $A^T = A$ | Orthogonal $P^T P = I$ |
+| Determinant | Real | $|\det P| = 1$ |
+| Inverse | $A^{-1}$ is also Hermitian (if exists) | $P^{-1} = P^H$ |
+
+**Mnemonic:** Hermitian is to complex matrices what symmetric is to real matrices. Unitary is to complex matrices what orthogonal is to real matrices.
+</SummaryBox>
