@@ -5,6 +5,39 @@ import { clsx } from 'clsx';
 import { BlockMath, InlineMath } from 'react-katex';
 import type { PracticeQuestion, Hint } from '@/types/practice';
 
+/** Renders a string that may contain $...$ inline and $$...$$ block LaTeX. */
+function MathText({ text }: { text: string }) {
+  // Split on $$...$$ first, then $...$
+  const parts: React.ReactNode[] = [];
+  const blockRe = /\$\$([\s\S]+?)\$\$/g;
+  const inlineRe = /\$((?:[^$\\]|\\.)+?)\$/g;
+
+  let remaining = text;
+  let key = 0;
+
+  // Handle block math
+  const blockSplit = remaining.split(blockRe);
+  // blockSplit alternates: [text, math, text, math, ...]
+  for (let i = 0; i < blockSplit.length; i++) {
+    if (i % 2 === 1) {
+      parts.push(<BlockMath key={key++} math={blockSplit[i]} />);
+    } else {
+      // Handle inline math within text segments
+      const seg = blockSplit[i];
+      const inlineSplit = seg.split(inlineRe);
+      for (let j = 0; j < inlineSplit.length; j++) {
+        if (j % 2 === 1) {
+          parts.push(<InlineMath key={key++} math={inlineSplit[j]} />);
+        } else if (inlineSplit[j]) {
+          parts.push(<span key={key++}>{inlineSplit[j]}</span>);
+        }
+      }
+    }
+  }
+
+  return <>{parts}</>;
+}
+
 function normalizeHints(hints: Hint[]): { level: number; text: string }[] {
   return hints.map((h, i) =>
     typeof h === 'string' ? { level: i + 1, text: h } : h
@@ -55,10 +88,9 @@ export function PracticeCard({ question, number }: PracticeCardProps) {
 
       {/* Question */}
       <div className="px-5 py-4">
-        <div
-          className="text-text leading-relaxed text-sm"
-          dangerouslySetInnerHTML={{ __html: question.question }}
-        />
+        <div className="text-text leading-relaxed text-sm">
+          <MathText text={question.question} />
+        </div>
       </div>
 
       {/* Hint revealed so far */}
@@ -67,7 +99,7 @@ export function PracticeCard({ question, number }: PracticeCardProps) {
           <span className="text-xs text-accent font-mono uppercase tracking-wider mr-2">
             Hint {hintLevel}
           </span>
-          <span dangerouslySetInnerHTML={{ __html: currentHint.text }} />
+          <MathText text={currentHint.text} />
         </div>
       )}
 
@@ -76,7 +108,7 @@ export function PracticeCard({ question, number }: PracticeCardProps) {
         <div className="mx-5 mb-4 px-4 py-3 rounded-lg bg-success/5 border border-success/20 text-sm text-text animate-fade-in">
           <div className="text-xs text-success font-mono uppercase tracking-wider mb-2">Solution</div>
           {question.solution ? (
-            <div dangerouslySetInnerHTML={{ __html: question.solution }} />
+            <div><MathText text={question.solution} /></div>
           ) : (
             <div className="text-text-muted italic">Solution not yet available.</div>
           )}
