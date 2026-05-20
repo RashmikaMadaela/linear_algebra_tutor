@@ -1,0 +1,144 @@
+---
+title: "Linear Transformations"
+description: "Structure-preserving maps between vector spaces"
+section: "linear-transformations"
+order: 1
+---
+
+## Big Idea
+
+A **linear transformation** is a map between vector spaces that respects the algebraic structure — it preserves addition and scalar multiplication. These maps are to vector spaces what group homomorphisms are to groups: the "right" notion of a structure-preserving function.
+
+---
+
+## Definition
+
+<DefinitionBox number={16} title="Linear Transformation">
+Let $V$ and $W$ be vector spaces over the same field $\mathbb{F}$. A function $T: V \to W$ is a **linear transformation** (or **linear map**) if it satisfies:
+
+1. **Additivity:** $T(\mathbf{u} + \mathbf{v}) = T(\mathbf{u}) + T(\mathbf{v})$ for all $\mathbf{u}, \mathbf{v} \in V$
+2. **Homogeneity:** $T(\alpha \mathbf{v}) = \alpha\, T(\mathbf{v})$ for all $\alpha \in \mathbb{F}$, $\mathbf{v} \in V$
+
+These two conditions combine into a single **superposition principle**:
+
+$$T(\alpha \mathbf{u} + \beta \mathbf{v}) = \alpha\, T(\mathbf{u}) + \beta\, T(\mathbf{v})$$
+
+for all $\alpha, \beta \in \mathbb{F}$ and $\mathbf{u}, \mathbf{v} \in V$.
+
+**Notation:** $\mathcal{L}(V, W)$ denotes the set of all linear maps $V \to W$. When $V = W$, write $\mathcal{L}(V)$ for the **endomorphisms** of $V$.
+</DefinitionBox>
+
+---
+
+## Basic Consequences
+
+<TheoremBox number={16} title="Elementary Properties of Linear Maps" proofSketch={<>For T(0): set α=0 in T(α·v) = αT(v). For negatives: apply homogeneity with α=−1. For linear combinations: induct on the superposition principle over n terms.</>}>
+Let $T: V \to W$ be linear. Then:
+
+1. $T(\mathbf{0}_V) = \mathbf{0}_W$
+2. $T(-\mathbf{v}) = -T(\mathbf{v})$ for all $\mathbf{v} \in V$
+3. $T\!\left(\sum_{i=1}^n \alpha_i \mathbf{v}_i\right) = \sum_{i=1}^n \alpha_i\, T(\mathbf{v}_i)$ (preserves all finite linear combinations)
+4. **A linear map is completely determined by its values on a basis.** If $\mathcal{B} = \{\mathbf{b}_1, \ldots, \mathbf{b}_n\}$ is a basis for $V$ and $\mathbf{w}_1, \ldots, \mathbf{w}_n \in W$ are arbitrary, there exists a **unique** linear map $T$ with $T(\mathbf{b}_i) = \mathbf{w}_i$.
+</TheoremBox>
+
+---
+
+## Examples
+
+<StepReveal title="Example 1 — Rotation in ℝ²" steps={[
+  {
+    label: "The map",
+    content: "Fix an angle $\\theta$. Define $R_\\theta : \\mathbb{R}^2 \\to \\mathbb{R}^2$ by $R_\\theta(x, y) = (x\\cos\\theta - y\\sin\\theta,\\; x\\sin\\theta + y\\cos\\theta)$."
+  },
+  {
+    label: "Check additivity",
+    content: "$R_\\theta((x_1,y_1) + (x_2,y_2)) = R_\\theta(x_1+x_2, y_1+y_2)$. Expanding and splitting: $= R_\\theta(x_1,y_1) + R_\\theta(x_2,y_2)$. ✓"
+  },
+  {
+    label: "Check homogeneity",
+    content: "$R_\\theta(\\alpha x, \\alpha y) = (\\alpha x\\cos\\theta - \\alpha y\\sin\\theta, \\alpha x\\sin\\theta + \\alpha y\\cos\\theta) = \\alpha R_\\theta(x,y)$. ✓"
+  },
+  {
+    label: "Matrix form",
+    content: "As a matrix: $R_\\theta = \\begin{pmatrix}\\cos\\theta & -\\sin\\theta \\\\ \\sin\\theta & \\cos\\theta\\end{pmatrix}$.",
+    formula: "R_\\theta = \\begin{pmatrix}\\cos\\theta & -\\sin\\theta \\\\ \\sin\\theta & \\cos\\theta\\end{pmatrix}"
+  }
+]} />
+
+<StepReveal title="Example 2 — Differentiation on Polynomials" steps={[
+  {
+    label: "The map",
+    content: "Define $D : \\mathbb{P}_n(\\mathbb{R}) \\to \\mathbb{P}_{n-1}(\\mathbb{R})$ by $D(p) = p'$ (ordinary differentiation)."
+  },
+  {
+    label: "Check linearity",
+    content: "$D(\\alpha p + \\beta q) = (\\alpha p + \\beta q)' = \\alpha p' + \\beta q' = \\alpha D(p) + \\beta D(q)$. ✓ This is exactly the linearity of differentiation from calculus."
+  },
+  {
+    label: "On the standard basis",
+    content: "$D(1) = 0$, $D(x) = 1$, $D(x^2) = 2x$, $D(x^k) = kx^{k-1}$. Knowing these $n+1$ values determines $D$ completely on all of $\\mathbb{P}_n$."
+  }
+]} />
+
+<StepReveal title="Example 3 — Zero and Identity Maps" steps={[
+  {
+    label: "Zero map",
+    content: "$\\mathbf{0}: V \\to W$ defined by $\\mathbf{0}(\\mathbf{v}) = \\mathbf{0}_W$ for all $\\mathbf{v}$. Trivially linear."
+  },
+  {
+    label: "Identity map",
+    content: "$I_V : V \\to V$ defined by $I_V(\\mathbf{v}) = \\mathbf{v}$. Trivially linear. $I_V$ is both injective and surjective."
+  },
+  {
+    label: "Projection",
+    content: "$P : \\mathbb{R}^3 \\to \\mathbb{R}^2$ defined by $P(x,y,z) = (x,y)$. Linear: $P(\\alpha\\mathbf{u} + \\beta\\mathbf{v}) = \\alpha P(\\mathbf{u}) + \\beta P(\\mathbf{v})$. ✓"
+  }
+]} />
+
+<StepReveal title="Example 4 — A Non-Linear Map" steps={[
+  {
+    label: "The candidate",
+    content: "Define $T: \\mathbb{R}^2 \\to \\mathbb{R}$ by $T(x,y) = xy$ (product of coordinates)."
+  },
+  {
+    label: "Fails additivity",
+    content: "$T((1,1) + (1,1)) = T(2,2) = 4$, but $T(1,1) + T(1,1) = 1 + 1 = 2 \\neq 4$. ✗"
+  },
+  {
+    label: "Conclusion",
+    content: "$T(x,y) = xy$ is **not** linear. Similarly, any map involving absolute values, products, or powers of components (other than degree 1) will generally fail linearity."
+  }
+]} />
+
+---
+
+## The Space $\mathcal{L}(V, W)$
+
+<TheoremBox number={17} title="𝓛(V, W) is a Vector Space" proofSketch={<>Define (S+T)(v) = S(v)+T(v) and (αT)(v) = αT(v). Verify all 10 vector space axioms. The zero vector is the zero map. All axioms follow from corresponding axioms in W.</>}>
+The set $\mathcal{L}(V, W)$ of all linear maps $T: V \to W$ forms a **vector space** under:
+- **Addition:** $(S + T)(\mathbf{v}) = S(\mathbf{v}) + T(\mathbf{v})$
+- **Scalar multiplication:** $(\alpha T)(\mathbf{v}) = \alpha\, T(\mathbf{v})$
+
+If $\dim V = n$ and $\dim W = m$, then $\dim \mathcal{L}(V,W) = mn$.
+</TheoremBox>
+
+---
+
+## Composition of Linear Maps
+
+<TheoremBox number={18} title="Composition is Linear" proofSketch={<>(S∘T)(αu+βv) = S(T(αu+βv)) = S(αT(u)+βT(v)) = αS(T(u))+βS(T(v)) = α(S∘T)(u)+β(S∘T)(v). ✓</>}>
+If $T: U \to V$ and $S: V \to W$ are linear, then the composition $S \circ T : U \to W$ is also linear.
+
+**Associativity:** $(R \circ S) \circ T = R \circ (S \circ T)$ whenever compositions are defined.
+
+**Non-commutativity:** In general $S \circ T \neq T \circ S$ (even when both composites exist).
+</TheoremBox>
+
+<SummaryBox title="Key Takeaways: Linear Transformations">
+- $T: V \to W$ is linear iff $T(\alpha\mathbf{u} + \beta\mathbf{v}) = \alpha T(\mathbf{u}) + \beta T(\mathbf{v})$.
+- $T(\mathbf{0}) = \mathbf{0}$ always — a necessary (not sufficient) condition for linearity.
+- A linear map is **completely determined** by its values on a basis.
+- Examples: rotations, differentiation, integration, projection, matrix multiplication.
+- $\mathcal{L}(V,W)$ is itself a vector space; $\dim \mathcal{L}(V,W) = (\dim V)(\dim W)$.
+- Composition of linear maps is linear; composition corresponds to matrix multiplication.
+</SummaryBox>

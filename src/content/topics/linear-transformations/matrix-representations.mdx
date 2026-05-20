@@ -1,0 +1,138 @@
+---
+title: "Matrix Representations"
+description: "Encoding linear maps as matrices via coordinate vectors"
+section: "linear-transformations"
+order: 3
+---
+
+## Big Idea
+
+Every linear map between finite-dimensional vector spaces can be encoded as a matrix — once bases are chosen. The matrix representation turns abstract linear maps into concrete matrix multiplication, connecting the abstract theory to computational practice.
+
+---
+
+## Coordinate Vectors
+
+<DefinitionBox number={18} title="Coordinate Vector">
+Let $V$ be an $n$-dimensional vector space with **ordered basis** $\mathcal{B} = (\mathbf{b}_1, \ldots, \mathbf{b}_n)$. Since every $\mathbf{v} \in V$ has a unique representation $\mathbf{v} = \alpha_1\mathbf{b}_1 + \cdots + \alpha_n\mathbf{b}_n$, define the **coordinate vector** of $\mathbf{v}$ with respect to $\mathcal{B}$:
+
+$$[\mathbf{v}]_\mathcal{B} = \begin{pmatrix} \alpha_1 \\ \vdots \\ \alpha_n \end{pmatrix} \in \mathbb{F}^n$$
+
+The map $\phi_\mathcal{B}: V \to \mathbb{F}^n$ defined by $\phi_\mathcal{B}(\mathbf{v}) = [\mathbf{v}]_\mathcal{B}$ is a linear **isomorphism** (coordinate map).
+</DefinitionBox>
+
+---
+
+## Matrix of a Linear Map
+
+<DefinitionBox number={19} title="Matrix Representation [T]_{C,B}">
+Let $T: V \to W$ be linear, $\mathcal{B} = (\mathbf{b}_1, \ldots, \mathbf{b}_n)$ an ordered basis for $V$, and $\mathcal{C} = (\mathbf{c}_1, \ldots, \mathbf{c}_m)$ an ordered basis for $W$.
+
+The **matrix representation** of $T$ with respect to $\mathcal{B}$ (domain) and $\mathcal{C}$ (codomain) is the $m \times n$ matrix:
+
+$$[T]_{\mathcal{C}, \mathcal{B}} = \Big([T(\mathbf{b}_1)]_\mathcal{C} \;\Big|\; [T(\mathbf{b}_2)]_\mathcal{C} \;\Big|\; \cdots \;\Big|\; [T(\mathbf{b}_n)]_\mathcal{C}\Big)$$
+
+The $j$-th column of $[T]_{\mathcal{C},\mathcal{B}}$ is the coordinate vector of $T(\mathbf{b}_j)$ in the basis $\mathcal{C}$.
+
+**Key property:**
+$$[T(\mathbf{v})]_\mathcal{C} = [T]_{\mathcal{C},\mathcal{B}}\, [\mathbf{v}]_\mathcal{B}$$
+</DefinitionBox>
+
+---
+
+## Matrix Representation Respects Composition
+
+<TheoremBox number={23} title="Composition → Matrix Multiplication" proofSketch={<>For any v∈U: [S∘T(v)]_D = [S]_{D,C} [T(v)]_C = [S]_{D,C} [T]_{C,B} [v]_B. Since this holds for all v, [S∘T]_{D,B} = [S]_{D,C} [T]_{C,B}. This shows matrix multiplication is the correct notion of composition of linear maps.</>}>
+Let $T: U \to V$ and $S: V \to W$ be linear, with ordered bases $\mathcal{B}$ for $U$, $\mathcal{C}$ for $V$, $\mathcal{D}$ for $W$. Then:
+
+$$[S \circ T]_{\mathcal{D}, \mathcal{B}} = [S]_{\mathcal{D}, \mathcal{C}}\, [T]_{\mathcal{C}, \mathcal{B}}$$
+
+**Corollary:** Matrix multiplication is defined precisely so that it corresponds to composition of linear maps. This is the reason matrix multiplication is defined the way it is.
+</TheoremBox>
+
+---
+
+## Examples
+
+<StepReveal title="Example 1 — Differentiation D: ℙ₂ → ℙ₁" steps={[
+  {
+    label: "Choose bases",
+    content: "Let $\\mathcal{B} = (1, x, x^2)$ for $\\mathbb{P}_2$ and $\\mathcal{C} = (1, x)$ for $\\mathbb{P}_1$."
+  },
+  {
+    label: "Apply D to each basis vector",
+    content: "$D(1) = 0 = 0\\cdot 1 + 0\\cdot x$, so column 1 is $(0,0)^T$. $D(x) = 1 = 1\\cdot 1 + 0\\cdot x$, so column 2 is $(1,0)^T$. $D(x^2) = 2x = 0\\cdot 1 + 2\\cdot x$, so column 3 is $(0,2)^T$."
+  },
+  {
+    label: "The matrix",
+    content: "$[D]_{\\mathcal{C},\\mathcal{B}} = \\begin{pmatrix}0 & 1 & 0 \\\\ 0 & 0 & 2\\end{pmatrix}$.",
+    formula: "[D]_{\\mathcal{C},\\mathcal{B}} = \\begin{pmatrix}0 & 1 & 0 \\\\ 0 & 0 & 2\\end{pmatrix}"
+  },
+  {
+    label: "Verify",
+    content: "Check: $[D(3 + 2x + x^2)]_{\\mathcal{C}} = [2 + 2x]_{\\mathcal{C}} = (2,2)^T$. Using matrix: $\\begin{pmatrix}0&1&0\\\\0&0&2\\end{pmatrix}\\begin{pmatrix}3\\\\2\\\\1\\end{pmatrix} = \\begin{pmatrix}2\\\\2\\end{pmatrix}$. ✓"
+  }
+]} />
+
+<StepReveal title="Example 2 — Rotation R_{π/2}: ℝ² → ℝ²" steps={[
+  {
+    label: "Standard basis",
+    content: "Use $\\mathcal{B} = \\mathcal{C} = (\\mathbf{e}_1, \\mathbf{e}_2) = ((1,0), (0,1))$. Then $\\theta = \\pi/2$."
+  },
+  {
+    label: "Apply R",
+    content: "$R_{\\pi/2}(\\mathbf{e}_1) = R_{\\pi/2}(1,0) = (0,1) = 0\\cdot\\mathbf{e}_1 + 1\\cdot\\mathbf{e}_2$, column $(0,1)^T$. $R_{\\pi/2}(\\mathbf{e}_2) = R_{\\pi/2}(0,1) = (-1,0) = -1\\cdot\\mathbf{e}_1 + 0\\cdot\\mathbf{e}_2$, column $(-1,0)^T$."
+  },
+  {
+    label: "The matrix",
+    content: "$[R_{\\pi/2}]_{\\mathcal{B},\\mathcal{B}} = \\begin{pmatrix}0 & -1 \\\\ 1 & 0\\end{pmatrix}$.",
+    formula: "[R_{\\pi/2}] = \\begin{pmatrix}0 & -1 \\\\ 1 & 0\\end{pmatrix}"
+  }
+]} />
+
+<StepReveal title="Example 3 — Non-standard basis changes the matrix" steps={[
+  {
+    label: "Setup",
+    content: "Let $T: \\mathbb{R}^2 \\to \\mathbb{R}^2$ be the reflection in the line $y = x$: $T(x,y) = (y,x)$."
+  },
+  {
+    label: "Standard basis",
+    content: "$T(\\mathbf{e}_1) = (0,1) = \\mathbf{e}_2$, $T(\\mathbf{e}_2) = (1,0) = \\mathbf{e}_1$. Matrix: $[T]_E = \\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}$."
+  },
+  {
+    label: "Non-standard basis",
+    content: "Use $\\mathcal{B} = ((1,1), (1,-1))$. Then $T(1,1) = (1,1)$ and $T(1,-1) = (-1,1)$."
+  },
+  {
+    label: "Coordinates in B",
+    content: "$[T(1,1)]_\\mathcal{B} = [(1,1)]_\\mathcal{B} = (1,0)^T$ (it equals $1\\cdot(1,1) + 0\\cdot(1,-1)$). $[T(1,-1)]_\\mathcal{B} = [(-1,1)]_\\mathcal{B}$: solve $a(1,1)+b(1,-1) = (-1,1)$: $a+b=-1$, $a-b=1$, so $a=0$, $b=-1$. Column: $(0,-1)^T$. Matrix in $\\mathcal{B}$: $\\begin{pmatrix}1&0\\\\0&-1\\end{pmatrix}$ — diagonal! Reflecting in its own eigenbasis simplifies the matrix.",
+    formula: "[T]_\\mathcal{B} = \\begin{pmatrix}1 & 0 \\\\ 0 & -1\\end{pmatrix}"
+  }
+]} />
+
+---
+
+## The Commutative Diagram
+
+For $T: V \to W$, the matrix representation satisfies:
+
+<BM math="\phi_\mathcal{C} \circ T = [T]_{\mathcal{C},\mathcal{B}} \circ\, \phi_\mathcal{B}" />
+
+That is, the following diagram commutes:
+
+$$V \xrightarrow{\;T\;} W$$
+$$\downarrow\phi_\mathcal{B} \qquad\quad \downarrow\phi_\mathcal{C}$$
+$$\mathbb{F}^n \xrightarrow{[T]_{\mathcal{C},\mathcal{B}}} \mathbb{F}^m$$
+
+To compute $T(\mathbf{v})$:
+1. Compute $[\mathbf{v}]_\mathcal{B}$ (coordinates in $\mathcal{B}$)
+2. Multiply by $[T]_{\mathcal{C},\mathcal{B}}$
+3. Convert back: $T(\mathbf{v}) = \phi_\mathcal{C}^{-1}\!\left([T]_{\mathcal{C},\mathcal{B}}[\mathbf{v}]_\mathcal{B}\right)$
+
+<SummaryBox title="Key Takeaways: Matrix Representations">
+- Fix ordered bases $\mathcal{B}$ and $\mathcal{C}$: $[T]_{\mathcal{C},\mathcal{B}}$ has $j$-th column $= [T(\mathbf{b}_j)]_\mathcal{C}$.
+- Key formula: $[T(\mathbf{v})]_\mathcal{C} = [T]_{\mathcal{C},\mathcal{B}}[\mathbf{v}]_\mathcal{B}$.
+- Composition corresponds to matrix multiplication: $[S \circ T] = [S][T]$.
+- Different basis choices give different matrices for the **same** linear map.
+- Choosing an eigenbasis (if it exists) gives the diagonal matrix — motivation for eigenvalue theory.
+</SummaryBox>

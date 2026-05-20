@@ -1,0 +1,153 @@
+---
+title: "Kernel and Image"
+description: "The fundamental subspaces of a linear map"
+section: "linear-transformations"
+order: 2
+---
+
+## Big Idea
+
+Every linear map $T: V \to W$ has two canonically associated subspaces: the **kernel** (what maps to zero) and the **image** (what gets hit). Their dimensions are linked by one of the most powerful results in linear algebra: the **Rank-Nullity Theorem**.
+
+---
+
+## Kernel and Image
+
+<DefinitionBox number={17} title="Kernel and Image">
+Let $T: V \to W$ be a linear map.
+
+- The **kernel** (or **null space**) of $T$ is:
+$$\ker(T) = \{\mathbf{v} \in V \mid T(\mathbf{v}) = \mathbf{0}_W\}$$
+
+- The **image** (or **range**) of $T$ is:
+$$\operatorname{Im}(T) = \{T(\mathbf{v}) \mid \mathbf{v} \in V\} = T(V)$$
+
+- The **nullity** of $T$: $\operatorname{nullity}(T) = \dim \ker(T)$
+- The **rank** of $T$: $\operatorname{rank}(T) = \dim \operatorname{Im}(T)$
+</DefinitionBox>
+
+---
+
+## Kernel and Image are Subspaces
+
+<TheoremBox number={19} title="Ker(T) ≤ V and Im(T) ≤ W" proofSketch={<>Ker: T(0)=0 so 0∈ker(T). If T(u)=T(v)=0 then T(αu+βv)=αT(u)+βT(v)=0, so ker(T) is closed under linear combinations. Im: T(0)=0 so 0∈Im(T). T(αu+βv)=αT(u)+βT(v) so Im(T) is closed under linear combinations.</>}>
+For any linear $T: V \to W$:
+
+1. $\ker(T)$ is a **subspace** of $V$.
+2. $\operatorname{Im}(T)$ is a **subspace** of $W$.
+</TheoremBox>
+
+---
+
+## Injectivity and Surjectivity
+
+<TheoremBox number={20} title="Injectivity ↔ Trivial Kernel" proofSketch={<>(⇒) If T is injective and T(v)=0=T(0), then v=0. (⇐) If ker(T)={0} and T(u)=T(v), then T(u-v)=0, so u-v∈ker(T)={0}, thus u=v.</>}>
+Let $T: V \to W$ be linear. Then:
+- $T$ is **injective** (one-to-one) $\iff$ $\ker(T) = \{\mathbf{0}\}$
+- $T$ is **surjective** (onto) $\iff$ $\operatorname{Im}(T) = W$
+</TheoremBox>
+
+---
+
+## The Rank-Nullity Theorem
+
+<TheoremBox number={21} title="Rank-Nullity Theorem (Dimension Theorem)" proofSketch={<>Let {k₁,…,kₚ} be a basis for ker(T) (nullity=p). Extend to a basis {k₁,…,kₚ,v₁,…,vᵣ} for V (so dim V = p+r). Claim: {T(v₁),…,T(vᵣ)} is a basis for Im(T). Spanning: for any T(v)∈Im(T), write v=Σαᵢkᵢ+Σβⱼvⱼ, so T(v)=ΣβⱼT(vⱼ). LI: if Σβⱼ T(vⱼ)=0 then T(Σβⱼvⱼ)=0, so Σβⱼvⱼ∈ker(T), write it as Σαᵢkᵢ, but {k₁,…,kₚ,v₁,…,vᵣ} is LI so all coefficients are 0. Hence rank(T)=r and nullity+rank=p+r=dim V. ∎</>}>
+Let $V$ be finite-dimensional and $T: V \to W$ linear. Then:
+
+$$\dim \ker(T) + \dim \operatorname{Im}(T) = \dim V$$
+$$\operatorname{nullity}(T) + \operatorname{rank}(T) = \dim V$$
+
+**Consequences:**
+- $\operatorname{rank}(T) \leq \min(\dim V, \dim W)$
+- If $\dim V = \dim W$: $T$ injective $\iff$ $T$ surjective $\iff$ $T$ bijective
+</TheoremBox>
+
+---
+
+## Examples
+
+<StepReveal title="Example 1 — Differentiation D: ℙₙ → ℙₙ₋₁" steps={[
+  {
+    label: "Kernel of D",
+    content: "$\\ker(D) = \\{p \\in \\mathbb{P}_n \\mid p' = 0\\} = \\{\\text{constant polynomials}\\} = \\operatorname{span}(\\{1\\})$. So $\\operatorname{nullity}(D) = 1$."
+  },
+  {
+    label: "Image of D",
+    content: "Every polynomial of degree $\\leq n-1$ is the derivative of something: $\\operatorname{Im}(D) = \\mathbb{P}_{n-1}$. So $\\operatorname{rank}(D) = n$."
+  },
+  {
+    label: "Rank-Nullity check",
+    content: "$\\operatorname{nullity} + \\operatorname{rank} = 1 + n = n+1 = \\dim \\mathbb{P}_n$. ✓",
+    formula: "1 + n = n+1 = \\dim \\mathbb{P}_n \\checkmark"
+  }
+]} />
+
+<StepReveal title="Example 2 — Projection T: ℝ³ → ℝ²,  T(x,y,z)=(x,y)" steps={[
+  {
+    label: "Kernel",
+    content: "$\\ker(T) = \\{(x,y,z) \\mid (x,y) = (0,0)\\} = \\{(0,0,z) \\mid z \\in \\mathbb{R}\\} = \\operatorname{span}(\\{\\mathbf{e}_3\\})$. So $\\operatorname{nullity}(T) = 1$."
+  },
+  {
+    label: "Image",
+    content: "Given any $(a,b) \\in \\mathbb{R}^2$, choose $(a,b,0) \\in \\mathbb{R}^3$. Then $T(a,b,0) = (a,b)$. So $\\operatorname{Im}(T) = \\mathbb{R}^2$, $\\operatorname{rank}(T) = 2$."
+  },
+  {
+    label: "Check",
+    content: "$1 + 2 = 3 = \\dim \\mathbb{R}^3$. ✓ And $T$ is surjective but not injective."
+  }
+]} />
+
+<StepReveal title="Example 3 — Matrix Map T_A: ℝⁿ → ℝᵐ, x ↦ Ax" steps={[
+  {
+    label: "Setup",
+    content: "Let $A \\in M_{m\\times n}(\\mathbb{R})$. Define $T_A : \\mathbb{R}^n \\to \\mathbb{R}^m$ by $T_A(\\mathbf{x}) = A\\mathbf{x}$."
+  },
+  {
+    label: "Kernel = null space of A",
+    content: "$\\ker(T_A) = \\{\\mathbf{x} \\in \\mathbb{R}^n \\mid A\\mathbf{x} = \\mathbf{0}\\} = \\operatorname{Null}(A)$. Its dimension is the classical nullity of $A$."
+  },
+  {
+    label: "Image = column space of A",
+    content: "$\\operatorname{Im}(T_A) = \\{A\\mathbf{x} \\mid \\mathbf{x} \\in \\mathbb{R}^n\\} = \\operatorname{Col}(A)$ (span of columns of $A$). Its dimension is $\\operatorname{rank}(A)$.",
+    formula: "\\operatorname{rank}(A) + \\operatorname{nullity}(A) = n"
+  }
+]} />
+
+<StepReveal title="Example 4 — Integration I: ℙₙ → ℙₙ₊₁,  I(p)(x) = ∫₀ˣ p(t)dt" steps={[
+  {
+    label: "Kernel",
+    content: "If $\\int_0^x p(t)\\,dt = 0$ as a polynomial, then $p(t) = 0$ (differentiate both sides). So $\\ker(I) = \\{\\mathbf{0}\\}$ and $I$ is injective."
+  },
+  {
+    label: "Image",
+    content: "$\\operatorname{Im}(I) = \\{q \\in \\mathbb{P}_{n+1} \\mid q(0) = 0\\}$: all polynomials of degree $\\leq n+1$ with zero constant term. This has dimension $n+1$."
+  },
+  {
+    label: "Rank-Nullity",
+    content: "$0 + (n+1) = n+1 = \\dim \\mathbb{P}_n + 1$? Wait — $\\dim \\mathbb{P}_n = n+1$. And $\\operatorname{nullity}(I) + \\operatorname{rank}(I) = 0 + (n+1) = n+1 = \\dim \\mathbb{P}_n$. ✓"
+  }
+]} />
+
+---
+
+## Solving $T(\mathbf{v}) = \mathbf{w}$
+
+<TheoremBox number={22} title="Solution Structure" proofSketch={<>If T(v₀)=w, then T(v)=w iff T(v-v₀)=0 iff v-v₀∈ker(T) iff v∈v₀+ker(T). This is exactly the coset structure from group theory applied to (V,+).</>}>
+Let $T: V \to W$ be linear and $\mathbf{w} \in W$.
+
+- If $T(\mathbf{v}_0) = \mathbf{w}$ (a **particular solution** exists), then the complete solution set is:
+$$\{\mathbf{v} \in V \mid T(\mathbf{v}) = \mathbf{w}\} = \mathbf{v}_0 + \ker(T)$$
+
+- No solution exists iff $\mathbf{w} \notin \operatorname{Im}(T)$.
+
+This is the abstract analogue of: *general solution = particular solution + homogeneous solution* for $A\mathbf{x} = \mathbf{b}$.
+</TheoremBox>
+
+<SummaryBox title="Key Takeaways: Kernel and Image">
+- $\ker(T) \leq V$ and $\operatorname{Im}(T) \leq W$ are always subspaces.
+- $T$ is injective $\iff$ $\ker(T) = \{\mathbf{0}\}$.
+- $T$ is surjective $\iff$ $\operatorname{Im}(T) = W$.
+- **Rank-Nullity:** $\operatorname{nullity}(T) + \operatorname{rank}(T) = \dim V$.
+- For equal-dim spaces: injective $\iff$ surjective $\iff$ bijective.
+- Solution set of $T(\mathbf{v}) = \mathbf{w}$ is $\mathbf{v}_0 + \ker(T)$ (coset of the kernel).
+</SummaryBox>

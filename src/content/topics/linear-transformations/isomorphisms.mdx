@@ -1,0 +1,125 @@
+---
+title: "Isomorphisms"
+description: "When two vector spaces are structurally identical"
+section: "linear-transformations"
+order: 4
+---
+
+## Big Idea
+
+An **isomorphism** is a bijective linear map — one that is both injective and surjective. When an isomorphism exists between two vector spaces, they are structurally identical: everything that is true of one (in terms of vector space structure) is true of the other. The surprising punchline: **two finite-dimensional spaces are isomorphic if and only if they have the same dimension**.
+
+---
+
+## Isomorphisms
+
+<DefinitionBox number={20} title="Isomorphism and Automorphism">
+Let $V$ and $W$ be vector spaces over $\mathbb{F}$.
+
+- A **linear isomorphism** is a bijective linear map $T: V \to W$.
+- We write $V \cong W$ and say $V$ and $W$ are **isomorphic** as vector spaces.
+- An **automorphism** of $V$ is an isomorphism $T: V \to V$ (a self-isomorphism). The set of all automorphisms $\operatorname{Aut}(V)$ forms a group under composition.
+</DefinitionBox>
+
+---
+
+## Inverse of an Isomorphism
+
+<TheoremBox number={24} title="Inverse of an Isomorphism is Linear" proofSketch={<>Let T: V→W be an isomorphism, T⁻¹: W→V the set-theoretic inverse. For w₁,w₂∈W, let v₁=T⁻¹(w₁), v₂=T⁻¹(w₂). Then T(αv₁+βv₂)=αw₁+βw₂, so T⁻¹(αw₁+βw₂)=αv₁+βv₂=αT⁻¹(w₁)+βT⁻¹(w₂). ✓</>}>
+If $T: V \to W$ is an isomorphism, then $T^{-1}: W \to V$ is also a linear isomorphism.
+
+Consequently, $\cong$ is an **equivalence relation** on vector spaces:
+- Reflexive: $V \cong V$ (via $I_V$)
+- Symmetric: $V \cong W \implies W \cong V$
+- Transitive: $V \cong W$ and $W \cong U \implies V \cong U$
+</TheoremBox>
+
+---
+
+## The Classification Theorem
+
+<TheoremBox number={25} title="Classification of Finite-Dimensional Vector Spaces" proofSketch={<>(⇒) If T: V→W is an isomorphism and B is a basis for V, then T(B) is a basis for W (T(B) is LI since T is injective, and spans W since T is surjective). So dim W = |T(B)| = |B| = dim V. (⇐) Let dim V = dim W = n. Let B=(b₁,…,bₙ) be a basis for V and C=(c₁,…,cₙ) for W. Define T(Σαᵢbᵢ)=Σαᵢcᵢ. This is well-defined (unique representations), linear, injective (ker={0}), and surjective (T maps onto all of W since C spans W). ∎</>}>
+Two **finite-dimensional** vector spaces $V$ and $W$ over $\mathbb{F}$ are isomorphic if and only if:
+
+$$V \cong W \iff \dim V = \dim W$$
+
+**Corollary:** Every $n$-dimensional vector space over $\mathbb{F}$ is isomorphic to $\mathbb{F}^n$.
+This means $\mathbb{F}^n$ is the "universal model" of all $n$-dimensional spaces over $\mathbb{F}$.
+</TheoremBox>
+
+---
+
+## Examples
+
+<StepReveal title="Example 1 — ℙₙ(ℝ) ≅ ℝⁿ⁺¹" steps={[
+  {
+    label: "Both are (n+1)-dimensional",
+    content: "$\\dim \\mathbb{P}_n(\\mathbb{R}) = n+1$ and $\\dim \\mathbb{R}^{n+1} = n+1$. By the classification theorem, $\\mathbb{P}_n(\\mathbb{R}) \\cong \\mathbb{R}^{n+1}$."
+  },
+  {
+    label: "Explicit isomorphism",
+    content: "The coordinate map $\\phi: \\mathbb{P}_n \\to \\mathbb{R}^{n+1}$ defined by $\\phi(a_0 + a_1 x + \\cdots + a_n x^n) = (a_0, a_1, \\ldots, a_n)$ is the explicit isomorphism."
+  },
+  {
+    label: "What this means",
+    content: "Every polynomial calculation in $\\mathbb{P}_n$ can be 'translated' to vector arithmetic in $\\mathbb{R}^{n+1}$ and back. The two spaces are structurally identical."
+  }
+]} />
+
+<StepReveal title="Example 2 — M_{m×n}(ℝ) ≅ ℝ^{mn}" steps={[
+  {
+    label: "Dimensions match",
+    content: "$\\dim M_{m\\times n}(\\mathbb{R}) = mn = \\dim \\mathbb{R}^{mn}$."
+  },
+  {
+    label: "Explicit map",
+    content: "Vectorize: $\\phi(A) = (a_{11}, a_{12}, \\ldots, a_{1n}, a_{21}, \\ldots, a_{mn})^T$ (row-by-row). This is a linear bijection."
+  }
+]} />
+
+<StepReveal title="Example 3 — An automorphism of ℝ²: reflection" steps={[
+  {
+    label: "The map",
+    content: "$T: \\mathbb{R}^2 \\to \\mathbb{R}^2$, $T(x,y) = (x,-y)$ (reflection in the $x$-axis). Linear and bijective (it is its own inverse: $T^{-1} = T$)."
+  },
+  {
+    label: "Matrix",
+    content: "$[T]_E = \\begin{pmatrix}1 & 0 \\\\ 0 & -1\\end{pmatrix}$, $\\det = -1 \\neq 0$. Non-zero determinant ↔ invertible matrix ↔ isomorphism (for maps $V \\to V$).",
+    formula: "\\det[T] \\neq 0 \\iff T \\text{ is an isomorphism (on finite-dim V)}"
+  }
+]} />
+
+<StepReveal title="Example 4 — Non-Isomorphism: ℝ² and ℝ³" steps={[
+  {
+    label: "Different dimensions",
+    content: "$\\dim \\mathbb{R}^2 = 2 \\neq 3 = \\dim \\mathbb{R}^3$. Therefore $\\mathbb{R}^2 \\not\\cong \\mathbb{R}^3$."
+  },
+  {
+    label: "No bijective linear map can exist",
+    content: "Any linear $T: \\mathbb{R}^2 \\to \\mathbb{R}^3$ has $\\operatorname{rank}(T) \\leq \\dim \\mathbb{R}^2 = 2 < 3 = \\dim \\mathbb{R}^3$, so $T$ cannot be surjective. Similarly, any $T: \\mathbb{R}^3 \\to \\mathbb{R}^2$ must have $\\operatorname{nullity}(T) \\geq 1$, so $T$ cannot be injective."
+  }
+]} />
+
+---
+
+## Isomorphism Invariants
+
+Any property preserved by isomorphisms is called an **isomorphism invariant**. Key invariants:
+
+| Invariant | Preserved? |
+|:---|:---:|
+| Dimension | ✓ |
+| Finite/infinite-dimensionality | ✓ |
+| Subspace structure (up to bijection) | ✓ |
+| Number of elements (if finite field) | ✓ |
+| Specific elements or vectors | ✗ |
+| Choice of basis | ✗ |
+
+<SummaryBox title="Key Takeaways: Isomorphisms">
+- An isomorphism is a bijective linear map; its inverse is also linear.
+- $V \cong W \iff \dim V = \dim W$ (for finite-dim spaces over the same field).
+- Every $n$-dim space is isomorphic to $\mathbb{F}^n$ — the universal model.
+- $\det[T] \neq 0$ (for an endomorphism) $\iff$ $T$ is an isomorphism.
+- Isomorphic spaces are structurally identical; all vector space properties transfer.
+- Automorphisms of $V$ form a group $\operatorname{Aut}(V)$ under composition.
+</SummaryBox>
