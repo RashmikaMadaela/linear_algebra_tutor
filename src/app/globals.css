@@ -1,0 +1,73 @@
+@import 'katex/dist/katex.min.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-inter: 'Inter', system-ui, sans-serif;
+  --font-jetbrains: 'JetBrains Mono', Menlo, monospace;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-bg text-text font-sans;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-bg-surface;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-bg-border rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-text-faint;
+}
+
+/* KaTeX overrides for dark mode */
+.katex {
+  color: #e2e8f0;
+  font-size: 1.05em;
+}
+.katex-display {
+  @apply my-4 overflow-x-auto;
+  padding: 0.5rem 0;
+}
+.katex-display > .katex {
+  @apply px-4;
+}
+
+/* Prose overrides */
+.prose pre {
+  @apply bg-bg-surface border border-bg-border rounded-lg;
+}
+.prose code::before,
+.prose code::after {
+  content: none;
+}
+
+/* Focus ring */
+*:focus-visible {
+  @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-bg;
+}
+
+/* Smooth transitions */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Override transition for transforms (don't slow down animations) */
+.transform, [class*="translate"], [class*="rotate"], [class*="scale"] {
+  transition-property: transform;
+}
