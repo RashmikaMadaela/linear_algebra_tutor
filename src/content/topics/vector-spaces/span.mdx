@@ -1,0 +1,145 @@
+---
+title: "Span and Linear Combinations"
+description: "How to generate subspaces from a set of vectors"
+section: "vector-spaces"
+order: 3
+---
+
+## Big Idea
+
+Given a set of vectors, you can combine them with arbitrary scalars to make infinitely many new vectors. The collection of *all* such combinations forms a subspace — the **span** of the set. Span is the fundamental tool for describing what a set of vectors "generates."
+
+---
+
+## Linear Combinations
+
+<DefinitionBox number={6} title="Linear Combination">
+Let $V$ be a vector space over $\mathbb{F}$ and let $S = \{\mathbf{v}_1, \mathbf{v}_2, \ldots, \mathbf{v}_k\} \subseteq V$. A **linear combination** of the vectors in $S$ is any expression of the form:
+
+$$\alpha_1 \mathbf{v}_1 + \alpha_2 \mathbf{v}_2 + \cdots + \alpha_k \mathbf{v}_k$$
+
+where $\alpha_1, \alpha_2, \ldots, \alpha_k \in \mathbb{F}$ are scalars called the **coefficients**.
+</DefinitionBox>
+
+**Examples:**
+- In $\mathbb{R}^3$: $3(1,0,0) - 2(0,1,0) + 5(0,0,1) = (3,-2,5)$ is a linear combination of the standard basis vectors.
+- In $\mathbb{P}_2(\mathbb{R})$: $2(x^2) - 3(x) + 1(1) = 2x^2 - 3x + 1$ is a linear combination of $\{1, x, x^2\}$.
+
+---
+
+## Span
+
+<DefinitionBox number={7} title="Span">
+Let $V$ be a vector space over $\mathbb{F}$ and $S \subseteq V$ (possibly infinite). The **span** of $S$ is the set of **all finite** linear combinations of elements of $S$:
+
+$$\operatorname{span}(S) = \left\{ \sum_{i=1}^{k} \alpha_i \mathbf{v}_i \;\middle|\; k \in \mathbb{N},\; \mathbf{v}_i \in S,\; \alpha_i \in \mathbb{F} \right\}$$
+
+**Special cases:**
+- $\operatorname{span}(\varnothing) = \{\mathbf{0}\}$ (the span of the empty set is the zero subspace)
+- If $S = V$, we say $S$ **spans** $V$ or is a **spanning set** for $V$
+</DefinitionBox>
+
+---
+
+## Span is the Smallest Subspace
+
+<TheoremBox number={6} title="Span is the Smallest Subspace Containing S" proofSketch={<>First show span(S) is a subspace: it contains 𝟎 (empty combination), and is closed under linear combinations (concatenate coefficient lists). Then show minimality: if W is any subspace containing S, and v = Σαᵢvᵢ ∈ span(S), then each vᵢ ∈ S ⊆ W, and W is closed under linear combinations, so v ∈ W. Hence span(S) ⊆ W.</>}>
+For any subset $S$ of a vector space $V$:
+
+1. $\operatorname{span}(S)$ is a subspace of $V$.
+2. $S \subseteq \operatorname{span}(S)$ (each vector in $S$ is in its own span, with coefficient 1).
+3. If $W$ is any subspace of $V$ with $S \subseteq W$, then $\operatorname{span}(S) \subseteq W$.
+
+In other words, $\operatorname{span}(S)$ is the **smallest subspace of $V$ that contains $S$**.
+</TheoremBox>
+
+---
+
+## Worked Examples
+
+<StepReveal title="Example 5.1 — Does {(1,0,0),(0,1,0),(0,0,1)} span ℝ³?" steps={[
+  {
+    label: "Setup",
+    content: "Let $\\mathbf{e}_1 = (1,0,0)$, $\\mathbf{e}_2 = (0,1,0)$, $\\mathbf{e}_3 = (0,0,1)$. We want to show $\\operatorname{span}(\\{\\mathbf{e}_1, \\mathbf{e}_2, \\mathbf{e}_3\\}) = \\mathbb{R}^3$."
+  },
+  {
+    label: "Write an arbitrary vector",
+    content: "Take any $(a, b, c) \\in \\mathbb{R}^3$. We need to write it as a linear combination.",
+    formula: "(a, b, c) = \\alpha_1 \\mathbf{e}_1 + \\alpha_2 \\mathbf{e}_2 + \\alpha_3 \\mathbf{e}_3"
+  },
+  {
+    label: "Find coefficients",
+    content: "Setting $\\alpha_1 = a$, $\\alpha_2 = b$, $\\alpha_3 = c$: $(a,b,c) = a(1,0,0) + b(0,1,0) + c(0,0,1)$.",
+    formula: "(a,b,c) = a\\mathbf{e}_1 + b\\mathbf{e}_2 + c\\mathbf{e}_3"
+  },
+  {
+    label: "Conclusion",
+    content: "Every vector in $\\mathbb{R}^3$ is a linear combination of $\\mathbf{e}_1, \\mathbf{e}_2, \\mathbf{e}_3$. Thus $\\operatorname{span}(\\{\\mathbf{e}_1, \\mathbf{e}_2, \\mathbf{e}_3\\}) = \\mathbb{R}^3$. These are the **standard basis vectors**."
+  }
+]} />
+
+<StepReveal title="Example 5.2 — What does {(1,1,0), (0,1,1)} span in ℝ³?" steps={[
+  {
+    label: "Form a general linear combination",
+    content: "We want to find all $(x, y, z) \\in \\mathbb{R}^3$ of the form $\\alpha(1,1,0) + \\beta(0,1,1) = (\\alpha, \\alpha+\\beta, \\beta)$.",
+    formula: "(x, y, z) = (\\alpha,\\; \\alpha+\\beta,\\; \\beta)"
+  },
+  {
+    label: "Find the constraint",
+    content: "From the components: $x = \\alpha$, $z = \\beta$, $y = \\alpha + \\beta = x + z$. So the span is exactly the set $\\{(x,y,z) \\mid y = x+z\\}$.",
+    formula: "\\operatorname{span}(\\{(1,1,0),(0,1,1)\\}) = \\{(x,y,z) \\in \\mathbb{R}^3 \\mid x - y + z = 0\\}"
+  },
+  {
+    label: "Geometry",
+    content: "This is a plane through the origin in $\\mathbb{R}^3$ (the two vectors are non-parallel). As expected, the span of a finite set of vectors in a vector space is always a subspace."
+  }
+]} />
+
+<StepReveal title="Example 5.3 — Span in polynomial spaces" steps={[
+  {
+    label: "Setup",
+    content: "Does $\\{1, x, x^2\\}$ span $\\mathbb{P}_2(\\mathbb{R})$?"
+  },
+  {
+    label: "General element",
+    content: "Any $p(x) = a_0 + a_1 x + a_2 x^2 \\in \\mathbb{P}_2(\\mathbb{R})$ can be written as $a_0 \\cdot 1 + a_1 \\cdot x + a_2 \\cdot x^2$. ✓",
+    formula: "p(x) = a_0 \\cdot 1 + a_1 \\cdot x + a_2 \\cdot x^2"
+  },
+  {
+    label: "Conclusion",
+    content: "Yes! $\\{1, x, x^2\\}$ spans $\\mathbb{P}_2(\\mathbb{R})$. In general, $\\{1, x, x^2, \\ldots, x^n\\}$ spans $\\mathbb{P}_n(\\mathbb{R})$."
+  }
+]} />
+
+<StepReveal title="Example 5.4 — A set that does NOT span ℝ³" steps={[
+  {
+    label: "Setup",
+    content: "Does $S = \\{(1, 0, 0), (0, 1, 0)\\}$ span $\\mathbb{R}^3$?"
+  },
+  {
+    label: "General combination",
+    content: "Any linear combination: $\\alpha(1,0,0) + \\beta(0,1,0) = (\\alpha, \\beta, 0)$. Every vector in the span has a zero in the third coordinate.",
+    formula: "\\operatorname{span}(S) = \\{(a,b,0) \\mid a,b \\in \\mathbb{R}\\}"
+  },
+  {
+    label: "Counter-example",
+    content: "$(0, 0, 1) \\in \\mathbb{R}^3$ but $(0,0,1) \\notin \\operatorname{span}(S)$. So $S$ does not span $\\mathbb{R}^3$. It spans only the $xy$-plane (a subspace)."
+  }
+]} />
+
+---
+
+## Spanning and Systems of Equations
+
+> **Key connection:** Asking whether $\mathbf{b} \in \operatorname{span}(\{\mathbf{v}_1, \ldots, \mathbf{v}_k\})$ is the same as asking whether the system $[A | \mathbf{b}]$ is consistent, where $A = [\mathbf{v}_1 \mid \cdots \mid \mathbf{v}_k]$. This is why row reduction is central to linear algebra.
+
+$$\mathbf{b} \in \operatorname{span}(\mathbf{v}_1,\ldots,\mathbf{v}_k) \iff A\mathbf{x} = \mathbf{b} \text{ is consistent}$$
+
+<SummaryBox title="Key Takeaways: Span and Linear Combinations">
+- A **linear combination** is a sum $\alpha_1\mathbf{v}_1 + \cdots + \alpha_k\mathbf{v}_k$ with scalars $\alpha_i \in \mathbb{F}$.
+- The **span** of a set $S$ is the collection of all finite linear combinations — always a subspace.
+- $\operatorname{span}(S)$ is the **smallest** subspace containing $S$.
+- $S$ spans $V$ iff every vector in $V$ can be written as a linear combination of elements of $S$.
+- Testing membership in span ↔ testing consistency of a linear system.
+- $\operatorname{span}(\varnothing) = \{\mathbf{0}\}$.
+</SummaryBox>

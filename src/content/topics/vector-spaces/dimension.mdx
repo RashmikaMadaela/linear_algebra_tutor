@@ -1,0 +1,140 @@
+---
+title: "Dimension"
+description: "The size of a vector space: counting degrees of freedom"
+section: "vector-spaces"
+order: 6
+---
+
+## Big Idea
+
+The **dimension** of a vector space is the number of vectors in any basis — the minimum number of "directions" needed to reach every point. Since all bases have the same size (Theorem 9), this number is well-defined and is the most fundamental invariant of a vector space.
+
+---
+
+## Dimension
+
+<DefinitionBox number={12} title="Dimension">
+Let $V$ be a vector space over $\mathbb{F}$.
+
+- If $V$ has a finite basis with $n$ elements, then $V$ is **$n$-dimensional** and we write $\dim V = n$.
+- If no finite basis exists, $V$ is **infinite-dimensional** and we write $\dim V = \infty$ (or $\aleph_0$ for countably infinite Hamel bases, etc.).
+- The **zero space** $\{\mathbf{0}\}$ has dimension $0$.
+
+**Examples:**
+- $\dim \mathbb{F}^n = n$
+- $\dim \mathbb{P}_n(\mathbb{F}) = n + 1$
+- $\dim M_{m \times n}(\mathbb{F}) = mn$
+- $\dim \mathbb{P}(\mathbb{F}) = \infty$ (Hamel basis: $\{1, x, x^2, \ldots\}$, countably infinite)
+</DefinitionBox>
+
+---
+
+## Existence of Bases: Zorn's Lemma
+
+For finite-dimensional spaces, bases exist by the extension/reduction theorems. For infinite-dimensional spaces, we need a more powerful tool:
+
+<DefinitionBox number={11} title="Chain and Maximal Element">
+Let $(P, \leq)$ be a **partially ordered set** (a set with a reflexive, antisymmetric, transitive relation $\leq$).
+
+- A **chain** in $P$ is a subset $C \subseteq P$ in which every two elements are comparable: for all $x, y \in C$, either $x \leq y$ or $y \leq x$.
+- An **upper bound** for a subset $S \subseteq P$ is an element $u \in P$ with $x \leq u$ for all $x \in S$.
+- A **maximal element** of $P$ is an element $m \in P$ such that there is no $x \in P$ with $m < x$ (nothing is strictly larger than $m$).
+</DefinitionBox>
+
+<TheoremBox number={14} title="Zorn's Lemma" proofSketch={<>Zorn's Lemma is equivalent to the Axiom of Choice — it cannot be proved from the other ZF axioms alone. It is taken as an axiom in standard mathematics (ZFC). The name "lemma" is historical; it is a foundational principle.</>}>
+**Zorn's Lemma:** Let $P$ be a non-empty partially ordered set. If every chain in $P$ has an upper bound in $P$, then $P$ has at least one maximal element.
+</TheoremBox>
+
+---
+
+## Every Vector Space Has a Basis
+
+<TheoremBox number={15} title="Every Vector Space Has a Hamel Basis" proofSketch={<>Let P = {all LI subsets of V}, ordered by inclusion ⊆. P is non-empty (∅ ∈ P). For any chain C = {Sα} in P, the union ∪Sα is LI (any finite subset lies in some Sα which is LI). So every chain has an upper bound. By Zorn's Lemma, P has a maximal element B. B is LI by construction. If B does not span V, pick v ∉ span(B): then B ∪ {v} is LI (Theorem 8), contradicting maximality of B. So B spans V, hence B is a basis.</>}>
+Every vector space $V$ over any field $\mathbb{F}$ has a **Hamel basis**.
+
+**Proof sketch (using Zorn's Lemma):**
+Let $P$ be the collection of all linearly independent subsets of $V$, ordered by set inclusion $\subseteq$.
+
+1. $P$ is non-empty: $\{\varnothing\} \in P$ (the empty set is LI).
+2. Every chain in $P$ has an upper bound: the union of a chain of LI sets is LI.
+3. By Zorn's Lemma, $P$ has a maximal element $\mathcal{B}$.
+4. $\mathcal{B}$ is LI by construction. If $\mathcal{B}$ did not span $V$, we could enlarge it — contradicting maximality.
+5. Therefore $\mathcal{B}$ spans $V$ and is LI: it is a Hamel basis. $\square$
+</TheoremBox>
+
+---
+
+## Dimension and Linear Systems
+
+<StepReveal title="Note 4 — Rank, Nullity, and Solutions to Ax = b" steps={[
+  {
+    label: "The Rank",
+    content: "For a matrix $A \\in M_{m \\times n}(\\mathbb{F})$, the **rank** of $A$ is the dimension of the column space (or equivalently row space): $\\operatorname{rank}(A) = \\dim \\operatorname{col}(A)$."
+  },
+  {
+    label: "The Nullity",
+    content: "The **nullity** is the dimension of the null space (solution space of $A\\mathbf{x} = \\mathbf{0}$): $\\operatorname{nullity}(A) = \\dim \\ker(A)$."
+  },
+  {
+    label: "Rank-Nullity Theorem",
+    content: "For $A \\in M_{m\\times n}(\\mathbb{F})$: $\\operatorname{rank}(A) + \\operatorname{nullity}(A) = n$ (the number of columns).",
+    formula: "\\operatorname{rank}(A) + \\operatorname{nullity}(A) = n"
+  },
+  {
+    label: "Consequence for Ax = b",
+    content: "The system $A\\mathbf{x} = \\mathbf{b}$ is consistent iff $\\operatorname{rank}(A) = \\operatorname{rank}([A|\\mathbf{b}])$. When consistent, if $\\operatorname{nullity}(A) = 0$, the solution is unique; otherwise there are infinitely many solutions (parameterised by the null space).",
+    formula: "\\text{solution set} = \\mathbf{x}_p + \\ker(A)"
+  }
+]} />
+
+---
+
+## Dimension in Practice
+
+<StepReveal title="Note 5 — Fourier Series as a Schauder Basis" steps={[
+  {
+    label: "The function space",
+    content: "Let $V = L^2([-\\pi, \\pi])$ — the space of square-integrable functions on $[-\\pi, \\pi]$. This is an infinite-dimensional Hilbert space."
+  },
+  {
+    label: "The Fourier basis",
+    content: "Define $e_0 = \\tfrac{1}{\\sqrt{2\\pi}}$, $e_{2k-1}(x) = \\tfrac{\\cos(kx)}{\\sqrt{\\pi}}$, $e_{2k}(x) = \\tfrac{\\sin(kx)}{\\sqrt{\\pi}}$ for $k \\geq 1$. These are orthonormal.",
+    formula: "\\langle e_m, e_n \\rangle = \\int_{-\\pi}^\\pi e_m(x)\\, e_n(x)\\, dx = \\delta_{mn}"
+  },
+  {
+    label: "Schauder basis representation",
+    content: "Every $f \\in L^2[-\\pi,\\pi]$ has a unique representation as a convergent series (in the $L^2$ norm):",
+    formula: "f(x) = \\frac{a_0}{2} + \\sum_{k=1}^\\infty \\left(a_k \\cos(kx) + b_k \\sin(kx)\\right)"
+  },
+  {
+    label: "Why not a Hamel basis",
+    content: "No finite set of these functions spans $L^2[-\\pi,\\pi]$. The Fourier 'basis' is a Schauder (not Hamel) basis — representations require convergent *infinite* sums, not finite ones."
+  }
+]} />
+
+---
+
+## Dimension Formulas
+
+For finite-dimensional spaces:
+
+<BM math="\dim(V) = n \iff V \text{ has a basis with } n \text{ elements}" />
+
+<BM math="\dim(W_1 + W_2) = \dim W_1 + \dim W_2 - \dim(W_1 \cap W_2) \quad \text{(Dimension Formula)}" />
+
+Where $W_1 + W_2 = \{\mathbf{w}_1 + \mathbf{w}_2 \mid \mathbf{w}_1 \in W_1, \mathbf{w}_2 \in W_2\}$ is the **sum** of two subspaces.
+
+**Compact consequences:**
+- $\dim W \leq \dim V$ for any subspace $W \subseteq V$
+- $\dim W = \dim V \implies W = V$ (for finite-dim $V$)
+- Any $n$ LI vectors in an $n$-dim space form a basis
+- Any $n$ spanning vectors in an $n$-dim space form a basis
+
+<SummaryBox title="Key Takeaways: Dimension">
+- $\dim V$ = size of any basis. All bases have the same cardinality (Theorem 9).
+- $\dim \mathbb{F}^n = n$, $\dim \mathbb{P}_n = n+1$, $\dim M_{m\times n} = mn$.
+- Zorn's Lemma guarantees a Hamel basis for every vector space (even infinite-dim).
+- Rank-Nullity Theorem: $\operatorname{rank}(A) + \operatorname{nullity}(A) = n$ (columns of $A$).
+- Dimension Formula: $\dim(W_1 + W_2) = \dim W_1 + \dim W_2 - \dim(W_1 \cap W_2)$.
+- Fourier series is a Schauder (not Hamel) basis — it uses convergent infinite sums.
+</SummaryBox>

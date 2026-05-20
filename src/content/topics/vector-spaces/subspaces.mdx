@@ -1,0 +1,153 @@
+---
+title: "Subspaces"
+description: "Subsets of a vector space that are themselves vector spaces"
+section: "vector-spaces"
+order: 2
+---
+
+## Big Idea
+
+A **subspace** is a subset of a vector space that is itself a vector space under the *same* operations. Instead of checking all ten axioms again, there's a beautiful shortcut: just check closure under addition and scalar multiplication.
+
+## Intuition
+
+In $\mathbb{R}^3$, a line through the origin and a plane through the origin are both subspaces. A line *not* through the origin is not a subspace — it fails to contain $\mathbf{0}$.
+
+The "through the origin" requirement is the key geometric insight: if you can add two vectors in a subspace, you must stay inside it; if you can scale any vector in it, you must stay inside it.
+
+---
+
+## Formal Definition
+
+<DefinitionBox number={5} title="Subspace">
+Let $V$ be a vector space over $\mathbb{F}$. A non-empty subset $W \subseteq V$ is a **subspace** of $V$ if $W$ is itself a vector space over $\mathbb{F}$ under the same addition and scalar multiplication operations inherited from $V$.
+</DefinitionBox>
+
+---
+
+## The Subspace Test
+
+Checking all ten axioms would be tedious. The next theorem reduces it to just two checks — plus non-emptiness.
+
+<TheoremBox number={5} title="Subspace Criterion (Closure Test)" proofSketch={<>The closure conditions (i) and (ii) ensure all the algebraic axioms hold in $W$. Since $W \subseteq V$, commutativity, associativity, and distributivity are inherited automatically from $V$. The zero vector follows from (ii) with $\alpha = 0$: $0 \cdot w = \mathbf{0} \in W$. Additive inverses follow from (ii) with $\alpha = -1$: $(-1)w = -w \in W$.</>}>
+A non-empty subset $W \subseteq V$ is a subspace of $V$ if and only if:
+
+1. **Closed under addition**: $\mathbf{u}, \mathbf{v} \in W \implies \mathbf{u} + \mathbf{v} \in W$
+2. **Closed under scalar multiplication**: $\alpha \in \mathbb{F},\, \mathbf{v} \in W \implies \alpha \mathbf{v} \in W$
+
+Equivalently: $\mathbf{u}, \mathbf{v} \in W$ and $\alpha, \beta \in \mathbb{F}$ $\implies$ $\alpha \mathbf{u} + \beta \mathbf{v} \in W$.
+</TheoremBox>
+
+> **Note:** The single combined condition $\alpha \mathbf{u} + \beta \mathbf{v} \in W$ (for all $\alpha, \beta \in \mathbb{F}$ and $\mathbf{u}, \mathbf{v} \in W$) is called **closure under linear combinations**, and is the most efficient way to check in practice.
+
+---
+
+## Examples
+
+<StepReveal title="Example 4.1 — Lines and planes through the origin in ℝ³" steps={[
+  {
+    label: "Plane through origin",
+    content: "Let $W = \\{(x, y, z) \\in \\mathbb{R}^3 \\mid ax + by + cz = 0\\}$ for fixed $a, b, c$ not all zero. This is a plane through the origin.",
+    formula: "ax + by + cz = 0"
+  },
+  {
+    label: "Check non-empty",
+    content: "$(0,0,0)$ satisfies $a\\cdot 0 + b \\cdot 0 + c \\cdot 0 = 0$, so $\\mathbf{0} \\in W$. ✓"
+  },
+  {
+    label: "Check closure under addition",
+    content: "If $a x_1 + b y_1 + c z_1 = 0$ and $a x_2 + b y_2 + c z_2 = 0$, then $a(x_1+x_2) + b(y_1+y_2) + c(z_1+z_2) = 0$. ✓"
+  },
+  {
+    label: "Check closure under scaling",
+    content: "If $ax + by + cz = 0$ and $\\alpha \\in \\mathbb{R}$, then $a(\\alpha x) + b(\\alpha y) + c(\\alpha z) = \\alpha(ax+by+cz) = 0$. ✓"
+  },
+  {
+    label: "Conclusion",
+    content: "Any homogeneous plane (passing through the origin) in $\\mathbb{R}^3$ is a subspace. A non-homogeneous plane $ax+by+cz = d \\neq 0$ is NOT a subspace (it doesn't contain $\\mathbf{0}$)."
+  }
+]} />
+
+<StepReveal title="Example 4.2 — Polynomials of degree ≤ k inside ℙₙ" steps={[
+  {
+    label: "Setup",
+    content: "Let $V = \\mathbb{P}_n(\\mathbb{F})$ and $W = \\mathbb{P}_k(\\mathbb{F})$ for $k \\leq n$. Claim: $W$ is a subspace of $V$."
+  },
+  {
+    label: "Non-empty",
+    content: "The zero polynomial has degree $-\\infty \\leq k$, so $\\mathbf{0} \\in W$. ✓"
+  },
+  {
+    label: "Closure",
+    content: "If $p, q$ have degree $\\leq k$, then $p + q$ has degree $\\leq k$. If $p$ has degree $\\leq k$ and $\\alpha \\in \\mathbb{F}$, then $\\alpha p$ has degree $\\leq k$ (or is zero). ✓"
+  },
+  {
+    label: "Conclusion",
+    content: "$\\mathbb{P}_k(\\mathbb{F}) \\subseteq \\mathbb{P}_n(\\mathbb{F})$ is a subspace for any $k \\leq n$."
+  }
+]} />
+
+<StepReveal title="Example 4.3 — ODE Solution Spaces (important example)" steps={[
+  {
+    label: "Setup",
+    content: "Consider the ODE $y'' + p(x)y' + q(x)y = 0$. Let $W = \\{y : [a,b] \\to \\mathbb{R} \\mid y \\text{ is a solution}\\}$.",
+    formula: "y'' + p(x)y' + q(x)y = 0"
+  },
+  {
+    label: "Zero vector",
+    content: "The zero function $y = 0$ is always a solution of any homogeneous ODE. ✓"
+  },
+  {
+    label: "Closure under addition",
+    content: "If $y_1$ and $y_2$ are solutions, then $(y_1 + y_2)'' + p(y_1+y_2)' + q(y_1+y_2) = (y_1''+py_1'+qy_1) + (y_2''+py_2'+qy_2) = 0 + 0 = 0$. ✓"
+  },
+  {
+    label: "Closure under scaling",
+    content: "If $y_1$ is a solution and $c \\in \\mathbb{R}$, then $(cy_1)'' + p(cy_1)' + q(cy_1) = c(y_1''+py_1'+qy_1) = 0$. ✓"
+  },
+  {
+    label: "Conclusion",
+    content: "The solution set of any **homogeneous** linear ODE is a subspace of the function space. For a $k$th-order linear ODE, this solution space has dimension $k$ (by the theory of ODEs)."
+  }
+]} />
+
+---
+
+## Non-Examples
+
+<StepReveal title="Example 4.4 — Why GL₂(ℝ) is NOT a subspace of M₂ₓ₂(ℝ)" steps={[
+  {
+    label: "Setup",
+    content: "Let $W = GL_2(\\mathbb{R}) = \\{A \\in M_{2\\times 2}(\\mathbb{R}) \\mid \\det A \\neq 0\\}$, the invertible $2\\times 2$ matrices."
+  },
+  {
+    label: "Check zero",
+    content: "The zero matrix $\\mathbf{0}$ has $\\det(\\mathbf{0}) = 0 \\neq \\text{nonzero}$, so $\\mathbf{0} \\notin GL_2(\\mathbb{R})$. Immediately fails. ✗"
+  },
+  {
+    label: "Also fails closure",
+    content: "Let $A = I$ and $B = -I$. Both are invertible ($\\det(I) = 1$, $\\det(-I) = 1$). But $A + B = I + (-I) = \\mathbf{0}$, which is not invertible. ✗"
+  },
+  {
+    label: "Conclusion",
+    content: "$GL_2(\\mathbb{R})$ is NOT a subspace of $M_{2\\times 2}(\\mathbb{R})$. Being a group under multiplication does not imply being a subspace under addition."
+  }
+]} />
+
+---
+
+## Intersection and Union
+
+<TheoremBox number={5} title="Intersection of Subspaces is a Subspace" proofSketch={<>If $\mathbf{v}, \mathbf{w} \in W_1 \cap W_2$, then both are in $W_1$ (a subspace) so $\alpha\mathbf{v}+\beta\mathbf{w} \in W_1$, and similarly $\in W_2$. Hence $\alpha\mathbf{v}+\beta\mathbf{w} \in W_1 \cap W_2$.</>}>
+If $W_1$ and $W_2$ are subspaces of $V$, then $W_1 \cap W_2$ is also a subspace of $V$.
+
+> **Warning:** $W_1 \cup W_2$ is generally **not** a subspace. Take $W_1 = x$-axis and $W_2 = y$-axis in $\mathbb{R}^2$: $(1,0) \in W_1$ and $(0,1) \in W_2$, but $(1,0)+(0,1) = (1,1) \notin W_1 \cup W_2$.
+</TheoremBox>
+
+<SummaryBox title="Key Takeaways: Subspaces">
+- A **subspace** $W \subseteq V$ must satisfy: $\mathbf{0} \in W$, closed under $+$, closed under scalar $\cdot$.
+- The shortcut: just check $\alpha\mathbf{u}+\beta\mathbf{v} \in W$ for all $\alpha, \beta \in \mathbb{F}$, $\mathbf{u}, \mathbf{v} \in W$.
+- Key examples: solution spaces of homogeneous linear ODEs, null spaces of matrices, $\mathbb{P}_k \subseteq \mathbb{P}_n$, planes through the origin in $\mathbb{R}^3$.
+- **Intersection** of subspaces is a subspace; **union** is generally not.
+- A non-homogeneous set (e.g., $ax+by+cz=d$ with $d\neq 0$) is never a subspace.
+</SummaryBox>

@@ -1,0 +1,150 @@
+---
+title: "Linear Independence"
+description: "When no vector in a set is redundant"
+section: "vector-spaces"
+order: 4
+---
+
+## Big Idea
+
+A set of vectors is **linearly independent** if none of them is a "redundant" combination of the others — the only way a linear combination of them equals zero is if all the coefficients are zero. Linear independence is the key property that makes a set efficient for describing a vector space.
+
+---
+
+## Formal Definition
+
+<DefinitionBox number={8} title="Linear Independence and Dependence">
+Let $V$ be a vector space over $\mathbb{F}$ and let $S = \{\mathbf{v}_1, \mathbf{v}_2, \ldots, \mathbf{v}_k\} \subseteq V$.
+
+$S$ is **linearly independent (LI)** if the only solution to:
+$$\alpha_1 \mathbf{v}_1 + \alpha_2 \mathbf{v}_2 + \cdots + \alpha_k \mathbf{v}_k = \mathbf{0}$$
+is $\alpha_1 = \alpha_2 = \cdots = \alpha_k = 0$ (the **trivial solution**).
+
+$S$ is **linearly dependent (LD)** if there exist scalars $\alpha_1, \ldots, \alpha_k \in \mathbb{F}$, **not all zero**, such that:
+$$\alpha_1 \mathbf{v}_1 + \alpha_2 \mathbf{v}_2 + \cdots + \alpha_k \mathbf{v}_k = \mathbf{0}$$
+
+**Conventions:**
+- The empty set $\varnothing$ is linearly independent (vacuously).
+- An infinite set $S$ is LI if every *finite* subset of $S$ is LI.
+</DefinitionBox>
+
+---
+
+## Equivalent Characterisation
+
+<TheoremBox number={7} title="LD ↔ One Vector is a Combination of the Others" proofSketch={<>(⇒) If Σαᵢvᵢ = 0 with some αⱼ ≠ 0, then vⱼ = -(αⱼ)⁻¹ Σᵢ≠ⱼ αᵢvᵢ. (⇐) If vⱼ = Σᵢ≠ⱼ βᵢvᵢ, then Σᵢ≠ⱼ βᵢvᵢ + (-1)vⱼ = 0, a non-trivial relation.</>}>
+A finite set $\{\mathbf{v}_1, \ldots, \mathbf{v}_k\}$ is linearly dependent if and only if at least one vector $\mathbf{v}_j$ can be written as a linear combination of the others:
+$$\mathbf{v}_j = \sum_{i \neq j} \alpha_i \mathbf{v}_i$$
+
+Equivalently: a set is LI if and only if no vector in it is in the span of the remaining vectors.
+</TheoremBox>
+
+---
+
+## Examples
+
+<StepReveal title="Example 6.1 — Linear independence in ℝ³" steps={[
+  {
+    label: "Setup",
+    content: "Are $\\mathbf{v}_1 = (1,0,0)$, $\\mathbf{v}_2 = (0,1,0)$, $\\mathbf{v}_3 = (0,0,1)$ linearly independent?"
+  },
+  {
+    label: "Write the equation",
+    content: "Suppose $\\alpha_1(1,0,0) + \\alpha_2(0,1,0) + \\alpha_3(0,0,1) = (0,0,0)$.",
+    formula: "(\\alpha_1, \\alpha_2, \\alpha_3) = (0,0,0)"
+  },
+  {
+    label: "Solve",
+    content: "The components give $\\alpha_1 = 0$, $\\alpha_2 = 0$, $\\alpha_3 = 0$. The only solution is trivial."
+  },
+  {
+    label: "Conclusion",
+    content: "$\\{\\mathbf{e}_1, \\mathbf{e}_2, \\mathbf{e}_3\\}$ is linearly independent. These are the **standard basis vectors** of $\\mathbb{R}^3$."
+  }
+]} />
+
+<StepReveal title="Example 6.2 — A linearly dependent set in ℝ³" steps={[
+  {
+    label: "Setup",
+    content: "Are $\\mathbf{v}_1 = (1,2,3)$, $\\mathbf{v}_2 = (0,1,1)$, $\\mathbf{v}_3 = (2,3,5)$ linearly independent?"
+  },
+  {
+    label: "Notice the relationship",
+    content: "Check: $2\\mathbf{v}_1 - \\mathbf{v}_2 = (2,4,6) - (0,1,1) = (2,3,5) = \\mathbf{v}_3$. So $\\mathbf{v}_3 = 2\\mathbf{v}_1 - \\mathbf{v}_2$."
+  },
+  {
+    label: "Write as a zero combination",
+    content: "Therefore: $2\\mathbf{v}_1 - \\mathbf{v}_2 - \\mathbf{v}_3 = \\mathbf{0}$, a **non-trivial** relation (not all coefficients are zero).",
+    formula: "2(1,2,3) + (-1)(0,1,1) + (-1)(2,3,5) = (0,0,0)"
+  },
+  {
+    label: "Conclusion",
+    content: "$\\{\\mathbf{v}_1, \\mathbf{v}_2, \\mathbf{v}_3\\}$ is linearly **dependent**. The vector $\\mathbf{v}_3$ is redundant — it adds no new directions."
+  }
+]} />
+
+<StepReveal title="Example 6.3 — The zero vector always creates dependence" steps={[
+  {
+    label: "Claim",
+    content: "Any set containing $\\mathbf{0}$ is linearly dependent."
+  },
+  {
+    label: "Proof",
+    content: "If $\\mathbf{0} \\in S$, write $S = \\{\\mathbf{0}, \\mathbf{v}_2, \\ldots, \\mathbf{v}_k\\}$. Then $1 \\cdot \\mathbf{0} + 0 \\cdot \\mathbf{v}_2 + \\cdots + 0 \\cdot \\mathbf{v}_k = \\mathbf{0}$. The coefficient $1 \\neq 0$, so this is a non-trivial relation.",
+    formula: "1 \\cdot \\mathbf{0} + 0 \\cdot \\mathbf{v}_2 + \\cdots + 0 \\cdot \\mathbf{v}_k = \\mathbf{0}"
+  },
+  {
+    label: "Conclusion",
+    content: "A linearly independent set can **never** contain the zero vector."
+  }
+]} />
+
+<StepReveal title="Example 6.4 — Polynomials: {1, x, x²} in ℙ₂(ℝ)" steps={[
+  {
+    label: "Setup",
+    content: "Are $p_0 = 1$, $p_1 = x$, $p_2 = x^2$ linearly independent in $\\mathbb{P}_2(\\mathbb{R})$?"
+  },
+  {
+    label: "Write the equation",
+    content: "Suppose $\\alpha_0 \\cdot 1 + \\alpha_1 \\cdot x + \\alpha_2 \\cdot x^2 = 0$ (the zero polynomial).",
+    formula: "\\alpha_0 + \\alpha_1 x + \\alpha_2 x^2 = 0 \\text{ for all } x \\in \\mathbb{R}"
+  },
+  {
+    label: "Equate coefficients",
+    content: "A polynomial is identically zero only if all its coefficients are zero. So $\\alpha_0 = 0$, $\\alpha_1 = 0$, $\\alpha_2 = 0$."
+  },
+  {
+    label: "Conclusion",
+    content: "$\\{1, x, x^2\\}$ is linearly independent. More generally, $\\{1, x, x^2, \\ldots, x^n\\}$ is LI in $\\mathbb{P}_n(\\mathbb{R})$."
+  }
+]} />
+
+---
+
+## Practical Test: Matrix Method
+
+For vectors in $\mathbb{F}^n$, linear independence can be tested by row-reducing the matrix formed by placing the vectors as **columns**:
+
+<BM math="\text{Columns } \mathbf{v}_1, \ldots, \mathbf{v}_k \text{ LI} \iff \text{rank}([\mathbf{v}_1 \mid \cdots \mid \mathbf{v}_k]) = k" />
+
+> If $k > n$, any $k$ vectors in $\mathbb{F}^n$ are automatically LD (more vectors than dimensions).
+
+---
+
+## Key Observations
+
+<TheoremBox number={8} title="Supersets of LD Sets are LD; Subsets of LI Sets are LI" proofSketch={<>If S is LD, Σαᵢvᵢ = 0 with not all αᵢ = 0. The same relation holds in any superset T ⊇ S (just set the new coefficients to 0). Contrapositive: if T is LI, every subset is LI.</>}>
+- If $S$ is linearly dependent and $T \supseteq S$, then $T$ is linearly dependent.
+- Equivalently: every subset of a linearly independent set is linearly independent.
+- If $S$ is linearly independent and $\mathbf{v} \notin \operatorname{span}(S)$, then $S \cup \{\mathbf{v}\}$ is linearly independent.
+</TheoremBox>
+
+<SummaryBox title="Key Takeaways: Linear Independence">
+- LI means: the only way to get $\mathbf{0}$ as a combination is with all-zero coefficients.
+- LD means: some vector is a linear combination of the others — it's "redundant."
+- Any set containing $\mathbf{0}$ is LD.
+- In $\mathbb{F}^n$: test LI by column-reducing. More than $n$ vectors are always LD.
+- LI is "hereditary downward": any subset of an LI set is LI.
+- LD is "hereditary upward": any superset of a LD set is LD.
+- LI + spanning = basis (coming next lesson).
+</SummaryBox>

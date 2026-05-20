@@ -1,0 +1,156 @@
+---
+title: "Vector Space Definition"
+description: "What is a vector space? The ten axioms and why they matter."
+section: "vector-spaces"
+order: 1
+---
+
+## Big Idea
+
+A **vector space** is any set where you can add elements together and scale them by numbers — and where those two operations behave "sensibly." The real power is that vectors don't have to be arrows in $\mathbb{R}^n$: polynomials, matrices, functions, and continuous signals can all be vector spaces.
+
+## Intuition
+
+Think of $\mathbb{R}^2$: you can add two arrows tip-to-tail, and you can stretch or shrink an arrow by a scalar. Those operations satisfy obvious rules — adding zero does nothing, reversing a vector undoes it, scaling by $1$ does nothing. A vector space is just an *abstraction* of exactly those rules, so they can apply to any collection of mathematical objects.
+
+---
+
+## Formal Definition
+
+<DefinitionBox number={4} title="Vector Space">
+Let $\mathbb{F}$ be a field. A **vector space** over $\mathbb{F}$ is a non-empty set $V$ equipped with two operations:
+
+- **Vector addition**: $+: V \times V \to V$
+- **Scalar multiplication**: $\cdot: \mathbb{F} \times V \to V$
+
+satisfying the following **ten axioms**. For all $\mathbf{u}, \mathbf{v}, \mathbf{w} \in V$ and all $\alpha, \beta \in \mathbb{F}$:
+
+**Axioms for addition ($V, +$ is an abelian group):**
+1. **Closure**: $\mathbf{u} + \mathbf{v} \in V$
+2. **Associativity**: $(\mathbf{u} + \mathbf{v}) + \mathbf{w} = \mathbf{u} + (\mathbf{v} + \mathbf{w})$
+3. **Zero vector**: $\exists\, \mathbf{0} \in V$ such that $\mathbf{0} + \mathbf{v} = \mathbf{v}$
+4. **Additive inverse**: $\exists\, (-\mathbf{v}) \in V$ such that $\mathbf{v} + (-\mathbf{v}) = \mathbf{0}$
+5. **Commutativity**: $\mathbf{u} + \mathbf{v} = \mathbf{v} + \mathbf{u}$
+
+**Axioms for scalar multiplication:**
+6. **Closure**: $\alpha \mathbf{v} \in V$
+7. **Distributivity over vectors**: $\alpha(\mathbf{u} + \mathbf{v}) = \alpha\mathbf{u} + \alpha\mathbf{v}$
+8. **Distributivity over scalars**: $(\alpha + \beta)\mathbf{v} = \alpha\mathbf{v} + \beta\mathbf{v}$
+9. **Associativity of scaling**: $(\alpha\beta)\mathbf{v} = \alpha(\beta\mathbf{v})$
+10. **Unit scalar**: $1 \cdot \mathbf{v} = \mathbf{v}$, where $1$ is the multiplicative identity in $\mathbb{F}$
+
+Elements of $V$ are called **vectors**; elements of $\mathbb{F}$ are called **scalars**.
+</DefinitionBox>
+
+---
+
+## Standard Examples
+
+<StepReveal title="Example 3.1 — ℝⁿ (the standard example)" steps={[
+  {
+    label: "The set",
+    content: "Let $V = \\mathbb{R}^n = \\{(x_1, x_2, \\ldots, x_n) \\mid x_i \\in \\mathbb{R}\\}$ with componentwise addition and scalar multiplication.",
+    formula: "(x_1,\\ldots,x_n) + (y_1,\\ldots,y_n) = (x_1+y_1,\\ldots,x_n+y_n)"
+  },
+  {
+    label: "Verify closure",
+    content: "Adding two $n$-tuples of reals gives another $n$-tuple of reals. Scaling by $\\alpha \\in \\mathbb{R}$ gives $(\\alpha x_1, \\ldots, \\alpha x_n) \\in \\mathbb{R}^n$."
+  },
+  {
+    label: "Zero and inverses",
+    content: "The zero vector is $\\mathbf{0} = (0, 0, \\ldots, 0)$. The additive inverse is $(-x_1, \\ldots, -x_n)$. All other axioms follow from $\\mathbb{R}$ being a field.",
+    formula: "-(x_1,\\ldots,x_n) = (-x_1,\\ldots,-x_n)"
+  },
+  {
+    label: "Conclusion",
+    content: "$\\mathbb{R}^n$ is a vector space over $\\mathbb{R}$ for any $n \\geq 1$. Likewise $\\mathbb{C}^n$ over $\\mathbb{C}$."
+  }
+]} />
+
+<StepReveal title="Example 3.2 — Polynomials ℙₙ(𝔽)" steps={[
+  {
+    label: "The set",
+    content: "Let $\\mathbb{P}_n(\\mathbb{F}) = \\{a_0 + a_1 x + a_2 x^2 + \\cdots + a_n x^n \\mid a_i \\in \\mathbb{F}\\}$, the set of polynomials over $\\mathbb{F}$ of degree $\\leq n$."
+  },
+  {
+    label: "Operations",
+    content: "Add polynomials coefficient-by-coefficient. Scale by multiplying every coefficient by $\\alpha \\in \\mathbb{F}$.",
+    formula: "\\alpha(a_0 + a_1x + \\cdots + a_nx^n) = (\\alpha a_0) + (\\alpha a_1)x + \\cdots + (\\alpha a_n)x^n"
+  },
+  {
+    label: "Zero and inverses",
+    content: "The zero polynomial $0$ (all coefficients zero) is the additive identity. The inverse of $p(x)$ is $-p(x)$ (negate all coefficients).",
+    formula: "\\mathbf{0} = 0 + 0x + \\cdots + 0x^n"
+  },
+  {
+    label: "All axioms hold",
+    content: "All 10 axioms hold. $\\mathbb{P}_n(\\mathbb{F})$ is a vector space over $\\mathbb{F}$. Note: $\\mathbb{P}(\\mathbb{F})$ (all polynomials, no degree bound) is also a vector space — it's infinite-dimensional."
+  }
+]} />
+
+<StepReveal title="Example 3.3 — Matrices Mₘₓₙ(𝔽)" steps={[
+  {
+    label: "The set",
+    content: "$M_{m \\times n}(\\mathbb{F})$ = all $m \\times n$ matrices with entries in $\\mathbb{F}$."
+  },
+  {
+    label: "Operations",
+    content: "Componentwise (entry-by-entry) addition and scalar multiplication.",
+    formula: "[A + B]_{ij} = A_{ij} + B_{ij}, \\quad [\\alpha A]_{ij} = \\alpha A_{ij}"
+  },
+  {
+    label: "Conclusion",
+    content: "All 10 axioms hold. $M_{m \\times n}(\\mathbb{F})$ is a vector space over $\\mathbb{F}$. The zero matrix is $\\mathbf{0}$. Special case: $M_{1 \\times n}$ is essentially $\\mathbb{F}^n$."
+  }
+]} />
+
+<StepReveal title="Example 3.4 — Exotic vector space: (ℝ⁺, ⊕, ⊙)" steps={[
+  {
+    label: "Define operations",
+    content: "Let $V = \\mathbb{R}^+ = \\{x \\in \\mathbb{R} \\mid x > 0\\}$ with $x \\oplus y = xy$ (multiply) and $\\alpha \\odot x = x^\\alpha$ (power)."
+  },
+  {
+    label: "Zero vector",
+    content: "We need $\\mathbf{0} \\oplus x = x$, i.e., $\\mathbf{0} \\cdot x = x$, so $\\mathbf{0} = 1$. The zero vector is $1$, not $0$!"
+  },
+  {
+    label: "Verify axioms",
+    content: "Commutativity: $x \\oplus y = xy = yx = y \\oplus x$. ✓ Distributivity: $\\alpha \\odot (x \\oplus y) = (xy)^\\alpha = x^\\alpha y^\\alpha = (\\alpha \\odot x) \\oplus (\\alpha \\odot y)$. ✓",
+    formula: "(\\alpha + \\beta) \\odot x = x^{\\alpha+\\beta} = x^\\alpha \\cdot x^\\beta = (\\alpha \\odot x) \\oplus (\\beta \\odot x)"
+  },
+  {
+    label: "Conclusion",
+    content: "All 10 axioms hold! $(\\mathbb{R}^+, \\oplus, \\odot)$ is a legitimate vector space over $\\mathbb{R}$. This shows that 'vector' is an abstract concept — not just arrows."
+  }
+]} />
+
+---
+
+## Key Consequences
+
+<TheoremBox number={4} title="Basic Vector Space Properties" proofSketch={<>Each part follows from the axioms. For (i): $0 \cdot \mathbf{v} = (0+0)\mathbf{v} = 0\mathbf{v} + 0\mathbf{v}$; subtract $0\mathbf{v}$ from both sides. For (ii): $\alpha \mathbf{0} = \alpha(\mathbf{0}+\mathbf{0}) = \alpha\mathbf{0} + \alpha\mathbf{0}$; subtract. For (iii): $(-1)\mathbf{v} + \mathbf{v} = (-1)\mathbf{v} + 1 \cdot \mathbf{v} = (-1+1)\mathbf{v} = 0\mathbf{v} = \mathbf{0}$.</>}>
+Let $V$ be a vector space over $\mathbb{F}$. Then for all $\mathbf{v} \in V$ and $\alpha \in \mathbb{F}$:
+
+1. $0 \cdot \mathbf{v} = \mathbf{0}$ (scalar zero times any vector is the zero vector)
+2. $\alpha \cdot \mathbf{0} = \mathbf{0}$ (any scalar times the zero vector is the zero vector)
+3. $(-1)\mathbf{v} = -\mathbf{v}$ (multiplying by $-1$ gives the additive inverse)
+4. If $\alpha \mathbf{v} = \mathbf{0}$ then $\alpha = 0$ or $\mathbf{v} = \mathbf{0}$
+</TheoremBox>
+
+---
+
+## Common Mistakes
+
+> ⚠ **The zero vector is not the number 0.** In $\mathbb{P}_n$, the zero vector is the zero polynomial. In $\mathbb{R}^3$, it's $(0,0,0)$. In $\mathbb{R}^+$ with the exotic operations above, it's $1$.
+
+> ⚠ **Axiom 10 says $1 \cdot \mathbf{v} = \mathbf{v}$, not $0 \cdot \mathbf{v} = \mathbf{v}$.** The number $0$ kills any vector (Theorem 4.i).
+
+> ⚠ **Not every set with two operations is a vector space.** The ten axioms must all be checked — especially closure of scalar multiplication in the given field.
+
+<SummaryBox title="Key Takeaways: Vector Spaces">
+- A **vector space** over $\mathbb{F}$ is any set $V$ where addition (abelian group axioms) and scalar multiplication (4 axioms) are compatible via distributivity.
+- Canonical examples: $\mathbb{F}^n$, $\mathbb{P}_n(\mathbb{F})$, $M_{m \times n}(\mathbb{F})$, solution spaces of homogeneous ODEs.
+- The zero vector $\mathbf{0}$ is unique and $0 \cdot \mathbf{v} = \mathbf{0}$, $\alpha \cdot \mathbf{0} = \mathbf{0}$ for all $\mathbf{v}, \alpha$.
+- Exotic vector spaces exist — "vectors" need not be arrows.
+- The scalar field matters: $\mathbb{C}^n$ is a vector space over $\mathbb{C}$ (dimension $n$) but also over $\mathbb{R}$ (dimension $2n$).
+</SummaryBox>
