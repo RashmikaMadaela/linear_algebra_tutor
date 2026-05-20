@@ -1,0 +1,151 @@
+---
+title: "Gram-Schmidt Process"
+section: "inner-product-spaces"
+order: 4
+estimatedMinutes: 35
+prerequisites: ["inner-product-spaces/orthogonality"]
+notesRef:
+  theorems: [21]
+  examples: [13]
+tags: ["Gram-Schmidt", "orthogonalization", "orthonormal-basis", "projection"]
+---
+
+## Big Idea
+
+We know orthonormal bases are ideal for computation.
+But what if we have a linearly independent set that isn't orthogonal?
+The **Gram-Schmidt process** is a systematic algorithm that converts any linearly independent set into an orthonormal one **spanning the same subspace**.
+It works by repeatedly subtracting the "already-covered" component from each new vector.
+
+## Intuition
+
+Start with two non-orthogonal vectors $\mathbf{u}_1, \mathbf{u}_2$.
+- Keep $\mathbf{u}_1$ as the first basis direction.
+- Subtract from $\mathbf{u}_2$ its projection onto $\mathbf{u}_1$. The remainder is orthogonal to $\mathbf{u}_1$.
+- Normalize both.
+
+For three vectors, after handling $\mathbf{u}_1$ and $\mathbf{u}_2$, subtract from $\mathbf{u}_3$ its projections onto **both** $e_1$ and $e_2$ — the remainder is orthogonal to the entire plane spanned so far.
+
+The projection of $\mathbf{u}$ onto a unit vector $\mathbf{e}$ is $\langle\mathbf{u},\mathbf{e}\rangle\,\mathbf{e}$.
+The "leftover" after removing this projection is $\mathbf{u} - \langle\mathbf{u},\mathbf{e}\rangle\,\mathbf{e}$.
+
+## The Algorithm
+
+<TheoremBox number={21} title="Gram-Schmidt Orthogonalization" proofSketch={<>Each $v_k$ is constructed by subtracting its projections onto all previous $e_1,\ldots,e_{k-1}$, so $\langle v_k, e_j\rangle=0$ for $j{"<"}k$ by design. Since $\{u_1,\ldots,u_n\}$ is LI, no $v_k$ can be zero. Normalizing gives $e_k=v_k/\|v_k\|$. Induction shows $\operatorname{span}\{e_1,\ldots,e_k\}=\operatorname{span}\{u_1,\ldots,u_k\}$ at each step.</>}>
+
+Given a linearly independent set $\{u_1, u_2, \ldots, u_n\}$ in an inner product space $V$, the following process produces an **orthonormal set** $\{e_1, e_2, \ldots, e_n\}$ with the same span.
+
+**Step 1:**
+<BM math="v_1 = u_1, \qquad e_1 = \frac{v_1}{\|v_1\|}" />
+
+**Step $k$ (for $k = 2, 3, \ldots, n$):**
+<BM math="v_k = u_k - \sum_{j=1}^{k-1} \langle u_k,\, e_j\rangle\, e_j" />
+<BM math="e_k = \frac{v_k}{\|v_k\|}" />
+
+At each stage, $\operatorname{span}\{e_1,\ldots,e_k\} = \operatorname{span}\{u_1,\ldots,u_k\}$.
+</TheoremBox>
+
+**Key formula:** The projection of $\mathbf{u}$ onto $e_j$ is $\langle\mathbf{u}, e_j\rangle\, e_j$.
+So $v_k$ is $u_k$ with all projections onto the previously computed orthonormal vectors removed.
+
+## Worked Examples (Example 13)
+
+<StepReveal title="Example 13.1 — Gram-Schmidt on three vectors in ℝ³" steps={[
+  {
+    label: "Given",
+    content: "Apply Gram-Schmidt to $\\{u_1, u_2, u_3\\}$ where",
+    formula: "u_1 = (1,1,0),\\quad u_2 = (1,0,1),\\quad u_3 = (0,1,1)"
+  },
+  {
+    label: "Step 1: v₁",
+    formula: "v_1 = u_1 = (1,1,0),\\qquad \\|v_1\\| = \\sqrt{2},\\qquad e_1 = \\tfrac{1}{\\sqrt{2}}(1,1,0)"
+  },
+  {
+    label: "Step 2: v₂",
+    content: "Subtract projection of $u_2$ onto $e_1$:",
+    formula: "\\langle u_2, e_1\\rangle = \\tfrac{1}{\\sqrt{2}}(1+0+0)=\\tfrac{1}{\\sqrt{2}}"
+  },
+  {
+    label: "Step 2 continued",
+    formula: "v_2 = u_2 - \\tfrac{1}{\\sqrt{2}}\\cdot e_1 = (1,0,1) - \\tfrac{1}{2}(1,1,0) = \\left(\\tfrac{1}{2},-\\tfrac{1}{2},1\\right)"
+  },
+  {
+    label: "Step 2: e₂",
+    formula: "\\|v_2\\| = \\sqrt{\\tfrac{1}{4}+\\tfrac{1}{4}+1} = \\sqrt{\\tfrac{3}{2}} = \\tfrac{\\sqrt{6}}{2},\\qquad e_2 = \\tfrac{1}{\\sqrt{6}}(1,-1,2)"
+  },
+  {
+    label: "Step 3: v₃",
+    content: "Subtract projections of $u_3 = (0,1,1)$ onto $e_1$ and $e_2$:",
+    formula: "\\langle u_3,e_1\\rangle = \\tfrac{1}{\\sqrt{2}},\\quad \\langle u_3,e_2\\rangle = \\tfrac{-1+2}{\\sqrt{6}} = \\tfrac{1}{\\sqrt{6}}"
+  },
+  {
+    label: "Step 3 continued",
+    formula: "v_3 = (0,1,1) - \\tfrac{1}{2}(1,1,0) - \\tfrac{1}{6}(1,-1,2) = \\left(-\\tfrac{2}{3},\\tfrac{2}{3},\\tfrac{2}{3}\\right)"
+  },
+  {
+    label: "Step 3: e₃",
+    formula: "\\|v_3\\|=\\tfrac{2}{\\sqrt{3}},\\qquad e_3 = \\tfrac{1}{\\sqrt{3}}(-1,1,1)"
+  },
+  {
+    label: "Result",
+    content: "Orthonormal basis for $\\mathbb{R}^3$:",
+    formula: "e_1 = \\tfrac{1}{\\sqrt{2}}(1,1,0),\\quad e_2 = \\tfrac{1}{\\sqrt{6}}(1,-1,2),\\quad e_3 = \\tfrac{1}{\\sqrt{3}}(-1,1,1)"
+  }
+]} />
+
+<StepReveal title="Example 13.2 — Gram-Schmidt on polynomials {1, x, x², x³} on [−1,1]" steps={[
+  {
+    label: "Setup",
+    content: "Inner product on $\\mathbb{P}_3$ (polynomials of degree $\\leq 3$):",
+    formula: "\\langle p, q\\rangle = \\int_{-1}^{1} p(x)q(x)\\,dx"
+  },
+  {
+    label: "Step 1: e₁",
+    formula: "v_1 = 1,\\quad \\|v_1\\|^2 = \\int_{-1}^1 1\\,dx = 2,\\quad e_1 = \\frac{1}{\\sqrt{2}}"
+  },
+  {
+    label: "Step 2: v₂ from x",
+    content: "Subtract projection of $x$ onto $e_1$. Since $\\langle x, 1\\rangle = \\int_{-1}^1 x\\,dx = 0$ (odd function):",
+    formula: "v_2 = x,\\quad \\|v_2\\|^2 = \\int_{-1}^1 x^2\\,dx = \\tfrac{2}{3},\\quad e_2 = \\sqrt{\\tfrac{3}{2}}\\,x"
+  },
+  {
+    label: "Step 3: v₃ from x²",
+    content: "Since $\\langle x^2, x\\rangle = \\int_{-1}^1 x^3\\,dx = 0$ (odd), only project onto $e_1$:",
+    formula: "\\langle x^2, e_1\\rangle = \\tfrac{1}{\\sqrt{2}}\\int_{-1}^1 x^2\\,dx = \\tfrac{1}{\\sqrt{2}}\\cdot\\tfrac{2}{3} = \\frac{\\sqrt{2}}{3}"
+  },
+  {
+    label: "Step 3 continued",
+    formula: "v_3 = x^2 - \\tfrac{\\sqrt{2}}{3}\\cdot\\tfrac{1}{\\sqrt{2}} = x^2 - \\tfrac{1}{3}"
+  },
+  {
+    label: "Step 3: e₃",
+    formula: "\\|v_3\\|^2 = \\int_{-1}^1\\left(x^2-\\tfrac{1}{3}\\right)^2dx = \\tfrac{8}{45},\\quad e_3 = \\sqrt{\\tfrac{45}{8}}\\left(x^2-\\tfrac{1}{3}\\right) = \\tfrac{3}{2}\\sqrt{\\tfrac{5}{2}}\\left(x^2-\\tfrac{1}{3}\\right)"
+  },
+  {
+    label: "Connection to Legendre",
+    content: "The unnormalized polynomials $1,\\, x,\\, x^2-\\tfrac{1}{3},\\, x^3-\\tfrac{3}{5}x,\\ldots$ are proportional to the **Legendre polynomials** $P_0,P_1,P_2,P_3,\\ldots$ — we revisit these in the next lesson.",
+  }
+]} />
+
+## Common Mistakes
+
+⚠ **Must start with LI set:** If the input vectors are linearly dependent, some $v_k$ will be zero and the algorithm breaks. Always check linear independence first.
+
+⚠ **Project onto unit vectors:** The formula $v_k = u_k - \sum_j \langle u_k,e_j\rangle e_j$ uses the normalized $e_j$, not the intermediate $v_j$.
+
+⚠ **Same span:** Gram-Schmidt produces an orthonormal basis for $\operatorname{span}\{u_1,\ldots,u_n\}$ — not necessarily for all of $V$ if $\{u_i\}$ doesn't span $V$.
+
+## Summary
+
+<SummaryBox title="Gram-Schmidt — Key Facts">
+
+**Input:** Linearly independent set $\{u_1,\ldots,u_n\}$.
+
+**Output:** Orthonormal set $\{e_1,\ldots,e_n\}$ with $\operatorname{span}\{e_1,\ldots,e_k\} = \operatorname{span}\{u_1,\ldots,u_k\}$ for each $k$.
+
+**Iteration:** $v_k = u_k - \displaystyle\sum_{j=1}^{k-1}\langle u_k,e_j\rangle e_j$, then $e_k = v_k/\|v_k\|$.
+
+**Application:** Proves every finite-dimensional inner product space has an orthonormal basis.
+
+**Next steps:** Gram-Schmidt applied to $\{1, x, x^2,\ldots\}$ on $[-1,1]$ gives Legendre polynomials (next lesson), and provides the foundation for QR decomposition (Section VI).
+</SummaryBox>

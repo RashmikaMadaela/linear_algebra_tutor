@@ -1,0 +1,148 @@
+---
+title: "Inner Products"
+section: "inner-product-spaces"
+order: 1
+estimatedMinutes: 30
+prerequisites: ["vector-spaces/definition", "algebraic-structures/fields"]
+notesRef:
+  definitions: [14]
+  theorems: [17]
+  examples: [11]
+tags: ["inner-product", "norm", "dot-product", "Hermitian-form", "L2"]
+---
+
+## Big Idea
+
+Vector spaces let us add vectors and scale them — but they say nothing about *length* or *angle*.
+An **inner product** is the extra structure that gives a vector space geometry: it defines what it means for two vectors to be perpendicular, how long a vector is, and how to measure the "size" of a projection.
+Every notion of orthogonality, projection, and best approximation that follows depends on this definition.
+
+## Intuition
+
+You already know the dot product in $\mathbb{R}^n$: $\mathbf{u}\cdot\mathbf{v} = u_1v_1+\cdots+u_nv_n$.
+It has three key properties: it's linear in each argument, symmetric, and always gives $\mathbf{u}\cdot\mathbf{u} \geq 0$ (zero only when $\mathbf{u}=\mathbf{0}$).
+An inner product is exactly an abstraction of these three properties — a rule that assigns a scalar to any two vectors in a way that behaves like the dot product.
+
+Over $\mathbb{C}$, symmetry becomes **conjugate symmetry** ($\langle\mathbf{u},\mathbf{v}\rangle = \overline{\langle\mathbf{v},\mathbf{u}\rangle}$) so that $\langle\mathbf{v},\mathbf{v}\rangle$ is always real.
+The resulting structure is called a **Hermitian inner product**.
+
+## Formal Definition
+
+<DefinitionBox number={14} title="Inner Product (over an ordered field)">
+Let $V$ be a vector space over a field $F$ (where $F = \mathbb{R}$ or $F = \mathbb{C}$).
+An **inner product** on $V$ is a function $\langle\cdot,\cdot\rangle: V \times V \to F$ satisfying, for all $\mathbf{u},\mathbf{v},\mathbf{w} \in V$ and $\alpha \in F$:
+
+1. **Linearity in the first argument:**
+<BM math="\langle\alpha\mathbf{u}+\mathbf{v},\mathbf{w}\rangle = \alpha\langle\mathbf{u},\mathbf{w}\rangle + \langle\mathbf{v},\mathbf{w}\rangle" />
+
+2. **Conjugate symmetry:**
+<BM math="\langle\mathbf{u},\mathbf{v}\rangle = \overline{\langle\mathbf{v},\mathbf{u}\rangle}" />
+
+(Over $\mathbb{R}$, this is just $\langle\mathbf{u},\mathbf{v}\rangle = \langle\mathbf{v},\mathbf{u}\rangle$ — ordinary symmetry.)
+
+3. **Positive definiteness:**
+<BM math="\langle\mathbf{v},\mathbf{v}\rangle \geq 0, \quad \text{with equality iff } \mathbf{v} = \mathbf{0}" />
+
+A vector space with an inner product is called an **inner product space**.
+
+**Induced norm:** The inner product defines a norm (length) by $\|\mathbf{v}\| = \sqrt{\langle\mathbf{v},\mathbf{v}\rangle}$.
+</DefinitionBox>
+
+**Note on linearity in the second argument:** Combining conjugate symmetry with linearity in the first argument gives:
+<BM math="\langle\mathbf{u}, \alpha\mathbf{v}+\mathbf{w}\rangle = \bar{\alpha}\langle\mathbf{u},\mathbf{v}\rangle + \langle\mathbf{u},\mathbf{w}\rangle" />
+(conjugate-linear in the second argument over $\mathbb{C}$; linear over $\mathbb{R}$). This is Theorem 17.
+
+<TheoremBox number={17} title="Conjugate-Linearity in the Second Argument" proofSketch={<>Use conjugate symmetry to flip each term, apply linearity in the first argument, then flip back: <M math="\langle\mathbf{u},\alpha\mathbf{v}\rangle = \overline{\langle\alpha\mathbf{v},\mathbf{u}\rangle} = \overline{\alpha\langle\mathbf{v},\mathbf{u}\rangle} = \bar{\alpha}\overline{\langle\mathbf{v},\mathbf{u}\rangle} = \bar{\alpha}\langle\mathbf{u},\mathbf{v}\rangle" />.</>}>
+
+For all $\mathbf{u},\mathbf{v},\mathbf{w} \in V$ and $\alpha \in F$:
+
+<BM math="\langle\mathbf{u}, \alpha\mathbf{v} + \mathbf{w}\rangle = \bar{\alpha}\langle\mathbf{u},\mathbf{v}\rangle + \langle\mathbf{u},\mathbf{w}\rangle" />
+
+In particular: $\langle\mathbf{u},\mathbf{0}\rangle = 0$ and $\langle\mathbf{0},\mathbf{v}\rangle = 0$ for all $\mathbf{u},\mathbf{v}$.
+</TheoremBox>
+
+## Worked Examples (Example 11)
+
+<StepReveal title="Example 11.1 — Standard Dot Product on ℝⁿ" steps={[
+  {
+    label: "Definition",
+    content: "For $\\mathbf{u},\\mathbf{v}\\in\\mathbb{R}^n$:",
+    formula: "\\langle\\mathbf{u},\\mathbf{v}\\rangle = \\mathbf{u}\\cdot\\mathbf{v} = \\sum_{i=1}^n u_i v_i = \\mathbf{v}^T\\mathbf{u}"
+  },
+  {
+    label: "Verification",
+    content: "Linearity: $(\\alpha\\mathbf{u}+\\mathbf{w})\\cdot\\mathbf{v} = \\alpha(\\mathbf{u}\\cdot\\mathbf{v})+(\\mathbf{w}\\cdot\\mathbf{v})$. ✓ Symmetry: $\\mathbf{u}\\cdot\\mathbf{v} = \\mathbf{v}\\cdot\\mathbf{u}$ (real field). ✓ PD: $\\|\\mathbf{u}\\|^2=\\sum u_i^2\\geq 0$, zero iff all $u_i=0$. ✓",
+  },
+  {
+    label: "Induced norm",
+    formula: "\\|\\mathbf{u}\\| = \\sqrt{\\sum_{i=1}^n u_i^2} \\quad \\text{(Euclidean length)}"
+  }
+]} />
+
+<StepReveal title="Example 11.2 — Hermitian Inner Product on ℂⁿ" steps={[
+  {
+    label: "Definition",
+    formula: "\\langle\\mathbf{u},\\mathbf{v}\\rangle = \\mathbf{v}^H\\mathbf{u} = \\sum_{i=1}^n u_i\\overline{v_i}"
+  },
+  {
+    label: "Why conjugate?",
+    content: "Without conjugation, $\\langle\\mathbf{v},\\mathbf{v}\\rangle = \\sum v_i^2$ could be complex. With conjugation, $\\langle\\mathbf{v},\\mathbf{v}\\rangle = \\sum |v_i|^2 \\in \\mathbb{R}_{\\geq 0}$. ✓",
+  },
+  {
+    label: "Example",
+    content: "For $\\mathbf{u}=(1+i, 2)^T$ and $\\mathbf{v}=(i, 1)^T$ in $\\mathbb{C}^2$:",
+    formula: "\\langle\\mathbf{u},\\mathbf{v}\\rangle = (1+i)\\overline{i}+2\\cdot\\overline{1} = (1+i)(-i)+2 = -i+1+2 = 3-i"
+  }
+]} />
+
+<StepReveal title="Example 11.3 — L² Integral Inner Product" steps={[
+  {
+    label: "Space",
+    content: "Let $V = C[a,b]$ (continuous real functions on $[a,b]$).",
+    formula: "\\langle f, g\\rangle = \\int_a^b f(x)\\,g(x)\\,dx"
+  },
+  {
+    label: "Verification",
+    content: "Linearity: integral of sum = sum of integrals. ✓ Symmetry: $\\int fg = \\int gf$ (multiplication commutes). ✓ PD: $\\langle f,f\\rangle = \\int_a^b [f(x)]^2\\,dx \\geq 0$; equals 0 iff $f\\equiv 0$ (by continuity). ✓",
+  },
+  {
+    label: "Norm",
+    formula: "\\|f\\| = \\sqrt{\\int_a^b [f(x)]^2\\,dx} \\quad \\text{(the } L^2 \\text{-norm)}"
+  }
+]} />
+
+<StepReveal title="Example 11.4 — Trace Inner Product on M_{n×n}(ℝ)" steps={[
+  {
+    label: "Definition",
+    formula: "\\langle A, B\\rangle = \\operatorname{tr}(B^T A) = \\sum_{i,j} A_{ij}B_{ij}"
+  },
+  {
+    label: "Verification",
+    content: "Linearity: $\\operatorname{tr}(B^T(\\alpha A + C)) = \\alpha\\operatorname{tr}(B^TA)+\\operatorname{tr}(B^TC)$. ✓ Symmetry: $\\operatorname{tr}(B^TA) = \\operatorname{tr}(A^TB)$ (real case). ✓ PD: $\\langle A,A\\rangle = \\sum A_{ij}^2 \\geq 0$. ✓",
+  },
+  {
+    label: "Remark",
+    content: "This is exactly the entry-wise dot product of matrices, treating them as long vectors. The induced norm is the Frobenius norm: $\\|A\\|_F = \\sqrt{\\operatorname{tr}(A^TA)}$.",
+  }
+]} />
+
+## Summary
+
+<SummaryBox title="Inner Products — Key Facts">
+
+**Three axioms:** linearity (first slot), conjugate symmetry, positive definiteness.
+
+**Over $\mathbb{R}$:** conjugate symmetry = ordinary symmetry; second slot is also linear → **bilinear form**.
+
+**Over $\mathbb{C}$:** second slot is conjugate-linear → **sesquilinear form** (Thm 17).
+
+**Induced norm:** $\|\mathbf{v}\| = \sqrt{\langle\mathbf{v},\mathbf{v}\rangle}$ — every inner product space is automatically a normed space.
+
+**Key examples:**
+| Space | Inner Product | Norm |
+|-------|--------------|------|
+| $\mathbb{R}^n$ | $\mathbf{u}\cdot\mathbf{v} = \sum u_iv_i$ | Euclidean $\|\mathbf{u}\|_2$ |
+| $\mathbb{C}^n$ | $\sum u_i\overline{v_i}$ | $\sqrt{\sum\|u_i\|^2}$ |
+| $C[a,b]$ | $\int_a^b fg\,dx$ | $L^2$-norm |
+| $M_{n\times n}$ | $\operatorname{tr}(B^TA)$ | Frobenius norm |
+</SummaryBox>

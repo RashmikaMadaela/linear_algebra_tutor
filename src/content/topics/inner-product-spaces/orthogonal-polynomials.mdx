@@ -1,0 +1,141 @@
+---
+title: "Special Orthogonal Polynomials"
+section: "inner-product-spaces"
+order: 5
+estimatedMinutes: 30
+prerequisites: ["inner-product-spaces/gram-schmidt"]
+notesRef:
+  notes: [6]
+tags: ["Legendre", "Laguerre", "Chebyshev", "orthogonal-polynomials", "ODE", "special-functions"]
+---
+
+## Big Idea
+
+Applying Gram-Schmidt to the monomial sequence $\{1, x, x^2, x^3, \ldots\}$ with different inner products (different weight functions or integration domains) produces three classical families of orthogonal polynomials:
+**Legendre**, **Laguerre**, and **Chebyshev** polynomials.
+Each family is the natural orthonormal basis for a particular function space, and each arises as the solution of a specific second-order ODE.
+These polynomials appear throughout applied mathematics, physics, and numerical analysis.
+
+## Note 6 — Three Classical Families
+
+### Legendre Polynomials
+
+**Inner product:** $\langle f,g\rangle = \int_{-1}^{1} f(x)g(x)\,dx$ on $C[-1,1]$.
+
+**First few polynomials** (unnormalized, then Gram-Schmidt normalized):
+<BM math="P_0(x) = 1,\quad P_1(x) = x,\quad P_2(x) = \frac{1}{2}(3x^2-1),\quad P_3(x) = \frac{1}{2}(5x^3-3x)" />
+
+**Orthogonality:** $\langle P_m, P_n\rangle = \dfrac{2}{2n+1}\delta_{mn}$
+
+**Normalization:** $\tilde{P}_n = \sqrt{\dfrac{2n+1}{2}}\,P_n$ gives $\|\tilde{P}_n\|=1$.
+
+**Generating ODE (Legendre's equation):**
+<BM math="(1-x^2)y'' - 2xy' + n(n+1)y = 0, \quad n = 0,1,2,\ldots" />
+The polynomial $P_n(x)$ is the solution of this ODE that is bounded on $[-1,1]$.
+
+**Recurrence relation:**
+<BM math="(n+1)P_{n+1}(x) = (2n+1)xP_n(x) - nP_{n-1}(x)" />
+
+**Applications:** Solving Laplace's equation in spherical coordinates; approximating functions on $[-1,1]$; Gauss-Legendre quadrature.
+
+---
+
+### Laguerre Polynomials
+
+**Inner product:** $\langle f,g\rangle = \int_0^{\infty} f(x)g(x)\,e^{-x}\,dx$ on $[0,\infty)$ (weighted $L^2$).
+
+**First few polynomials:**
+<BM math="L_0(x) = 1,\quad L_1(x) = 1-x,\quad L_2(x) = 1 - 2x + \tfrac{x^2}{2},\quad L_3(x) = 1 - 3x + \tfrac{3x^2}{2} - \tfrac{x^3}{6}" />
+
+**Orthogonality:** $\langle L_m, L_n\rangle = \delta_{mn}$ (already orthonormal under the weighted inner product).
+
+**Generating ODE (Laguerre's equation):**
+<BM math="xy'' + (1-x)y' + ny = 0, \quad n = 0,1,2,\ldots" />
+
+**Recurrence relation:**
+<BM math="(n+1)L_{n+1}(x) = (2n+1-x)L_n(x) - nL_{n-1}(x)" />
+
+**Applications:** Quantum mechanics (hydrogen atom radial wave functions, where the weight $e^{-x}$ arises naturally); probability (exponential family distributions).
+
+---
+
+### Chebyshev Polynomials
+
+**Inner product:** $\langle f,g\rangle = \int_{-1}^{1} \dfrac{f(x)g(x)}{\sqrt{1-x^2}}\,dx$ on $[-1,1]$ (weighted with $w(x) = (1-x^2)^{-1/2}$).
+
+**Definition via trigonometry:**
+<BM math="T_n(\cos\theta) = \cos(n\theta), \quad n = 0,1,2,\ldots" />
+
+This is the defining property: $T_n$ evaluated at $\cos\theta$ gives $\cos(n\theta)$.
+
+**First few polynomials** (obtained by expanding $\cos(n\theta)$ via de Moivre):
+<BM math="T_0(x) = 1,\quad T_1(x) = x,\quad T_2(x) = 2x^2-1,\quad T_3(x) = 4x^3-3x" />
+
+**Orthogonality:**
+<BM math="\int_{-1}^1 \frac{T_m(x)T_n(x)}{\sqrt{1-x^2}}\,dx = \begin{cases} 0 & m\neq n \\ \pi & m=n=0 \\ \pi/2 & m=n\neq 0 \end{cases}" />
+
+**Generating ODE (Chebyshev's equation):**
+<BM math="(1-x^2)y'' - xy' + n^2 y = 0" />
+
+**Recurrence relation:**
+<BM math="T_{n+1}(x) = 2x\,T_n(x) - T_{n-1}(x)" />
+
+**Extremal property:** Among all monic polynomials of degree $n$, $2^{1-n}T_n(x)$ has the smallest maximum absolute value on $[-1,1]$. This makes Chebyshev polynomials ideal for minimax polynomial approximation.
+
+**Applications:** Polynomial approximation with controlled error; Chebyshev spectral methods for PDEs; fast transforms.
+
+## Worked Example — Verification of Orthogonality
+
+<StepReveal title="Verify ⟨P₀, P₂⟩ = 0 for Legendre polynomials" steps={[
+  {
+    label: "Setup",
+    content: "$P_0(x)=1$, $P_2(x)=\\frac{1}{2}(3x^2-1)$.",
+    formula: "\\langle P_0, P_2\\rangle = \\int_{-1}^1 1\\cdot\\frac{1}{2}(3x^2-1)\\,dx"
+  },
+  {
+    label: "Integrate",
+    formula: "= \\frac{1}{2}\\int_{-1}^1(3x^2-1)\\,dx = \\frac{1}{2}\\left[x^3 - x\\right]_{-1}^1"
+  },
+  {
+    label: "Evaluate",
+    formula: "= \\frac{1}{2}\\left[(1-1)-(-1+1)\\right] = \\frac{1}{2}\\cdot 0 = 0 \\quad\\checkmark"
+  }
+]} />
+
+<StepReveal title="Verify T₂(cos θ) = cos 2θ" steps={[
+  {
+    label: "Use double angle formula",
+    formula: "\\cos(2\\theta) = 2\\cos^2\\theta - 1"
+  },
+  {
+    label: "Substitute x = cos θ",
+    formula: "T_2(x) = 2x^2 - 1 \\quad\\checkmark"
+  },
+  {
+    label: "So indeed",
+    formula: "T_2(\\cos\\theta) = 2\\cos^2\\theta - 1 = \\cos(2\\theta) \\quad\\checkmark"
+  }
+]} />
+
+## Common Mistakes
+
+⚠ **Different inner products:** Each polynomial family is orthogonal with respect to a **specific** inner product / weight function. Legendre polynomials are **not** orthogonal under the Laguerre weight — always specify the inner product.
+
+⚠ **Normalization:** Legendre polynomials $P_n$ satisfy $P_n(1)=1$ (standard normalization) but are **not** unit vectors — $\|P_n\|^2 = 2/(2n+1)$. The factors like $\sqrt{(2n+1)/2}$ are often omitted in tables.
+
+⚠ **Domain:** Legendre lives on $[-1,1]$, Laguerre on $[0,\infty)$, Chebyshev on $[-1,1]$ — using the wrong domain breaks orthogonality.
+
+## Summary
+
+<SummaryBox title="Special Orthogonal Polynomials — Note 6">
+
+| Family | Domain | Weight $w(x)$ | ODE |
+|--------|--------|--------------|-----|
+| Legendre $P_n$ | $[-1,1]$ | $1$ | $(1-x^2)y''-2xy'+n(n+1)y=0$ |
+| Laguerre $L_n$ | $[0,\infty)$ | $e^{-x}$ | $xy''+(1-x)y'+ny=0$ |
+| Chebyshev $T_n$ | $[-1,1]$ | $(1-x^2)^{-1/2}$ | $(1-x^2)y''-xy'+n^2y=0$ |
+
+**Chebyshev key identity:** $T_n(\cos\theta) = \cos(n\theta)$.
+
+All three arise from Gram-Schmidt applied to $\{1,x,x^2,\ldots\}$ with the respective weighted inner product.
+</SummaryBox>

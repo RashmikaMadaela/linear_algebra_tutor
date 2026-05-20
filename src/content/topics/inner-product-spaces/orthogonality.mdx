@@ -1,0 +1,108 @@
+---
+title: "Orthogonality & Orthonormal Sets"
+section: "inner-product-spaces"
+order: 3
+estimatedMinutes: 20
+prerequisites: ["inner-product-spaces/inequalities"]
+notesRef:
+  definitions: [15]
+  theorems: [20]
+tags: ["orthogonal", "orthonormal", "perpendicular", "linear-independence"]
+---
+
+## Big Idea
+
+Two vectors are **orthogonal** when their inner product is zero — a direct generalization of perpendicularity in $\mathbb{R}^2$.
+An **orthonormal set** is a collection of mutually orthogonal vectors, each of unit length.
+Orthonormal sets are the ideal bases: computing coordinates, projections, and approximations becomes effortless because all cross-terms vanish.
+
+## Intuition
+
+In $\mathbb{R}^2$, the standard basis $\{\mathbf{e}_1,\mathbf{e}_2\}$ is orthonormal: the two basis vectors are perpendicular and have length 1.
+Working in this basis makes everything easy — to find the component of a vector along $\mathbf{e}_1$, just read off the first coordinate.
+In a general inner product space, an orthonormal basis lets you do the same thing: the coordinate of $\mathbf{v}$ along a basis vector $\mathbf{e}_k$ is just $\langle\mathbf{v},\mathbf{e}_k\rangle$.
+
+The key theorem is that any orthogonal set (excluding the zero vector) is automatically linearly independent — orthogonality is a stronger condition than LI.
+
+## Formal Definition
+
+<DefinitionBox number={15} title="Orthogonal and Orthonormal Sets">
+Let $V$ be an inner product space. A set $S = \{v_1, v_2, \ldots\} \subseteq V$ is called:
+
+**Orthogonal** if $\langle v_i, v_j \rangle = 0$ for all $i \neq j$.
+
+**Orthonormal** if it is orthogonal and additionally each vector has unit norm:
+<BM math="\langle v_i, v_j \rangle = \delta_{ij} = \begin{cases} 1 & i = j \\ 0 & i \neq j \end{cases}" />
+
+where $\delta_{ij}$ is the **Kronecker delta**.
+
+An orthonormal **basis** for $V$ is an orthonormal set that also spans $V$.
+</DefinitionBox>
+
+**Normalizing:** Any nonzero vector $\mathbf{v}$ can be normalized to a unit vector:
+<BM math="\hat{v} = \frac{\mathbf{v}}{\|\mathbf{v}\|}, \quad \|\hat{v}\| = 1" />
+
+## Key Theorem
+
+<TheoremBox number={20} title="Orthogonal Sets are Linearly Independent" proofSketch={<>Suppose $\sum \alpha_i v_i = \mathbf{0}$. Take the inner product of both sides with $v_k$. By orthogonality, all cross-terms vanish, leaving $\alpha_k\|v_k\|^2 = 0$. Since each $v_k \neq \mathbf{0}$, we get $\alpha_k = 0$ for each $k$.</>}>
+
+Let $\{v_1, v_2, \ldots, v_n\}$ be an orthogonal set in $V$ with each $v_i \neq \mathbf{0}$. Then $\{v_1, \ldots, v_n\}$ is **linearly independent**.
+</TheoremBox>
+
+**Full proof:**
+
+Suppose $\alpha_1 v_1 + \alpha_2 v_2 + \cdots + \alpha_n v_n = \mathbf{0}$.
+
+Take the inner product with $v_k$ for any fixed $k$:
+<BM math="\left\langle \sum_{i=1}^n \alpha_i v_i,\; v_k \right\rangle = \langle\mathbf{0}, v_k\rangle = 0" />
+
+By linearity in the first argument:
+<BM math="\sum_{i=1}^n \alpha_i \langle v_i, v_k\rangle = 0" />
+
+Since the set is orthogonal, $\langle v_i, v_k\rangle = 0$ for $i \neq k$, so all terms vanish except $i=k$:
+<BM math="\alpha_k \langle v_k, v_k\rangle = \alpha_k \|v_k\|^2 = 0" />
+
+Since $v_k \neq \mathbf{0}$, we have $\|v_k\|^2 > 0$, hence $\alpha_k = 0$.
+
+This holds for each $k = 1, \ldots, n$, so the set is linearly independent. $\blacksquare$
+
+## Coordinates in an Orthonormal Basis
+
+If $\{e_1, \ldots, e_n\}$ is an orthonormal basis for $V$, then any $\mathbf{v} \in V$ can be written as:
+<BM math="\mathbf{v} = \sum_{k=1}^n \langle \mathbf{v}, e_k \rangle\, e_k" />
+
+The coefficient $\langle\mathbf{v},e_k\rangle$ is the **generalized Fourier coefficient** of $\mathbf{v}$ with respect to $e_k$.
+(Compare to standard bases, where finding coordinates requires solving a linear system; here it's a single inner product.)
+
+## Examples
+
+**Orthonormal basis for $\mathbb{R}^3$:** The standard basis $\{(1,0,0),(0,1,0),(0,0,1)\}$ is orthonormal under the dot product. ✓
+
+**Orthogonal but not orthonormal:** $\{(1,1,0),(1,-1,0),(0,0,1)\}$ — pairwise dot products are zero, but $\|(1,1,0)\|=\sqrt{2}\neq 1$.
+
+**Orthonormal functions:** On $[-\pi,\pi]$ with $\langle f,g\rangle = \frac{1}{\pi}\int_{-\pi}^\pi f(x)g(x)\,dx$:
+<BM math="\left\{1,\, \cos x,\, \sin x,\, \cos 2x,\, \sin 2x,\, \ldots\right\}" />
+forms an orthonormal set — the foundation of Fourier series.
+
+## Common Mistakes
+
+⚠ **Zero vector excluded:** The zero vector satisfies $\langle\mathbf{0},\mathbf{v}\rangle = 0$ for all $\mathbf{v}$, so it is "orthogonal to everything" — but including $\mathbf{0}$ in a set immediately makes the set linearly dependent.
+
+⚠ **Orthogonal ≠ Orthonormal:** An orthogonal set has zero cross-inner-products; an orthonormal set additionally requires $\|v_i\|=1$. Don't confuse the two.
+
+⚠ **LI does not imply orthogonal:** Theorem 20 goes only one way: orthogonal $\Rightarrow$ LI, not conversely. LI sets can be non-orthogonal.
+
+## Summary
+
+<SummaryBox title="Orthogonality — Key Facts">
+
+**Orthogonal:** $\langle v_i,v_j\rangle = 0$ for $i\neq j$.
+
+**Orthonormal:** orthogonal + $\|v_i\|=1$ for all $i$, i.e., $\langle v_i,v_j\rangle = \delta_{ij}$.
+
+**Theorem 20:** Orthogonal set (no zero vectors) $\Rightarrow$ linearly independent.
+
+**Fourier coefficients:** In an orthonormal basis $\{e_k\}$: coordinate along $e_k$ is $\langle\mathbf{v},e_k\rangle$.
+
+**Next step:** Gram-Schmidt converts any linearly independent set into an orthonormal one.
+</SummaryBox>

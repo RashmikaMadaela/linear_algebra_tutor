@@ -1,0 +1,125 @@
+---
+title: "Cauchy-Schwarz & Triangle Inequalities"
+section: "inner-product-spaces"
+order: 2
+estimatedMinutes: 25
+prerequisites: ["inner-product-spaces/inner-products"]
+notesRef:
+  theorems: [18, 19]
+  examples: [12]
+tags: ["Cauchy-Schwarz", "triangle-inequality", "norm", "inequality"]
+---
+
+## Big Idea
+
+With an inner product defined, two fundamental inequalities follow immediately.
+The **Cauchy-Schwarz inequality** says that $|\langle\mathbf{u},\mathbf{v}\rangle| \leq \|\mathbf{u}\|\|\mathbf{v}\|$ — the inner product is bounded by the product of the lengths.
+This single inequality underlies the definition of angle, the concept of orthogonality, and virtually every approximation theorem in the course.
+The **triangle inequality** extends from geometry: the straight-line distance is never longer than going via a detour.
+
+## Intuition
+
+In $\mathbb{R}^2$, the dot product formula gives $\mathbf{u}\cdot\mathbf{v} = \|\mathbf{u}\|\|\mathbf{v}\|\cos\theta$.
+Since $|\cos\theta| \leq 1$, we always have $|\mathbf{u}\cdot\mathbf{v}| \leq \|\mathbf{u}\|\|\mathbf{v}\|$.
+Cauchy-Schwarz says this holds in **any** inner product space — including function spaces and matrix spaces.
+
+The triangle inequality $\|\mathbf{u}+\mathbf{v}\| \leq \|\mathbf{u}\|+\|\mathbf{v}\|$ is the familiar statement that the length of a side of a triangle is at most the sum of the other two sides.
+
+## Theorems
+
+<TheoremBox number={18} title="Cauchy-Schwarz Inequality" proofSketch={<>For any $t\in\mathbb{R}$, expand $0\leq\|\mathbf{u}-t\mathbf{v}\|^2 = \langle\mathbf{u}-t\mathbf{v},\mathbf{u}-t\mathbf{v}\rangle$ into a quadratic in $t$. The discriminant of this non-negative quadratic must be $\leq 0$, which gives exactly $|\langle\mathbf{u},\mathbf{v}\rangle|^2 \leq \|\mathbf{u}\|^2\|\mathbf{v}\|^2$.</>}>
+
+Let $V$ be an inner product space. For all $\mathbf{u},\mathbf{v} \in V$:
+
+<BM math="|\langle\mathbf{u},\mathbf{v}\rangle| \leq \|\mathbf{u}\|\,\|\mathbf{v}\|" />
+
+**Equality** holds if and only if $\mathbf{u}$ and $\mathbf{v}$ are linearly dependent (one is a scalar multiple of the other).
+</TheoremBox>
+
+**Full proof (Thm 18):**
+
+If $\mathbf{v}=\mathbf{0}$ both sides are $0$. Assume $\mathbf{v}\neq\mathbf{0}$. For any scalar $t$:
+<BM math="0 \leq \|\mathbf{u} - t\mathbf{v}\|^2 = \langle\mathbf{u}-t\mathbf{v},\mathbf{u}-t\mathbf{v}\rangle = \|\mathbf{u}\|^2 - t\langle\mathbf{v},\mathbf{u}\rangle - \bar{t}\langle\mathbf{u},\mathbf{v}\rangle + |t|^2\|\mathbf{v}\|^2" />
+
+Set $t = \langle\mathbf{u},\mathbf{v}\rangle / \|\mathbf{v}\|^2$. Then $\bar{t} = \overline{\langle\mathbf{u},\mathbf{v}\rangle}/\|\mathbf{v}\|^2$ and after substitution:
+<BM math="0 \leq \|\mathbf{u}\|^2 - \frac{|\langle\mathbf{u},\mathbf{v}\rangle|^2}{\|\mathbf{v}\|^2}" />
+
+Rearranging: $|\langle\mathbf{u},\mathbf{v}\rangle|^2 \leq \|\mathbf{u}\|^2\|\mathbf{v}\|^2$. Taking square roots gives the result. $\blacksquare$
+
+<TheoremBox number={19} title="Triangle Inequality" proofSketch={<>Expand $\|\mathbf{u}+\mathbf{v}\|^2 = \|\mathbf{u}\|^2 + 2\operatorname{Re}\langle\mathbf{u},\mathbf{v}\rangle + \|\mathbf{v}\|^2$, then apply Cauchy-Schwarz to bound $\operatorname{Re}\langle\mathbf{u},\mathbf{v}\rangle \leq |\langle\mathbf{u},\mathbf{v}\rangle| \leq \|\mathbf{u}\|\|\mathbf{v}\|$.</>}>
+
+For all $\mathbf{u},\mathbf{v} \in V$:
+<BM math="\|\mathbf{u}+\mathbf{v}\| \leq \|\mathbf{u}\| + \|\mathbf{v}\|" />
+</TheoremBox>
+
+**Full proof (Thm 19):**
+<BM math="\|\mathbf{u}+\mathbf{v}\|^2 = \langle\mathbf{u}+\mathbf{v},\mathbf{u}+\mathbf{v}\rangle = \|\mathbf{u}\|^2 + \langle\mathbf{u},\mathbf{v}\rangle + \overline{\langle\mathbf{u},\mathbf{v}\rangle} + \|\mathbf{v}\|^2 = \|\mathbf{u}\|^2 + 2\operatorname{Re}\langle\mathbf{u},\mathbf{v}\rangle + \|\mathbf{v}\|^2" />
+
+Since $\operatorname{Re}(z) \leq |z|$ for any $z\in\mathbb{C}$, and by Cauchy-Schwarz:
+<BM math="\|\mathbf{u}+\mathbf{v}\|^2 \leq \|\mathbf{u}\|^2 + 2|\langle\mathbf{u},\mathbf{v}\rangle| + \|\mathbf{v}\|^2 \leq \|\mathbf{u}\|^2 + 2\|\mathbf{u}\|\|\mathbf{v}\| + \|\mathbf{v}\|^2 = (\|\mathbf{u}\|+\|\mathbf{v}\|)^2" />
+
+Taking square roots: $\|\mathbf{u}+\mathbf{v}\| \leq \|\mathbf{u}\|+\|\mathbf{v}\|$. $\blacksquare$
+
+## Worked Examples (Example 12)
+
+<StepReveal title="Example 12.1 — Cauchy-Schwarz on ℝⁿ" steps={[
+  {
+    label: "Statement",
+    content: "For $\\mathbf{u},\\mathbf{v}\\in\\mathbb{R}^n$ with standard dot product:",
+    formula: "\\left(\\sum_{i=1}^n u_i v_i\\right)^2 \\leq \\left(\\sum_{i=1}^n u_i^2\\right)\\left(\\sum_{i=1}^n v_i^2\\right)"
+  },
+  {
+    label: "Concrete check",
+    content: "Take $\\mathbf{u}=(1,2,2)$, $\\mathbf{v}=(2,1,-2)$. Then $\\langle\\mathbf{u},\\mathbf{v}\\rangle = 2+2-4=0$, $\\|\\mathbf{u}\\|=3$, $\\|\\mathbf{v}\\|=3$.",
+    formula: "|\\langle\\mathbf{u},\\mathbf{v}\\rangle| = 0 \\leq 9 = \\|\\mathbf{u}\\|\\|\\mathbf{v}\\| \\quad \\checkmark"
+  }
+]} />
+
+<StepReveal title="Example 12.2 — Cauchy-Schwarz on ℂⁿ" steps={[
+  {
+    label: "Statement",
+    content: "For $\\mathbf{u},\\mathbf{v}\\in\\mathbb{C}^n$ with Hermitian inner product:",
+    formula: "\\left|\\sum_{i=1}^n u_i\\overline{v_i}\\right|^2 \\leq \\left(\\sum_{i=1}^n |u_i|^2\\right)\\left(\\sum_{i=1}^n |v_i|^2\\right)"
+  },
+  {
+    label: "Application",
+    content: "This is used, e.g., to show $|\\mathbf{v}^H\\mathbf{u}|$ can be no larger than the product of the Euclidean norms — critical for singular value bounds.",
+  }
+]} />
+
+<StepReveal title="Example 12.3 — Cauchy-Schwarz on L₂[a,b]" steps={[
+  {
+    label: "Statement",
+    content: "For continuous functions on $[a,b]$:",
+    formula: "\\left(\\int_a^b f(x)g(x)\\,dx\\right)^2 \\leq \\left(\\int_a^b [f(x)]^2\\,dx\\right)\\left(\\int_a^b [g(x)]^2\\,dx\\right)"
+  },
+  {
+    label: "Concrete example",
+    content: "On $[0,1]$ with $f(x)=x$ and $g(x)=1$:",
+    formula: "\\left(\\int_0^1 x\\,dx\\right)^2 = \\frac{1}{4} \\leq \\frac{1}{3}\\cdot 1 = \\int_0^1 x^2\\,dx\\cdot\\int_0^1 1\\,dx \\quad \\checkmark"
+  }
+]} />
+
+## Common Mistakes
+
+⚠ **Forgetting the absolute value:** The inequality is $|\langle\mathbf{u},\mathbf{v}\rangle| \leq \|\mathbf{u}\|\|\mathbf{v}\|$ — the inner product can be negative, but the right-hand side is always positive.
+
+⚠ **Equality condition:** Equality in Cauchy-Schwarz holds iff $\mathbf{u}$ and $\mathbf{v}$ are linearly dependent ($\mathbf{u} = c\mathbf{v}$ or $\mathbf{v} = \mathbf{0}$). Collinearity in $\mathbb{R}^n$ corresponds to $\cos\theta = \pm 1$.
+
+⚠ **Triangle inequality direction:** The inequality $\|\mathbf{u}+\mathbf{v}\| \leq \|\mathbf{u}\|+\|\mathbf{v}\|$ also implies the **reverse triangle inequality** $|\|\mathbf{u}\|-\|\mathbf{v}\|| \leq \|\mathbf{u}-\mathbf{v}\|$, but these are different statements.
+
+## Summary
+
+<SummaryBox title="The Two Core Inequalities">
+
+**Cauchy-Schwarz (Thm 18):** $|\langle\mathbf{u},\mathbf{v}\rangle| \leq \|\mathbf{u}\|\|\mathbf{v}\|$ — valid in any inner product space.
+
+**Triangle inequality (Thm 19):** $\|\mathbf{u}+\mathbf{v}\| \leq \|\mathbf{u}\|+\|\mathbf{v}\|$ — follows from Cauchy-Schwarz.
+
+**Cauchy-Schwarz instances:**
+- $\mathbb{R}^n$: $(\sum u_iv_i)^2 \leq (\sum u_i^2)(\sum v_i^2)$
+- $\mathbb{C}^n$: $|\sum u_i\overline{v_i}|^2 \leq (\sum|u_i|^2)(\sum|v_i|^2)$
+- $L^2[a,b]$: $(\int fg)^2 \leq (\int f^2)(\int g^2)$
+
+**Angle in inner product spaces:** Cauchy-Schwarz justifies defining $\cos\theta = \langle\mathbf{u},\mathbf{v}\rangle/(\|\mathbf{u}\|\|\mathbf{v}\|)$ since this ratio lies in $[-1,1]$ over $\mathbb{R}$.
+</SummaryBox>

@@ -1,0 +1,48 @@
+---
+title: "Inner Product & Normed Spaces"
+section: "inner-product-spaces"
+order: 0
+estimatedMinutes: 5
+tags: ["overview", "inner-product", "norm", "orthogonality", "Hilbert-space"]
+---
+
+## Section Overview
+
+Vector spaces give us *algebraic* structure: addition and scalar multiplication.
+This section adds **geometric** structure by introducing the **inner product** — a way to measure lengths and angles in any vector space.
+
+From the inner product we build up a rich theory:
+
+1. **Inner products** give a notion of length (norm) and angle (orthogonality).
+2. **Cauchy-Schwarz and Triangle inequalities** are the two fundamental bounds.
+3. **Orthonormal sets** are linearly independent by Theorem 20 — the ideal kind of basis.
+4. **Gram-Schmidt** converts any LI set into an orthonormal one — the algorithmic heart of the section.
+5. **Orthogonal polynomials** (Legendre, Laguerre, Chebyshev) are the Gram-Schmidt output for monomial sequences with classical weight functions.
+6. **Orthogonal complements** and the **best approximation theorem** extend projection to abstract spaces — the theoretical foundation for least squares.
+7. **Norms and completeness** lead to Banach spaces (complete normed spaces) and Hilbert spaces (complete inner product spaces).
+8. **Metric spaces** are the most general setting — every normed space is a metric space, but not vice versa.
+
+### Definitions in this section
+- **Def 14** — Inner Product
+- **Def 15** — Orthogonal and Orthonormal Sets
+- **Def 16** — Orthogonal Complement $W^\perp$
+- **Def 17** — Norm
+- **Def 18** — Metric (Distance Function)
+
+### Theorems in this section
+- **Thm 17** — Conjugate-linearity in second argument
+- **Thm 18** — Cauchy-Schwarz Inequality
+- **Thm 19** — Triangle Inequality
+- **Thm 20** — Orthogonal sets are linearly independent
+- **Thm 21** — Gram-Schmidt Process
+- **Thm 22** — Orthogonal Decomposition & Best Approximation ($V = W \oplus W^\perp$)
+
+### Examples in this section
+- **Ex 11** — Four inner products (dot product, Hermitian, $L^2$ integral, trace)
+- **Ex 12** — Cauchy-Schwarz in $\mathbb{R}^n$, $\mathbb{C}^n$, $L^2[a,b]$
+- **Ex 13** — Gram-Schmidt on vectors in $\mathbb{R}^3$ and polynomials $\{1,x,x^2,x^3\}$
+- **Ex 14** — Projection in $\mathbb{R}^3$ and polynomial approximation of $e^{x/4}$
+
+### Prerequisites
+- Section I: Fields (scalars come from a field — specifically an **ordered** field for inner products)
+- Section II: Vector spaces, linear independence, bases, subspaces

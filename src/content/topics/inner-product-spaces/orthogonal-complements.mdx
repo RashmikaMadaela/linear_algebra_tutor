@@ -1,0 +1,149 @@
+---
+title: "Orthogonal Complements & Best Approximation"
+section: "inner-product-spaces"
+order: 6
+estimatedMinutes: 35
+prerequisites: ["inner-product-spaces/orthogonality", "inner-product-spaces/gram-schmidt"]
+notesRef:
+  definitions: [16]
+  theorems: [22]
+  examples: [14]
+tags: ["orthogonal-complement", "direct-sum", "projection", "best-approximation", "least-squares"]
+---
+
+## Big Idea
+
+Given a subspace $W$ of an inner product space $V$, the **orthogonal complement** $W^\perp$ captures everything in $V$ that is orthogonal to $W$.
+The central theorem is that $V$ **splits** into $W$ and $W^\perp$: every vector in $V$ can be written uniquely as a sum of a vector in $W$ and a vector in $W^\perp$.
+The $W$-component of this decomposition is the **best approximation** (orthogonal projection) of the original vector by an element of $W$ — it minimizes the distance.
+
+## Intuition
+
+In $\mathbb{R}^3$, take $W$ to be a plane through the origin. The orthogonal complement $W^\perp$ is the line through the origin that is perpendicular to this plane.
+Every vector in $\mathbb{R}^3$ decomposes uniquely into a part lying in the plane and a part pointing along that perpendicular line.
+The "shadow" of the vector onto the plane (found by dropping a perpendicular) is the **projection** $P\mathbf{u}$ — and this shadow is the closest point in $W$ to $\mathbf{u}$.
+
+This geometric picture extends to any inner product space, including function spaces.
+
+## Formal Definition
+
+<DefinitionBox number={16} title="Orthogonal Complement">
+Let $W$ be a subspace of an inner product space $V$. The **orthogonal complement** of $W$ is:
+<BM math="W^\perp = \{\mathbf{v} \in V \mid \langle\mathbf{v},\mathbf{w}\rangle = 0 \text{ for all } \mathbf{w} \in W\}" />
+
+$W^\perp$ is the set of all vectors in $V$ that are orthogonal to **every** vector in $W$.
+</DefinitionBox>
+
+## Main Theorem
+
+<TheoremBox number={22} title="Orthogonal Decomposition & Best Approximation" proofSketch={<>Existence of decomposition: use an orthonormal basis $\{e_1,\ldots,e_k\}$ for $W$ (by Gram-Schmidt) and define $P\mathbf{u} = \sum_j \langle\mathbf{u},e_j\rangle e_j$. Then $\mathbf{u} - P\mathbf{u}$ is orthogonal to all of $W$. Uniqueness follows from the fact that if $\mathbf{u}=\mathbf{w}+\mathbf{w}'=\tilde\mathbf{w}+\tilde\mathbf{w}'$ then $\mathbf{w}-\tilde\mathbf{w}\in W\cap W^\perp = \{\mathbf{0}\}$. Best approximation: $\|\mathbf{u}-\mathbf{w}\|^2 = \|\mathbf{u}-P\mathbf{u}\|^2+\|P\mathbf{u}-\mathbf{w}\|^2 \geq \|\mathbf{u}-P\mathbf{u}\|^2$ by Pythagoras.</>}>
+
+Let $W$ be a finite-dimensional subspace of an inner product space $V$. Then:
+
+1. **$W^\perp$ is a subspace of $V$.**
+
+2. **Direct sum decomposition:** Every $\mathbf{u} \in V$ can be written **uniquely** as:
+<BM math="\mathbf{u} = P\mathbf{u} + \mathbf{u}^\perp, \quad P\mathbf{u} \in W,\quad \mathbf{u}^\perp \in W^\perp" />
+We write $V = W \oplus W^\perp$.
+
+3. **Best approximation:** If $\{e_1,\ldots,e_k\}$ is an orthonormal basis for $W$, then:
+<BM math="P\mathbf{u} = \sum_{j=1}^k \langle\mathbf{u}, e_j\rangle\, e_j" />
+Moreover, $P\mathbf{u}$ is the **unique closest point** in $W$ to $\mathbf{u}$:
+<BM math="\|\mathbf{u} - P\mathbf{u}\| \leq \|\mathbf{u} - \mathbf{w}\| \quad \text{for all } \mathbf{w} \in W" />
+with equality iff $\mathbf{w} = P\mathbf{u}$.
+</TheoremBox>
+
+**Why $W^\perp$ is a subspace:** If $\langle\mathbf{v}_1,\mathbf{w}\rangle=0$ and $\langle\mathbf{v}_2,\mathbf{w}\rangle=0$ for all $\mathbf{w}\in W$, then $\langle\alpha\mathbf{v}_1+\mathbf{v}_2,\mathbf{w}\rangle = \alpha\langle\mathbf{v}_1,\mathbf{w}\rangle+\langle\mathbf{v}_2,\mathbf{w}\rangle = 0$. ✓
+
+**Pythagoras in inner product spaces:** The decomposition $\mathbf{u} = P\mathbf{u} + \mathbf{u}^\perp$ with $P\mathbf{u} \perp \mathbf{u}^\perp$ gives:
+<BM math="\|\mathbf{u}\|^2 = \|P\mathbf{u}\|^2 + \|\mathbf{u}^\perp\|^2" />
+
+## Worked Examples (Example 14)
+
+<StepReveal title="Example 14.1 — Projection onto a plane in ℝ³" steps={[
+  {
+    label: "Setup",
+    content: "Let $W = \\operatorname{span}\\{(1,0,0),(0,1,0)\\}$ (the $xy$-plane) and $\\mathbf{u} = (3,4,5)$.",
+  },
+  {
+    label: "Orthonormal basis for W",
+    content: "$W$ already has an orthonormal basis: $e_1=(1,0,0)$, $e_2=(0,1,0)$.",
+  },
+  {
+    label: "Compute projection",
+    formula: "P\\mathbf{u} = \\langle\\mathbf{u},e_1\\rangle e_1 + \\langle\\mathbf{u},e_2\\rangle e_2 = 3e_1 + 4e_2 = (3,4,0)"
+  },
+  {
+    label: "Orthogonal complement",
+    formula: "\\mathbf{u}^\\perp = \\mathbf{u} - P\\mathbf{u} = (0,0,5) \\in W^\\perp"
+  },
+  {
+    label: "Verify",
+    content: "$\\langle(0,0,5),(1,0,0)\\rangle = 0$ and $\\langle(0,0,5),(0,1,0)\\rangle = 0$ ✓. Distance: $\\|\\mathbf{u}-P\\mathbf{u}\\| = 5$.",
+  }
+]} />
+
+<StepReveal title="Example 14.2 — Best polynomial approximation of eˣ/4 on [−1,1]" steps={[
+  {
+    label: "Setup",
+    content: "Approximate $f(x) = e^{x/4}$ by a polynomial of degree $\\leq 1$ (i.e., by $a+bx$) in the $L^2[-1,1]$ sense. Let $W = \\operatorname{span}\\{1,x\\}$ with inner product $\\langle f,g\\rangle = \\int_{-1}^1 fg\\,dx$.",
+  },
+  {
+    label: "Orthonormal basis for W",
+    content: "Since $\\langle 1,x\\rangle = \\int_{-1}^1 x\\,dx = 0$, and $\\|1\\|^2=2$, $\\|x\\|^2=2/3$:",
+    formula: "e_1 = \\frac{1}{\\sqrt{2}},\\quad e_2 = \\sqrt{\\frac{3}{2}}\\,x"
+  },
+  {
+    label: "Compute Fourier coefficients",
+    formula: "\\langle f, e_1\\rangle = \\frac{1}{\\sqrt{2}}\\int_{-1}^1 e^{x/4}\\,dx = \\frac{1}{\\sqrt{2}}\\cdot 4(e^{1/4}-e^{-1/4}) = \\frac{4}{\\sqrt{2}}\\cdot 2\\sinh(1/4)"
+  },
+  {
+    label: "Coefficient of x",
+    formula: "\\langle f, e_2\\rangle = \\sqrt{\\frac{3}{2}}\\int_{-1}^1 x\\,e^{x/4}\\,dx"
+  },
+  {
+    label: "Integration by parts",
+    content: "Using $\\int xe^{x/4}dx = 4xe^{x/4}-16e^{x/4}+C$:",
+    formula: "\\int_{-1}^1 xe^{x/4}\\,dx = [4xe^{x/4}-16e^{x/4}]_{-1}^1 = (4-16)e^{1/4}-(-4-16)e^{-1/4} = -12e^{1/4}+20e^{-1/4}"
+  },
+  {
+    label: "Best approximation",
+    formula: "Pf = \\langle f,e_1\\rangle e_1 + \\langle f,e_2\\rangle e_2 = a + bx"
+  },
+  {
+    label: "Remark",
+    content: "This polynomial minimizes $\\int_{-1}^1 (e^{x/4} - (a+bx))^2\\,dx$ over all choices of $a,b\\in\\mathbb{R}$. This is the **least-squares polynomial approximation** — the same idea used in linear regression.",
+  }
+]} />
+
+## Connection to Least Squares
+
+The best approximation theorem in $\mathbb{R}^n$ is exactly **least squares regression**:
+- $W = $ column space of matrix $A$ (set of all $A\mathbf{x}$)
+- $\mathbf{u} = $ the target vector $\mathbf{b}$
+- $P\mathbf{b} = A(A^TA)^{-1}A^T\mathbf{b}$ = the least-squares solution
+- Normal equations: $A^TA\hat{\mathbf{x}} = A^T\mathbf{b}$
+
+## Common Mistakes
+
+⚠ **$W^\perp$ depends on the whole space $V$, not just $W$:** The same subspace $W$ has a different complement in different ambient spaces.
+
+⚠ **$(W^\perp)^\perp = W$ only in finite dimensions:** In infinite-dimensional spaces, the double complement may be larger than $W$ unless $W$ is closed.
+
+⚠ **Projection formula requires orthonormal basis:** The formula $P\mathbf{u} = \sum_j\langle\mathbf{u},e_j\rangle e_j$ only works when $\{e_j\}$ is **orthonormal**, not just orthogonal.
+
+## Summary
+
+<SummaryBox title="Orthogonal Complements — Key Facts">
+
+**Def 16:** $W^\perp = \{\mathbf{v} : \langle\mathbf{v},\mathbf{w}\rangle=0\;\forall\,\mathbf{w}\in W\}$ — always a subspace.
+
+**Thm 22:** $V = W \oplus W^\perp$. Every $\mathbf{u} = P\mathbf{u} + \mathbf{u}^\perp$ uniquely.
+
+**Projection formula** (orthonormal basis $\{e_j\}$ for $W$):
+$$P\mathbf{u} = \sum_{j=1}^k \langle\mathbf{u},e_j\rangle\,e_j$$
+
+**Best approximation:** $P\mathbf{u}$ is the closest point in $W$ to $\mathbf{u}$.
+
+**Pythagoras:** $\|\mathbf{u}\|^2 = \|P\mathbf{u}\|^2 + \|\mathbf{u}^\perp\|^2$.
+</SummaryBox>
