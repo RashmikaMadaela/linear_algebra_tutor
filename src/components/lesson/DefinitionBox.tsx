@@ -2,6 +2,7 @@
 
 import { clsx } from 'clsx';
 import { InlineMath, BlockMath } from 'react-katex';
+import { MathText } from '@/components/MathText';
 import React from 'react';
 
 interface DefinitionBoxProps {
@@ -27,7 +28,7 @@ export function DefinitionBox({ number, title, children, formula }: DefinitionBo
         <span className="px-2 py-0.5 rounded-md bg-violet-500/20 text-violet-300 text-xs font-mono font-semibold">
           Def {number}
         </span>
-        <span className="font-semibold text-violet-200">{title}</span>
+        <span className="font-semibold text-violet-200"><MathText text={title} /></span>
         <a
           href={`#${id}`}
           className="ml-auto opacity-0 group-hover:opacity-100 text-text-faint hover:text-text transition-opacity text-sm"

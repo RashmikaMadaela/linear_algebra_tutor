@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { clsx } from 'clsx';
 import { BlockMath } from 'react-katex';
+import { MathText } from '@/components/MathText';
 
 interface TheoremBoxProps {
   number: number;
@@ -47,7 +48,7 @@ export function TheoremBox({
         <span className={clsx('px-2 py-0.5 rounded-md text-xs font-mono font-semibold', style.badge)}>
           {style.label} {number}
         </span>
-        <span className={clsx('font-semibold', style.title)}>{title}</span>
+        <span className={clsx('font-semibold', style.title)}><MathText text={title} /></span>
         <a
           href={`#${id}`}
           className="ml-auto opacity-0 group-hover:opacity-100 text-text-faint hover:text-text transition-opacity text-sm"

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { clsx } from 'clsx';
 import { BlockMath } from 'react-katex';
+import { MathText } from '@/components/MathText';
 
 interface Step {
   label: string;
@@ -25,7 +26,7 @@ export function StepReveal({ title = 'Worked Example', steps }: StepRevealProps)
         <span className="px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 text-xs font-mono font-semibold">
           Example
         </span>
-        <span className="font-semibold text-amber-200">{title}</span>
+        <span className="font-semibold text-amber-200"><MathText text={title} /></span>
         <span className="ml-auto text-xs text-text-faint">
           {Math.min(revealed, steps.length)} / {steps.length} steps
         </span>
@@ -45,7 +46,7 @@ export function StepReveal({ title = 'Worked Example', steps }: StepRevealProps)
               {i < steps.length - 1 && <div className="w-px flex-1 bg-amber-500/20 mt-1" />}
             </div>
             <div className="flex-1 pb-4">
-              <div className="text-sm font-semibold text-amber-200 mb-1">{step.label}</div>
+              <div className="text-sm font-semibold text-amber-200 mb-1"><MathText text={step.label} /></div>
               <div className="text-text text-sm leading-relaxed">{step.content}</div>
               {step.formula && (
                 <div className="mt-2">

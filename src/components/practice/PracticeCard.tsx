@@ -2,41 +2,8 @@
 
 import { useState } from 'react';
 import { clsx } from 'clsx';
-import { BlockMath, InlineMath } from 'react-katex';
+import { MathText } from '@/components/MathText';
 import type { PracticeQuestion, Hint } from '@/types/practice';
-
-/** Renders a string that may contain $...$ inline and $$...$$ block LaTeX. */
-function MathText({ text }: { text: string }) {
-  // Split on $$...$$ first, then $...$
-  const parts: React.ReactNode[] = [];
-  const blockRe = /\$\$([\s\S]+?)\$\$/g;
-  const inlineRe = /\$((?:[^$\\]|\\.)+?)\$/g;
-
-  let remaining = text;
-  let key = 0;
-
-  // Handle block math
-  const blockSplit = remaining.split(blockRe);
-  // blockSplit alternates: [text, math, text, math, ...]
-  for (let i = 0; i < blockSplit.length; i++) {
-    if (i % 2 === 1) {
-      parts.push(<BlockMath key={key++} math={blockSplit[i]} />);
-    } else {
-      // Handle inline math within text segments
-      const seg = blockSplit[i];
-      const inlineSplit = seg.split(inlineRe);
-      for (let j = 0; j < inlineSplit.length; j++) {
-        if (j % 2 === 1) {
-          parts.push(<InlineMath key={key++} math={inlineSplit[j]} />);
-        } else if (inlineSplit[j]) {
-          parts.push(<span key={key++}>{inlineSplit[j]}</span>);
-        }
-      }
-    }
-  }
-
-  return <>{parts}</>;
-}
 
 function normalizeHints(hints: Hint[]): { level: number; text: string }[] {
   return hints.map((h, i) =>

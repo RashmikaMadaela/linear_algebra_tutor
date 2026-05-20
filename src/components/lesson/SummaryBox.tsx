@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import React from 'react';
+import { MathText } from '@/components/MathText';
 
 interface SummaryBoxProps {
   children: React.ReactNode;
@@ -13,7 +14,7 @@ export function SummaryBox({ children, title = 'Key Takeaways' }: SummaryBoxProp
     )}>
       <div className="flex items-center gap-2 px-5 py-3 bg-primary/10 border-b border-primary/20">
         <span className="text-primary text-base">★</span>
-        <span className="font-semibold text-indigo-200">{title}</span>
+        <span className="font-semibold text-indigo-200"><MathText text={title} /></span>
       </div>
       <div className="px-5 py-4 text-text leading-relaxed space-y-2">
         {children}
