@@ -16,6 +16,16 @@ A norm is a length function.
 Completeness upgrades a normed space to a Banach space.
 If the norm comes from an inner product and the space is complete, we get a Hilbert space.
 
+This is the key structural ladder used in modern linear analysis.
+
+## Intuition
+
+Norm tells you the size of one vector.
+Metric tells you distance between two vectors.
+Completeness tells you limit behavior is stable inside the same space.
+
+Without completeness, Cauchy sequences can approach objects that are not in the space.
+
 ## Norm Definition
 
 <DefinitionBox number={17} title="Norm">
@@ -31,17 +41,52 @@ A norm on a vector space $V$ is a function $\|\cdot\| : V \to \mathbb{R}$ such t
 A sequence $(v_n)$ is Cauchy if distances between later terms become arbitrarily small.
 A normed space is complete if every Cauchy sequence converges in the same space.
 
+More explicitly, $(v_n)$ is Cauchy when for every $\varepsilon>0$ there exists $N$ such that
+
+<BM math="\|v_m-v_n\|<\varepsilon \text{ whenever } m,n>N" />
+
+Convergent sequences are always Cauchy.
+The converse is true exactly in complete spaces.
+
 ## Banach And Hilbert
 
 - Banach space: complete normed space.
 - Hilbert space: complete inner product space.
 - Every Hilbert space is Banach.
 
+And every Banach space is normed, every normed space is metric.
+
+## Parallelogram Test
+
+A norm comes from an inner product exactly when the parallelogram identity holds:
+
+<BM math="\|u+v\|^2 + \|u-v\|^2 = 2\|u\|^2 + 2\|v\|^2" />
+
+This is a practical test to separate Hilbert-type geometry from general Banach geometry.
+
 ## Standard Examples
 
 - $\mathbb{R}^n$ with Euclidean norm: Hilbert.
 - $C[a,b]$ with sup norm: Banach.
 - $L^2[a,b]$: Hilbert.
+
+Additional perspective:
+
+- $\ell^1$ is Banach but not Hilbert.
+- $\ell^2$ is Hilbert.
+- Finite-dimensional normed spaces are always Banach.
+
+## Why This Matters In This Course
+
+- Gram-Schmidt and orthogonal projection live naturally in Hilbert settings.
+- Least squares is geometric in inner product spaces.
+- Numerical algorithms use norm-based error control and convergence statements.
+
+## Common Mistakes
+
+- Thinking Banach means finite-dimensional.
+- Confusing Cauchy with convergent in non-complete spaces.
+- Assuming every norm is induced by an inner product.
 
 ## Summary
 
@@ -50,4 +95,5 @@ A normed space is complete if every Cauchy sequence converges in the same space.
 - Completeness gives Banach.
 - Inner product plus completeness gives Hilbert.
 - Hierarchy: Hilbert subset Banach subset Normed subset Metric.
+- Parallelogram identity detects inner-product norms.
 </SummaryBox>

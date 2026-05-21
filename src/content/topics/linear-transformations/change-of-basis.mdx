@@ -10,6 +10,15 @@ order: 5
 The linear map stays the same, but its matrix changes when the basis changes.
 That change is controlled by an invertible transition matrix.
 
+This is the algebraic bridge between coordinates and geometry.
+
+## Intuition
+
+Coordinates are labels, not the object itself.
+If you rotate or reshape your coordinate axes, vectors and linear maps are unchanged, but their coordinate columns and matrices change.
+
+Change of basis is exactly the rule for translating between these coordinate descriptions.
+
 ## Transition Matrix
 
 <DefinitionBox number={21} title="Transition Matrix">
@@ -22,15 +31,30 @@ If $P$ converts coordinates from old basis to new basis, then
 for every vector $v$.
 </DefinitionBox>
 
+Important direction convention:
+
+- $P$ multiplies old coordinates and returns new coordinates.
+- $P^{-1}$ does the reverse conversion.
+
 ## Change Of Matrix Formula
 
-<TheoremBox number={26} title="Basis Change For A Linear Map">
+<TheoremBox number={26} title="Transition Matrix Is Invertible">
+If $P$ converts coordinates from old basis to new basis, then $P$ is invertible and $P^{-1}$ converts coordinates from new basis back to old basis.
+</TheoremBox>
+
+<TheoremBox number={27} title="Basis Change For A Linear Map">
 Let $A$ be the matrix of $T$ in the old basis. If $P$ is the transition matrix from old to new coordinates, then the new matrix is
 
 <BM math="A_{new} = P A P^{-1}" />
 
 So the two matrices are similar.
 </TheoremBox>
+
+This can be read as three steps:
+
+1. Convert new coordinates to old using $P^{-1}$.
+2. Apply the old-basis matrix $A$.
+3. Convert back to new coordinates using $P$.
 
 ## Invariants Under Similarity
 
@@ -42,10 +66,34 @@ If two matrices are related by $A_{new} = P A P^{-1}$, they have the same:
 - rank
 - characteristic polynomial
 
+So when two matrices are similar, they represent the same linear transformation under different coordinate systems.
+
+## Worked Mini Example
+
+Take reflection across the line $y=x$ in $\mathbb{R}^2$.
+
+- In standard basis its matrix is
+
+<BM math="A = [[0,1],[1,0]]" />
+
+- In basis $(1,1),(1,-1)$ the matrix becomes diagonal:
+
+<BM math="A_{new} = [[1,0],[0,-1]]" />
+
+Both matrices describe the same map, and are related by similarity.
+
 ## Why It Matters
 
 Diagonalization is a basis change where the new basis is made of eigenvectors.
 In that basis, the matrix is diagonal and computations become much simpler.
+
+This is why basis choice is a computational strategy, not just notation.
+
+## Common Mistakes
+
+- Mixing the direction of $P$ and $P^{-1}$.
+- Treating equal matrices and similar matrices as the same concept.
+- Forgetting that basis order matters.
 
 ## Summary
 
@@ -54,4 +102,5 @@ In that basis, the matrix is diagonal and computations become much simpler.
 - Matrix of a map changes by similarity.
 - Similar matrices represent one linear map in different bases.
 - Choosing a good basis simplifies the matrix.
+- The formula is $A_{new}=PAP^{-1}$ with direction carefully tracked.
 </SummaryBox>

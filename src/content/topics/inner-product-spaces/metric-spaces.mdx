@@ -11,8 +11,21 @@ tags: ["metric", "distance", "metric-space", "induced-metric"]
 
 ## Big Idea
 
-A metric is the most general way to define distance.
-It keeps exactly four rules: nonnegative, zero only on identical points, symmetry, and triangle inequality.
+A metric is the most general way to talk about distance.
+It keeps exactly four rules and drops everything else.
+That makes metric spaces broad enough to include geometry, analysis, graphs, and function spaces.
+
+## Intuition
+
+Think of distance in daily life:
+
+- You never get a negative distance.
+- Distance is zero only when two places are the same place.
+- Going from A to B costs the same as B to A.
+- A direct route is never longer than a route with a detour.
+
+Any function that obeys these four principles is a metric.
+The set does not need to be a vector space.
 
 ## Formal Definition
 
@@ -36,6 +49,22 @@ If a norm is given, define
 Then the metric axioms follow from norm axioms.
 So every normed space is automatically a metric space.
 
+In particular:
+
+- Inner product gives norm.
+- Norm gives metric.
+
+So every inner product space is a metric space as well.
+
+## Why Hierarchy Matters
+
+Some statements need only a metric.
+Other statements need a norm or an inner product.
+
+- Convergence and continuity only need a metric.
+- Triangle inequalities in vector form often use a norm.
+- Orthogonality and projections require an inner product.
+
 ## Examples
 
 - Euclidean space with Euclidean distance
@@ -43,10 +72,26 @@ So every normed space is automatically a metric space.
 - Continuous functions with sup distance
 - Discrete metric on any set
 
+### Discrete Metric
+
+Define $d(x,y)=1$ when $x\ne y$ and $d(x,y)=0$ when $x=y$.
+This satisfies all metric axioms.
+It shows that metric spaces are strictly more general than normed spaces.
+
 ## Convergence
 
 A sequence $(x_n)$ converges to $x$ in a metric space exactly when $d(x_n,x) \to 0$.
 Open balls generate the topology, so continuity and limits are metric notions.
+
+Equivalent epsilon form:
+
+For every $\varepsilon>0$, there is $N$ such that $n>N$ implies $d(x_n,x)<\varepsilon$.
+
+## Common Mistakes
+
+- Assuming every metric comes from a norm.
+- Assuming every norm comes from an inner product.
+- Forgetting that metrics can be defined on sets with no linear operations.
 
 ## Summary
 
@@ -55,4 +100,5 @@ Open balls generate the topology, so continuity and limits are metric notions.
 - Norm induces metric by $d(u,v)=\|u-v\|$.
 - Inner product induces norm, so it also induces metric.
 - Metric spaces are more general than normed spaces.
+- Convergence and continuity are metric-space concepts.
 </SummaryBox>
