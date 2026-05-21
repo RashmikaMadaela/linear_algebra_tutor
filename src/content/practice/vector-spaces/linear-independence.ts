@@ -40,6 +40,8 @@ const questions: PracticeQuestion[] = [
       "If $\\alpha_4 \\neq 0$, then $\\mathbf{w} = -\\tfrac{\\alpha_1}{\\alpha_4}\\mathbf{v}_1 - \\tfrac{\\alpha_2}{\\alpha_4}\\mathbf{v}_2 - \\tfrac{\\alpha_3}{\\alpha_4}\\mathbf{v}_3 \\in \\operatorname{span}(\\{\\mathbf{v}_1,\\mathbf{v}_2,\\mathbf{v}_3\\})$, contradicting the assumption. So $\\alpha_4 = 0$.",
       "With $\\alpha_4 = 0$: $\\alpha_1\\mathbf{v}_1 + \\alpha_2\\mathbf{v}_2 + \\alpha_3\\mathbf{v}_3 = \\mathbf{0}$. Since $\\{\\mathbf{v}_1,\\mathbf{v}_2,\\mathbf{v}_3\\}$ is LI, all $\\alpha_i = 0$. Hence the four-vector set is LI. ∎",
     ],
+    solution:
+      "Assume\n$$\alpha_1\mathbf v_1+\alpha_2\mathbf v_2+\alpha_3\mathbf v_3+\alpha_4\mathbf w=\mathbf0.$$\nIf $\alpha_4\neq0$, then\n$$\mathbf w=-\frac{\alpha_1}{\alpha_4}\mathbf v_1-\frac{\alpha_2}{\alpha_4}\mathbf v_2-\frac{\alpha_3}{\alpha_4}\mathbf v_3\in\operatorname{span}\{\mathbf v_1,\mathbf v_2,\mathbf v_3\},$$\ncontradicting $\mathbf w\notin\operatorname{span}\{\mathbf v_1,\mathbf v_2,\mathbf v_3\}$. Hence $\alpha_4=0$.\n\nThen\n$$\alpha_1\mathbf v_1+\alpha_2\mathbf v_2+\alpha_3\mathbf v_3=\mathbf0.$$\nSince $\{\mathbf v_1,\mathbf v_2,\mathbf v_3\}$ is linearly independent, $\alpha_1=\alpha_2=\alpha_3=0$. Together with $\alpha_4=0$, all coefficients are zero.\n\nTherefore $\{\mathbf v_1,\mathbf v_2,\mathbf v_3,\mathbf w\}$ is linearly independent. $\\blacksquare$",
   },
   {
     id: "vs-li-4",

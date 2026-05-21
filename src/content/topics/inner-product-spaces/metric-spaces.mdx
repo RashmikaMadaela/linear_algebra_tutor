@@ -11,96 +11,48 @@ tags: ["metric", "distance", "metric-space", "induced-metric"]
 
 ## Big Idea
 
-A **metric** (distance function) is the most general way to talk about "closeness" in mathematics.
-Inner products give norms; norms give metrics — but you can define a metric directly without going through a norm or inner product.
-Understanding this hierarchy — inner product → norm → metric — clarifies exactly which properties are built in at each level and which must be assumed.
-
-## Intuition
-
-A metric is an abstraction of everyday distance.
-Think of cities: the distance between any two cities is non-negative, is zero only if they're the same city, is symmetric (distance from A to B equals distance from B to A), and satisfies the triangle inequality (going via a detour isn't shorter).
-Any function satisfying these four properties is a metric — on any set, not just vectors.
+A metric is the most general way to define distance.
+It keeps exactly four rules: nonnegative, zero only on identical points, symmetry, and triangle inequality.
 
 ## Formal Definition
 
 <DefinitionBox number={18} title="Metric (Distance Function)">
-A **metric** on a set $X$ is a function $d: X \times X \to \mathbb{R}$ satisfying, for all $x,y,z \in X$:
+A metric on a set $X$ is a function $d : X \times X \to \mathbb{R}$ such that for all $x,y,z$ in $X$:
 
-1. **Non-negativity:** $d(x,y) \geq 0$.
-2. **Identity of indiscernibles:** $d(x,y) = 0 \iff x = y$.
-3. **Symmetry:** $d(x,y) = d(y,x)$.
-4. **Triangle inequality:** $d(x,z) \leq d(x,y) + d(y,z)$.
+1. $d(x,y) \ge 0$
+2. $d(x,y)=0$ iff $x=y$
+3. $d(x,y)=d(y,x)$
+4. $d(x,z) \le d(x,y)+d(y,z)$
 
-A set $X$ with a metric $d$ is called a **metric space** $(X, d)$.
+A set with a metric is called a metric space.
 </DefinitionBox>
 
-## The Hierarchy: Inner Product → Norm → Metric
+## From Norm To Metric
 
-Every inner product space is automatically a normed space, and every normed space is automatically a metric space.
-The implications are **one-directional** — you need stronger structure to go left, not right.
+If a norm is given, define
 
-**Step 1: Inner product induces a norm.**
-<BM math="\|\mathbf{v}\| = \sqrt{\langle\mathbf{v},\mathbf{v}\rangle}" />
-Norm axioms follow from inner product axioms (triangle inequality = Thm 19).
+<BM math="d(u,v)=\|u-v\|" />
 
-**Step 2: Norm induces a metric.**
-<BM math="d(\mathbf{u},\mathbf{v}) = \|\mathbf{u} - \mathbf{v}\|" />
+Then the metric axioms follow from norm axioms.
+So every normed space is automatically a metric space.
 
-**Verification:**
-1. $d(\mathbf{u},\mathbf{v}) = \|\mathbf{u}-\mathbf{v}\| \geq 0$ ✓ (norm positive definiteness)
-2. $d(\mathbf{u},\mathbf{v})=0 \iff \|\mathbf{u}-\mathbf{v}\|=0 \iff \mathbf{u}-\mathbf{v}=\mathbf{0} \iff \mathbf{u}=\mathbf{v}$ ✓
-3. $d(\mathbf{u},\mathbf{v})=\|\mathbf{u}-\mathbf{v}\|=\|-(\mathbf{v}-\mathbf{u})\|=|\text{-}1|\|\mathbf{v}-\mathbf{u}\|=d(\mathbf{v},\mathbf{u})$ ✓
-4. $d(\mathbf{u},\mathbf{w})=\|\mathbf{u}-\mathbf{w}\|=\|(\mathbf{u}-\mathbf{v})+(\mathbf{v}-\mathbf{w})\|\leq\|\mathbf{u}-\mathbf{v}\|+\|\mathbf{v}-\mathbf{w}\|=d(\mathbf{u},\mathbf{v})+d(\mathbf{v},\mathbf{w})$ ✓
+## Examples
 
-**Full hierarchy diagram:**
-<BM math="\underbrace{\text{Hilbert space}}_{\text{inner product} + \text{complete}} \subset \underbrace{\text{Banach space}}_{\text{norm} + \text{complete}} \subset \underbrace{\text{Normed space}}_{\text{norm}} \subset \underbrace{\text{Metric space}}_{\text{distance}} \subset \underbrace{\text{Topological space}}_{\text{open sets}}" />
+- Euclidean space with Euclidean distance
+- Euclidean space with taxicab distance
+- Continuous functions with sup distance
+- Discrete metric on any set
 
-## Examples of Metrics
+## Convergence
 
-| Metric Space | $d(x,y)$ | Notes |
-|---|---|---|
-| $\mathbb{R}^n$ (Euclidean) | $\|\mathbf{x}-\mathbf{y}\|_2$ | From dot product |
-| $\mathbb{R}^n$ (taxicab) | $\sum_i|x_i-y_i|$ | From $\ell^1$ norm, not inner product |
-| $C[a,b]$ | $\max_{t\in[a,b]}|f(t)-g(t)|$ | Supremum metric |
-| Discrete metric | $d(x,y)=1$ if $x\neq y$, $0$ if $x=y$ | Not from any norm |
-| $\mathbb{R}$ | $|x-y|$ | Standard metric |
-| Graph (shortest path) | graph distance | No vector structure needed |
-
-The **discrete metric** shows that metric spaces are strictly more general than normed spaces — the discrete metric cannot come from any norm (since norms are homogeneous: $\|\alpha x\|=|\alpha|\|x\|$, but a discrete metric can't scale).
-
-## Convergence and Topology
-
-The metric defines **open balls** $B(x,r) = \{y : d(x,y) < r\}$, which generate the topology.
-A sequence $\{x_n\}$ **converges** to $x$ in a metric space iff $d(x_n,x) \to 0$.
-The notion of Cauchy sequence and completeness from the previous lesson are metric-space concepts.
-
-## Why This Matters for Linear Algebra
-
-- Asking whether a sequence of matrices "converges" requires a metric (often induced by the spectral norm or Frobenius norm).
-- The QR algorithm (Section VI) generates a sequence of matrices converging to triangular form — convergence is a metric-space statement.
-- The SVD gives the best rank-$k$ approximation to a matrix — "best" means smallest distance in the Frobenius metric.
-- Iterative methods (power iteration, etc.) converge in the operator-norm metric.
-
-## Common Mistakes
-
-⚠ **A metric need not come from a norm:** The taxicab and discrete metrics are valid metrics but cannot be expressed as $\|\mathbf{u}-\mathbf{v}\|$ for any norm.
-
-⚠ **A norm need not come from an inner product:** The $\ell^1$ norm is a valid norm but fails the parallelogram law.
-
-⚠ **The hierarchy is strict:** There exist metric spaces that are not normed (no linear structure), normed spaces that are not inner product spaces, and inner product spaces that are not Hilbert spaces (incomplete).
+A sequence $(x_n)$ converges to $x$ in a metric space exactly when $d(x_n,x) \to 0$.
+Open balls generate the topology, so continuity and limits are metric notions.
 
 ## Summary
 
-<SummaryBox title="Metric Spaces & the Hierarchy — Def 18">
-
-**Def 18:** Metric $d: X\times X\to\mathbb{R}$ satisfying: non-negative, $d(x,y)=0\Leftrightarrow x=y$, symmetric, triangle inequality.
-
-**Norm → metric:** $d(\mathbf{u},\mathbf{v}) = \|\mathbf{u}-\mathbf{v}\|$.
-
-**Inner product → norm:** $\|\mathbf{v}\| = \sqrt{\langle\mathbf{v},\mathbf{v}\rangle}$.
-
-**Full hierarchy (each $\subset$ the next):**
-$$\text{Hilbert} \subset \text{Banach} \subset \text{Normed} \subset \text{Metric} \subset \text{Topological}$$
-
-**Key takeaway:** Every inner product space is a metric space, but the converse fails at each step. The hierarchy clarifies exactly what structure is needed for each theorem.
+<SummaryBox title="Metric Spaces">
+- Metric = four distance axioms.
+- Norm induces metric by $d(u,v)=\|u-v\|$.
+- Inner product induces norm, so it also induces metric.
+- Metric spaces are more general than normed spaces.
 </SummaryBox>

@@ -1,140 +1,57 @@
 ---
 title: "Change of Basis"
-description: "How the matrix of a linear map changes when you change coordinates"
+description: "How matrix representations change under coordinate systems"
 section: "linear-transformations"
 order: 5
 ---
 
 ## Big Idea
 
-The same linear map $T: V \to V$ can be represented by different matrices depending on which basis you use. Understanding how these matrices relate — and choosing a basis that makes the matrix as simple as possible — is the bridge to eigenvalue theory and canonical forms.
+The linear map stays the same, but its matrix changes when the basis changes.
+That change is controlled by an invertible transition matrix.
 
----
-
-## Transition (Change-of-Basis) Matrix
+## Transition Matrix
 
 <DefinitionBox number={21} title="Transition Matrix">
-Let $\mathcal{B} = (\mathbf{b}_1, \ldots, \mathbf{b}_n)$ and $\mathcal{B}' = (\mathbf{b}'_1, \ldots, \mathbf{b}'_n)$ be two ordered bases for a vector space $V$.
+Given two ordered bases, the transition matrix converts coordinate columns from one basis to the other.
 
-The **transition matrix** (or **change-of-basis matrix**) **from $\mathcal{B}$ to $\mathcal{B}'$** is the $n \times n$ matrix:
+If $P$ converts coordinates from old basis to new basis, then
 
-$$P_{\mathcal{B}' \leftarrow \mathcal{B}} = \Big([\mathbf{b}_1]_{\mathcal{B}'} \;\Big|\; [\mathbf{b}_2]_{\mathcal{B}'} \;\Big|\; \cdots \;\Big|\; [\mathbf{b}_n]_{\mathcal{B}'}\Big)$$
+<BM math="[v]_{new} = P [v]_{old}" />
 
-The $j$-th column is the coordinate vector of the **old** basis vector $\mathbf{b}_j$ **in the new basis** $\mathcal{B}'$.
-
-**Key property:**
-$$[\mathbf{v}]_{\mathcal{B}'} = P_{\mathcal{B}' \leftarrow \mathcal{B}}\, [\mathbf{v}]_\mathcal{B} \quad \text{for all } \mathbf{v} \in V$$
+for every vector $v$.
 </DefinitionBox>
 
----
+## Change Of Matrix Formula
 
-## Properties of Transition Matrices
+<TheoremBox number={26} title="Basis Change For A Linear Map">
+Let $A$ be the matrix of $T$ in the old basis. If $P$ is the transition matrix from old to new coordinates, then the new matrix is
 
-<TheoremBox number={26} title="Transition Matrices are Invertible" proofSketch={<>The coordinate map v ↦ [v] relative to any basis is an isomorphism V→Fⁿ. The transition matrix is the composition of one coordinate isomorphism with the inverse of another — hence a linear isomorphism Fⁿ→Fⁿ, hence invertible. Its inverse is the transition matrix in the other direction.</>}>
-1. $P_{\mathcal{B}' \leftarrow \mathcal{B}}$ is invertible, with $(P_{\mathcal{B}' \leftarrow \mathcal{B}})^{-1} = P_{\mathcal{B} \leftarrow \mathcal{B}'}$.
-2. **Chain rule:** $P_{\mathcal{B}'' \leftarrow \mathcal{B}} = P_{\mathcal{B}'' \leftarrow \mathcal{B}'}\, P_{\mathcal{B}' \leftarrow \mathcal{B}}$
-3. For $\mathbb{F}^n$ with standard basis $\mathcal{E}$: $P_{\mathcal{B} \leftarrow \mathcal{E}}$ is the matrix whose columns are the basis vectors of $\mathcal{B}$.
+<BM math="A_{new} = P A P^{-1}" />
+
+So the two matrices are similar.
 </TheoremBox>
 
----
+## Invariants Under Similarity
 
-## Similarity: How the Matrix of T Changes
+If two matrices are related by $A_{new} = P A P^{-1}$, they have the same:
 
-<TheoremBox number={27} title="Change-of-Basis Formula for Linear Maps" proofSketch={<>For any v∈V, using the coordinate change: [T(v)] relative to B&apos; equals P [T]_{B,B} P⁻¹ times [v] relative to B&apos;. Since this holds for all v, the matrix of T in basis B&apos; equals P [T]_{B,B} P⁻¹.</>}>
-Let $T: V \to V$ be linear, $\mathcal{B}$ and $\mathcal{B}'$ two ordered bases for $V$, and $P = P_{\mathcal{B}' \leftarrow \mathcal{B}}$.
+- eigenvalues
+- determinant
+- trace
+- rank
+- characteristic polynomial
 
-Then the matrix representations of $T$ in the two bases are related by:
+## Why It Matters
 
-$$[T]_{\mathcal{B}'} = P\, [T]_\mathcal{B}\, P^{-1}$$
+Diagonalization is a basis change where the new basis is made of eigenvectors.
+In that basis, the matrix is diagonal and computations become much simpler.
 
-Two matrices $A$ and $B$ are called **similar** if there exists an invertible $P$ with $B = PAP^{-1}$.
+## Summary
 
-**Similar matrices represent the same linear map in different bases.**
-</TheoremBox>
-
----
-
-## Similarity Invariants
-
-Since similar matrices represent the same linear map, they share all **similarity invariants**:
-
-| Invariant | Why preserved |
-|:---|:---|
-| Eigenvalues | $\det(PAP^{-1} - \lambda I) = \det(A - \lambda I)$ |
-| Determinant | $\det(PAP^{-1}) = \det A$ |
-| Trace | $\operatorname{tr}(PAP^{-1}) = \operatorname{tr}(A)$ |
-| Rank | $\operatorname{rank}(PAP^{-1}) = \operatorname{rank}(A)$ |
-| Characteristic polynomial | Same as eigenvalues argument |
-
----
-
-## Examples
-
-<StepReveal title="Example 1 — Change of basis in ℝ²" steps={[
-  {
-    label: "Setup",
-    content: "Standard basis $\\mathcal{E} = (\\mathbf{e}_1, \\mathbf{e}_2)$ and new basis $\\mathcal{B} = ((1,1),(1,-1))$."
-  },
-  {
-    label: "Transition matrix P_{B←E}",
-    content: "The columns of $P_{\\mathcal{B} \\leftarrow \\mathcal{E}}$ are $[\\mathbf{e}_1]_\\mathcal{B}$ and $[\\mathbf{e}_2]_\\mathcal{B}$. Solve: $(1,0) = a(1,1) + b(1,-1)$: $a+b=1$, $a-b=0$, so $a=b=\\tfrac{1}{2}$. Similarly $(0,1) = \\tfrac{1}{2}(1,1) - \\tfrac{1}{2}(1,-1)$. So $P_{\\mathcal{B} \\leftarrow \\mathcal{E}} = \\frac{1}{2}\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}$.",
-    formula: "P_{\\mathcal{B} \\leftarrow \\mathcal{E}} = \\tfrac{1}{2}\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}"
-  },
-  {
-    label: "Inverse: P_{E←B}",
-    content: "$P_{\\mathcal{E} \\leftarrow \\mathcal{B}} = (P_{\\mathcal{B} \\leftarrow \\mathcal{E}})^{-1} = \\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}$ (the columns of $\\mathcal{B}$ in standard coordinates).",
-    formula: "P_{\\mathcal{E} \\leftarrow \\mathcal{B}} = \\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}"
-  }
-]} />
-
-<StepReveal title="Example 2 — Reflection in y=x, standard vs. rotated basis" steps={[
-  {
-    label: "T in standard basis",
-    content: "$T(x,y) = (y,x)$: $[T]_\\mathcal{E} = \\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}$."
-  },
-  {
-    label: "Choose a better basis",
-    content: "Use $\\mathcal{B} = ((1,1),(1,-1))$. $T(1,1)=(1,1)$, $T(1,-1)=(-1,1)$. In $\\mathcal{B}$-coordinates: $[T(1,1)]_\\mathcal{B} = (1,0)^T$, $[T(1,-1)]_\\mathcal{B} = (0,-1)^T$."
-  },
-  {
-    label: "Matrix in B",
-    content: "$[T]_\\mathcal{B} = \\begin{pmatrix}1&0\\\\0&-1\\end{pmatrix}$. This is diagonal! The basis $\\mathcal{B}$ consists of eigenvectors of $T$.",
-    formula: "[T]_\\mathcal{B} = \\begin{pmatrix}1&0\\\\0&-1\\end{pmatrix}"
-  },
-  {
-    label: "Similarity check",
-    content: "$P[T]_\\mathcal{E} P^{-1} = [T]_\\mathcal{B}$ where $P = P_{\\mathcal{B}\\leftarrow\\mathcal{E}}$. ✓ Both matrices have eigenvalues $+1$ and $-1$, same determinant $-1$, same trace $0$."
-  }
-]} />
-
-<StepReveal title="Example 3 — Computing a transition matrix (ℝⁿ case)" steps={[
-  {
-    label: "General method",
-    content: "Given old basis $\\mathcal{B} = (\\mathbf{b}_1,\\ldots,\\mathbf{b}_n)$ and new basis $\\mathcal{B}' = (\\mathbf{b}'_1,\\ldots,\\mathbf{b}'_n)$ in $\\mathbb{F}^n$:"
-  },
-  {
-    label: "Form the augmented matrix",
-    content: "Form $[B' | B]$ (columns: new basis vectors, then old basis vectors). Row-reduce to $[I | P_{\\mathcal{B}' \\leftarrow \\mathcal{B}}]$."
-  },
-  {
-    label: "Why this works",
-    content: "Row reduction computes $[I | (B')^{-1} B]$ where $B, B'$ are the matrices of old/new basis vectors. The result is $P_{\\mathcal{B}' \\leftarrow \\mathcal{B}} = (B')^{-1} B$, which converts $\\mathcal{B}$-coordinates to $\\mathcal{B}'$-coordinates."
-  }
-]} />
-
----
-
-## The Bridge to Eigenvalues
-
-The central question of Section IV is: **can we choose a basis $\mathcal{B}$ so that $[T]_\mathcal{B}$ is diagonal?**
-
-This is possible when $T$ has $n$ linearly independent eigenvectors. The change-of-basis formula tells us exactly how to diagonalize: form $P$ from eigenvectors as columns, and $P^{-1}AP = D$ (diagonal).
-
-<SummaryBox title="Key Takeaways: Change of Basis">
-- Transition matrix $P_{\mathcal{B}' \leftarrow \mathcal{B}}$: columns are old basis vectors expressed in new basis.
-- $[\mathbf{v}]_{\mathcal{B}'} = P\, [\mathbf{v}]_\mathcal{B}$: multiplying by $P$ converts old coordinates to new.
-- Change-of-basis for linear maps: $[T]_{\mathcal{B}'} = P[T]_\mathcal{B} P^{-1}$ (similarity transformation).
-- Similar matrices share: eigenvalues, determinant, trace, rank, characteristic polynomial.
-- Goal of eigenvalue theory: choose $\mathcal{B}$ (eigenbasis) to make $[T]_\mathcal{B}$ diagonal.
-- In $\mathbb{F}^n$: $P_{\mathcal{B}' \leftarrow \mathcal{B}} = (B')^{-1} B$ where $B, B'$ are matrices of basis vectors.
+<SummaryBox title="Change of Basis">
+- Transition matrix changes coordinates.
+- Matrix of a map changes by similarity.
+- Similar matrices represent one linear map in different bases.
+- Choosing a good basis simplifies the matrix.
 </SummaryBox>
