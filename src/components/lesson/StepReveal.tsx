@@ -13,11 +13,13 @@ interface Step {
 
 interface StepRevealProps {
   title?: string;
-  steps: Step[];
+  steps?: Step[];
 }
 
 export function StepReveal({ title = 'Worked Example', steps }: StepRevealProps) {
   const [revealed, setRevealed] = useState(0);
+  const safeSteps = Array.isArray(steps) ? steps : [];
+  const stepCount = safeSteps.length;
 
   return (
     <div className="my-6 rounded-xl border border-amber-500/30 bg-amber-500/5 overflow-hidden animate-fade-in">
@@ -28,13 +30,13 @@ export function StepReveal({ title = 'Worked Example', steps }: StepRevealProps)
         </span>
         <span className="font-semibold text-amber-200"><MathText text={title} /></span>
         <span className="ml-auto text-xs text-text-faint">
-          {Math.min(revealed, steps.length)} / {steps.length} steps
+          {Math.min(revealed, stepCount)} / {stepCount} steps
         </span>
       </div>
 
       {/* Steps */}
       <div className="px-5 py-4 space-y-4">
-        {steps.slice(0, revealed).map((step, i) => (
+        {safeSteps.slice(0, revealed).map((step, i) => (
           <div
             key={i}
             className="flex gap-4 animate-fade-in"
@@ -43,7 +45,7 @@ export function StepReveal({ title = 'Worked Example', steps }: StepRevealProps)
               <div className="w-7 h-7 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-300 text-xs font-mono font-bold">
                 {i + 1}
               </div>
-              {i < steps.length - 1 && <div className="w-px flex-1 bg-amber-500/20 mt-1" />}
+              {i < stepCount - 1 && <div className="w-px flex-1 bg-amber-500/20 mt-1" />}
             </div>
             <div className="flex-1 pb-4">
               <div className="text-sm font-semibold text-amber-200 mb-1"><MathText text={step.label} /></div>
@@ -60,7 +62,7 @@ export function StepReveal({ title = 'Worked Example', steps }: StepRevealProps)
 
       {/* Controls */}
       <div className="flex items-center gap-3 px-5 pb-4">
-        {revealed < steps.length && (
+        {revealed < stepCount && (
           <button
             onClick={() => setRevealed((r) => r + 1)}
             className="px-4 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-sm font-medium transition-colors"
@@ -68,7 +70,7 @@ export function StepReveal({ title = 'Worked Example', steps }: StepRevealProps)
             Next step →
           </button>
         )}
-        {revealed === steps.length && (
+        {revealed === stepCount && stepCount > 0 && (
           <span className="text-sm text-success">✓ All steps revealed</span>
         )}
         {revealed > 0 && (
@@ -79,13 +81,16 @@ export function StepReveal({ title = 'Worked Example', steps }: StepRevealProps)
             Reset
           </button>
         )}
-        {revealed === 0 && (
+        {revealed === 0 && stepCount > 0 && (
           <button
             onClick={() => setRevealed(1)}
             className="px-4 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-sm font-medium transition-colors"
           >
             Show first step →
           </button>
+        )}
+        {stepCount === 0 && (
+          <span className="text-sm text-text-faint">No steps provided for this example.</span>
         )}
       </div>
     </div>
